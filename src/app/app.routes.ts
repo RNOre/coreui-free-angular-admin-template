@@ -1,5 +1,13 @@
-import { Routes } from '@angular/router';
-import { DefaultLayoutComponent } from './layout';
+import {Routes} from '@angular/router';
+import {DefaultLayoutComponent} from './layout';
+import {InviteLegalComponent} from "./views/pages/invite-legal/invite-legal.component";
+import {OrderComponent} from "./views/order/order/order.component";
+import {TariffComponent} from "./views/billing/tariff/tariff.component";
+import {OrderCreateComponent} from "./views/order/order-create/order-create.component";
+import {OrderItemComponent} from "./views/order/order-item/order-item.component";
+import {CompanyComponent} from "./views/company/company.component";
+import {CompanyPageComponent} from "./views/company/company-page/company-page.component";
+import {LicenseComponent} from "./views/billing/license/license.component";
 
 export const routes: Routes = [
   {
@@ -15,45 +23,35 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'dashboard',
-        loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
+        path: 'billing',
+        children: [
+          {
+            path: 'tariffs',
+            component: TariffComponent
+          },
+          {
+            path: 'licenses',
+            component: LicenseComponent
+          }
+        ]
       },
       {
-        path: 'theme',
-        loadChildren: () => import('./views/theme/routes').then((m) => m.routes)
+        path: 'order',
+        component: OrderComponent,
       },
       {
-        path: 'base',
-        loadChildren: () => import('./views/base/routes').then((m) => m.routes)
+        path: 'order/:id',
+        component: OrderItemComponent
       },
       {
-        path: 'buttons',
-        loadChildren: () => import('./views/buttons/routes').then((m) => m.routes)
+        path: 'company',
+        component: CompanyComponent,
       },
       {
-        path: 'forms',
-        loadChildren: () => import('./views/forms/routes').then((m) => m.routes)
+        path: 'company/:id',
+        component: CompanyPageComponent
+
       },
-      {
-        path: 'icons',
-        loadChildren: () => import('./views/icons/routes').then((m) => m.routes)
-      },
-      {
-        path: 'notifications',
-        loadChildren: () => import('./views/notifications/routes').then((m) => m.routes)
-      },
-      {
-        path: 'widgets',
-        loadChildren: () => import('./views/widgets/routes').then((m) => m.routes)
-      },
-      {
-        path: 'charts',
-        loadChildren: () => import('./views/charts/routes').then((m) => m.routes)
-      },
-      {
-        path: 'pages',
-        loadChildren: () => import('./views/pages/routes').then((m) => m.routes)
-      }
     ]
   },
   {
@@ -84,5 +82,13 @@ export const routes: Routes = [
       title: 'Register Page'
     }
   },
-  { path: '**', redirectTo: 'dashboard' }
+  {
+    path: 'invite-legal',
+    component: InviteLegalComponent
+  },
+  {
+    path: 'order-create',
+    component: OrderCreateComponent
+  },
+  {path: '**', redirectTo: 'dashboard'}
 ];

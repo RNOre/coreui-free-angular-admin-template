@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  # Angular application service
+  frontend:
+    container_name: angular-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"  # Default Angular dev server port
+    volumes:
+      - ./:/app
+      - /app/node_modules  # Keep node_modules in container
+    environment:
+      - NODE_ENV=development
+    networks:
+      - angular-network
+    # For development with hot-reload
+    command: npm start
+
+networks:
+  angular-network:
+    driver: bridge

@@ -1,22 +1,22 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { NgScrollbar } from 'ngx-scrollbar';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {RouterLink, RouterOutlet} from '@angular/router';
+import {NgScrollbar} from 'ngx-scrollbar';
 
-import { IconDirective } from '@coreui/icons-angular';
+import {IconDirective} from '@coreui/icons-angular';
 import {
   ContainerComponent,
   ShadowOnScrollDirective,
   SidebarBrandComponent,
-  SidebarComponent,
   SidebarFooterComponent,
   SidebarHeaderComponent,
-  SidebarNavComponent,
+  SidebarNavComponent, SidebarService,
   SidebarToggleDirective,
   SidebarTogglerDirective
 } from '@coreui/angular';
 
-import { DefaultFooterComponent, DefaultHeaderComponent } from './';
-import { navItems } from './_nav';
+import {DefaultFooterComponent, DefaultHeaderComponent} from './';
+import {navItems} from './_nav';
+import {SidebarComponent} from "../../widgets/sidebar/sidebar.component";
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -26,33 +26,44 @@ function isOverflown(element: HTMLElement) {
 }
 
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './default-layout.component.html',
-    styleUrls: ['./default-layout.component.scss'],
-    imports: [
-        SidebarComponent,
-        SidebarHeaderComponent,
-        SidebarBrandComponent,
-        RouterLink,
-        IconDirective,
-        NgScrollbar,
-        SidebarNavComponent,
-        SidebarFooterComponent,
-        SidebarToggleDirective,
-        SidebarTogglerDirective,
-        DefaultHeaderComponent,
-        ShadowOnScrollDirective,
-        ContainerComponent,
-        RouterOutlet,
-        DefaultFooterComponent
-    ]
+  selector: 'app-dashboard',
+  templateUrl: './default-layout.component.html',
+  styleUrls: ['./default-layout.component.scss'],
+  standalone: true,
+  imports: [
+    SidebarComponent,
+    SidebarHeaderComponent,
+    SidebarBrandComponent,
+    RouterLink,
+    IconDirective,
+    NgScrollbar,
+    SidebarNavComponent,
+    SidebarFooterComponent,
+    SidebarToggleDirective,
+    SidebarTogglerDirective,
+    ShadowOnScrollDirective,
+    ContainerComponent,
+    RouterOutlet,
+    SidebarComponent,
+    DefaultHeaderComponent
+  ]
 })
-export class DefaultLayoutComponent {
+export class DefaultLayoutComponent implements OnDestroy, OnInit {
+  // @ViewChild('overflow', {static: true}) scrollbar!: NgScrollbar
   public navItems = navItems;
 
-  onScrollbarUpdate($event: any) {
-    // if ($event.verticalUsed) {
-    // console.log('verticalUsed', $event.verticalUsed);
-    // }
+  constructor(private $sidebar: SidebarService) {
   }
+  ngOnInit(): void {
+    //@ts-ignore
+    // this.$sidebar.sidebarState$.subscribe((res) => {
+    //   console.log(res);
+    // });
+  }
+
+  ngOnDestroy(): void {
+    //
+  }
+
+  protected readonly window = window;
 }

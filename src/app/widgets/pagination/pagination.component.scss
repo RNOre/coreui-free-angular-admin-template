@@ -1,0 +1,28 @@
+.pagination {
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 400;
+  font-size: 12px;
+
+  &-page {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.btn-changePage {
+  border: none;
+  background-color: #f5f5f5;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  &:disabled {
+    > svg > path {
+      fill: #CFD0D7;
+    }
+  }
+}

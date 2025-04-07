@@ -1,0 +1,62 @@
+.order {
+  &-item {
+    display: flex;
+    align-items: start;
+    gap: 20px;
+  }
+
+  &-info {
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+
+    &__wrapper {
+      flex: 3;
+      border-radius: 35px;
+      background-color: #e7e7e7;
+      padding: 30px;
+    }
+  }
+
+  &-users {
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+
+    &__wrapper{
+      flex: 2;
+      border-radius: 35px;
+      background-color: #e7e7e7;
+      padding: 30px;
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+  }
+
+  &-actionGroup {
+    display: flex;
+    gap: 10px;
+    margin-top: 50px;
+  }
+}
+
+.inputField {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-align: left;
+  margin-top: 20px;
+
+  & > input, select {
+    max-width: 400px;
+  }
+
+  & > label {
+    min-width: 200px;
+  }
+}

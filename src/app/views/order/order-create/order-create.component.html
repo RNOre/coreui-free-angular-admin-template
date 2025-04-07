@@ -1,0 +1,129 @@
+<div class="inviteLegalPage">
+  <div class="inviteLegalPage-header">
+    <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M25 48C37.7025 48 48 37.7025 48 25C48 12.2975 37.7025 2 25 2C12.2975 2 2 12.2975 2 25C2 37.7025 12.2975 48 25 48ZM25 50C38.8071 50 50 38.8071 50 25C50 11.1929 38.8071 0 25 0C11.1929 0 0 11.1929 0 25C0 38.8071 11.1929 50 25 50Z"
+            fill="#323231"/>
+      <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M25 45C36.0457 45 45 36.0457 45 25C45 13.9543 36.0457 5 25 5C13.9543 5 5 13.9543 5 25C5 36.0457 13.9543 45 25 45ZM19.5 15.6C20.218 15.6 20.8 15.018 20.8 14.3C20.8 13.582 20.218 13 19.5 13C18.782 13 18.2 13.582 18.2 14.3C18.2 15.018 18.782 15.6 19.5 15.6ZM30 26C30 28.7614 27.7614 31 25 31C22.2386 31 20 28.7614 20 26C20 23.2386 22.2386 21 25 21C27.7614 21 30 23.2386 30 26ZM35.4 36.2C35.4 37.1941 34.5941 38 33.6 38C32.6059 38 31.8 37.1941 31.8 36.2C31.8 35.2059 32.6059 34.4 33.6 34.4C34.5941 34.4 35.4 35.2059 35.4 36.2ZM40.6 26C40.6 27.6569 39.2569 29 37.6 29C35.9431 29 34.6 27.6569 34.6 26C34.6 24.3431 35.9431 23 37.6 23C39.2569 23 40.6 24.3431 40.6 26ZM11.8 27.8C13.1255 27.8 14.2 26.7255 14.2 25.4C14.2 24.0745 13.1255 23 11.8 23C10.4745 23 9.4 24.0745 9.4 25.4C9.4 26.7255 10.4745 27.8 11.8 27.8Z"
+            fill="#323231"/>
+    </svg>
+    <span>KOE</span>
+  </div>
+  <div class="inviteLegal_container"
+       [ngStyle]="{
+           'max-width': getContainerWidth()
+       }"
+  >
+    @switch (step) {
+      @case (1) {
+        <div>Заявка на регистрацию организации</div>
+        <div class="inviteLegal">
+          <form cForm (ngSubmit)="step=2">
+            <div class="mb-3">
+              <!--            <label cLabel for="company_name">Название компании</label>-->
+              <input cFormControl
+                     name="company_name"
+                     id="company_name"
+                     placeholder="*Введите название компании"
+                     type="text"
+                     [formControl]="order.controls.company_name"
+              />
+            </div>
+            <div class="mb-3">
+              <!--            <label cLabel for="company_info">Информация о компании</label>-->
+              <input cFormControl
+                     name="company_info"
+                     id="company_info"
+                     placeholder="*Введите информация о компании"
+                     type="text"
+                     [formControl]="order.controls.company_info"
+              />
+            </div>
+            <div class="mb-3">
+              <!--            <label cLabel for="inn">ИНН</label>-->
+              <input cFormControl
+                     id="inn"
+                     name="inn"
+                     placeholder="*Введите инн компании"
+                     type="text"
+                     [formControl]="order.controls.inn"
+              />
+            </div>
+            <div class="userList">
+              @for (user of userList; track user.username; let last = $last; let index = $index) {
+                <div class="mb-3 userItem">
+                  <input cFormControl
+                         placeholder="Введите username пользователя"
+                         type="text"
+                         [(ngModel)]="userList[index].username"
+                         [name]="'user_'+index"
+                         [ngModelOptions]="{standalone: true}"
+                  />
+                  @if (last) {
+                    <button title="Добавить пользователя" type="button" (click)="userList.push({username:''});">
+                      <svg [cIcon]="icons.cilPlus"></svg>
+                    </button>
+                  } @else {
+                    <button title="Удалить пользователя" type="button" (click)="deleteUser(index);">
+                      <svg [cIcon]="icons.cilTrash"></svg>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+            <button cButton color="primary" type="submit" [disabled]="!order.valid">Продолжить</button>
+          </form>
+        </div>
+      }
+      @case (2) {
+        <div>Выбор тарифа</div>
+        <div class="inviteLegal">
+          <div class="tariffList">
+            @for (tariff of tariffsData; track tariff.id) {
+              <div class="tariffItem" (click)="activeTariff = tariff.id" [class.active]="activeTariff === tariff.id">
+                <div class="tariffName">
+                  {{ tariff.name }}
+                </div>
+                <div class="data">
+                  @if(!tariff.extra) {
+                    <div>Сотрудников: <span>?</span></div>
+                    <div>Период: <span>{{ tariff.period }}</span></div>
+                    <div>Цена: <span>{{ tariff.price }} ₽</span></div>
+                  } @else {
+                    <div><span>
+                      {{tariff.extra}}
+                    </span></div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+          <div style="display: flex; justify-content: center; gap: 10px; margin-top: 30px;">
+            <button class="btn btn-primary" (click)="step = 1">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.292893 7.29289C-0.0976314 7.68342 -0.0976315 8.31658 0.292892 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928931C7.68054 0.538407 7.04738 0.538407 6.65685 0.928931L0.292893 7.29289ZM16 7L0.999999 7L0.999999 9L16 9L16 7Z" fill="white"/>
+              </svg>
+            </button>
+            @if(activeTariff) {
+              <button (click)="createOrder()" class="btn btn-primary">Создать</button>
+            }
+          </div>
+        </div>
+      }
+      @case (3) {
+        <div>Заявка на регистрацию организации</div>
+        <div class="inviteLegal">
+          <div style="text-align: center; font-weight: 600; font-size: 16px">
+            Благодарим за создание заявки!
+            <br/>
+            Мы с вами свяжемся!
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+
+

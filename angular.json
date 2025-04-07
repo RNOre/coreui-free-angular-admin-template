@@ -38,7 +38,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/scss/styles.scss"
+              "src/scss/styles.scss",
+              "node_modules/@coreui/icons/css/free.css"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [],

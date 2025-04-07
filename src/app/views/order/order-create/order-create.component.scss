@@ -1,0 +1,84 @@
+.inviteLegal{
+  &_container {
+    background-color: #e7e7e7;
+    border-radius: 35px;
+    margin: 80px auto;
+    padding: 15px;
+    font-weight: 500;
+    font-size: 18px;
+  }
+  background-color: white;
+  padding: 20px 16px;
+  border-radius: 20px;
+  margin-top: 15px;
+}
+.user{
+  &List{
+    margin-bottom: 10px;
+  }
+
+  &Item{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    &>button{
+      border-radius: 5px;
+      border: 1px solid grey;
+    }
+  }
+
+}
+.successMessage{
+  margin-top: 300px;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+}
+.inviteLegalPage {
+  background-color: #cfd0d7;
+  height: 100vh;
+  &-header {
+    padding: 35px;
+    &>span {
+      margin-left: 10px;
+    }
+  }
+}
+
+.tariff {
+  &List {
+    display: grid;
+    flex-wrap: wrap;
+    gap: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  &Item {
+    border-radius: 22px;
+    background-color: #f5f5f5;
+    color: #323231;
+    padding: 20px;
+    cursor: pointer;
+
+    &>.data {
+      font-weight: 600;
+      font-size: 11px;
+
+      &>span {
+        font-weight: 400;
+      }
+    }
+
+    &:hover {
+      background-color: #bbf0c5;
+    }
+    &.active {
+      background-color: #74ed8a;
+    }
+  }
+
+  &Name {
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 33px;
+  }
+}

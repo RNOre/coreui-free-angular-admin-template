@@ -1,0 +1,39 @@
+.actionGroup {
+  display: flex;
+  align-items: center;
+
+  & > button {
+    background-color: transparent;
+    border: none;
+  }
+}
+
+.content {
+   padding: 15px;
+   background-color: #e7e7e7;
+   border-radius: 35px;
+ }
+h1 {
+  font-weight: 600;
+  font-size: 48px;
+}
+
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.btn {
+  margin-left: 5px;
+  border: none;
+
+  &-active {
+    background-color: #74ed8a;
+  }
+
+  &-deleted{
+    background-color: #ed7474;
+  }
+}

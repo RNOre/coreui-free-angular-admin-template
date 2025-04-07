@@ -1,0 +1,77 @@
+.actionGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
+
+  & > button {
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 18px;
+  }
+}
+
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+
+
+.tariff {
+  &List {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  &Item {
+    width: 100%;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 22px;
+    color: #323231;
+    margin-bottom: 20px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #bbf0c5;
+    }
+
+    &.active {
+      background-color: #74ed8a;
+    }
+
+    &-title {
+      font-weight: 600;
+      font-size: 24px;
+      margin-bottom: 33px;
+    }
+
+    &-data {
+      font-weight: 600;
+      font-size: 11px;
+
+      & > span {
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.btn {
+  margin-left: 5px;
+  border: none;
+
+  &-success {
+    background-color: #74ed8a;
+  }
+
+  &-reject {
+    background-color: #ed7474;
+  }
+}

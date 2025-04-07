@@ -21,3 +21,44 @@
 // Examples
 // We use those styles to show code examples, you should remove them in your application.
 @import "examples";
+
+td, th{
+  text-align: center;
+}
+
+.wrapper-container {
+  background-color: #e7e7e7;
+  padding: 30px 15px;
+  color: #323231;
+  font-weight: 500;
+  font-size: 24px;
+  border-radius: 35px;
+}
+
+.btn-switch {
+  width: 38px;
+  height: 38px;
+  border: none;
+  background-color: transparent;
+
+  &.active {
+    border-radius: 50%;
+
+    &.user-toggle {
+      background-color: #d7ed74;
+    }
+
+    &.company-toggle {
+      background-color: #bcb4f6;
+    }
+  }
+
+  &__group {
+    display: flex;
+    align-content: center;
+    gap: 4px;
+    background-color: white;
+    border-radius: 25px;
+    padding: 6px;
+  }
+}

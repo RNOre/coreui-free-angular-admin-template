@@ -1,0 +1,82 @@
+.custom-sidebar {
+  padding: 35px;
+  position: relative;
+
+  &.opened {
+    z-index: 10001;
+    width: 300px;
+    background-color: #323231;
+    height: 100%;
+    border-bottom-right-radius: 35px;
+    border-top-right-radius: 35px;
+  }
+
+  &__header {
+    & > .logo {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  &__body {
+  }
+
+  &__footer {
+
+  }
+}
+
+.nav {
+  &List {
+    padding: 0;
+  }
+
+  &Item {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 14px;
+  }
+
+  &Icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e7e7e7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.active {
+      background-color: #323231;
+    }
+  }
+
+  &Title {
+    color: #e7e7e7;
+    font-weight: 500;
+    font-size: 16px;
+  }
+}
+
+.overall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(4px);
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+}
+
+.logo_title {
+  font-weight: 600;
+  font-size: 18px;
+  color: #e7e7e7;
+  margin-left: 10px;
+}
+
+.sidebar-toggle {
+  margin: 50px 0;
+}

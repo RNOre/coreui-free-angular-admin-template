@@ -1,0 +1,27 @@
+<div class="inviteLegal">
+  <h1>Заявка на создание юр лица</h1>
+  <form cForm (ngSubmit)="createLegal()">
+    <div class="mb-3">
+      <label cLabel for="company_name">Название компании</label>
+      <input cFormControl
+             name="company_name"
+             id="company_name"
+             placeholder="Введите название компании"
+             type="text"
+             [formControl]="legalInfo.controls.company_name"
+      />
+    </div>
+    <div class="mb-3">
+      <label cLabel for="inn">ИНН</label>
+      <input cFormControl
+             id="inn"
+             name="inn"
+             placeholder="Введите название компании"
+             type="text"
+             [formControl]="legalInfo.controls.inn"
+      />
+    </div>
+    <button cButton color="primary" type="submit">Отправить заявку</button>
+  </form>
+</div>
+
