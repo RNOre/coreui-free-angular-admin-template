@@ -1,30 +1,22 @@
-# Stage 1: Build the Angular app
-FROM node:20-alpine as build
+FROM node:20-alpine AS build
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy package files first for better caching
-COPY package.json package-lock.json .
+COPY package*.json ./
 
-# Install dependencies
+RUN npm install -g @angular/cli
 RUN npm install
 
-# Copy all files
 COPY . .
 
-# Build the app
-RUN npm run build -- --configuration=development
+RUN ng build --configuration production
 
-# Stage 2: Serve the app with Nginx
-FROM nginx:alpine
+FROM nginx:1.23-alpine
 
-# Copy built assets from build stage
-COPY --from=build /app/dist/coreui-free-angular-admin-template /usr/share/nginx/html
 
-CMD ["npm", "start"]  # This will fail
-
-# Copy Nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY /nginx.conf /etc/nginx
+RUN rm /etc/nginx/conf.d/default.conf
+COPY --from=build /usr/src/app/dist/coreui-free-angular-admin-template/browser /usr/share/nginx/html
 
 EXPOSE 80
 
