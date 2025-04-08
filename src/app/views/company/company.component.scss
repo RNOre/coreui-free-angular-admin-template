@@ -29,6 +29,13 @@
     font-size: 24px;
     margin-bottom: 15px;
   }
+
+  &-rightSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+  }
 }
 
 .btn-switch {
@@ -68,4 +75,36 @@
   height: 43px;
   background-color: white;
   border-radius: 50%;
+}
+.actionGroup {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  height: 60px;
+  gap: 10px;
+  justify-content: center;
+
+  & > button {
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding:10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.job-widget__wrapper {
+  width: 340px;
+  border-radius: 35px;
+  background-color: #e7e7e7;
+  padding: 0 15px 15px 15px;
+
+  &__header {
+    font-weight: 500;
+    font-size: 24px;
+    padding: 28px 0;
+  }
 }

@@ -1,124 +1,112 @@
 <div class="company-layout">
   <div class="company">
     <div class="company-header">
-      <div>{{ tab === 'user' ? 'Сотрудники' : 'Организации' }}</div>
-      <div class="btn-switch__group">
-        <button title="Пользователи" class="btn-switch user-toggle" [class.active]="tab === 'user'"
-                (click)="tab='user'">
-          <svg width="15" height="20" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M7.49504 9.05957C7.39973 9.05048 7.28537 9.05048 7.18053 9.05957C4.91225 8.98687 3.11093 7.21504 3.11093 5.03433C3.11093 2.80818 4.99802 1 7.34255 1C9.67759 1 11.5742 2.80818 11.5742 5.03433C11.5647 7.21504 9.76337 8.98687 7.49504 9.05957Z"
-              stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path
-              d="M2.72984 12.4124C0.423387 13.8844 0.423387 16.2832 2.72984 17.7461C5.35081 19.418 9.64919 19.418 12.2702 17.7461C14.5766 16.2741 14.5766 13.8753 12.2702 12.4124C9.65872 10.7496 5.36034 10.7496 2.72984 12.4124Z"
-              stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <button title="Компании" class="btn-switch company-toggle" [class.active]="tab === 'company'"
-                (click)="tab='company'">
-          <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M9 17H19V7C19 5.89543 18.1046 5 17 5H13M9 13H9.01M15 13H15.01M5 13H5.01M9 9H9.01M15 9H15.01M5 9H5.01M9 5H9.01M5 5H5.01M13 17V3C13 1.89543 12.1046 1 11 1H3C1.89543 1 1 1.89543 1 3V17H13Z"
-              stroke="#4E4C58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
+      <div>Список организаций</div>
+    </div>
+    @if (companyData?.length) {
+      <div class="content">
+        <div class="table-wrapper">
+          <table cTable borderless pagination [paginationMeta]="meta" (pageChange)="pageChange($event)">
+            <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Дата создания</th>
+              <th scope="col">Тип лицензии</th>
+              <th scope="col">Лицензия</th>
+              <th scope="col">Дата изменения</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (company of companyData; track company.id) {
+                <tr>
+                  <td scope="row" [title]="company.id">{{ company.id.substring(0, 3) }}...</td>
+                  <td>{{ company.created_at | date : "dd.MM.YYYY" }}</td>
+                  <td>{{ company.is_free }}</td>
+                  <td>{{ company.license_id }}</td>
+                  <td>{{ company?.modified_at | date: "dd.MM.YYYY" }}</td>
+                  <td>
+                    <button title="Просмотреть"
+                            style="border: none; background-color: white; border-radius: 50%; width: 38px; height: 38px"
+                            (click)="navigateToCompany(company.id)"
+                    >
+                      <svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M2.19521 11.5897C1.3984 10.5545 1 10.0369 1 8.5C1 6.96306 1.3984 6.4455 2.19521 5.41031C3.78621 3.34334 6.45448 1 10.375 1C14.2955 1 16.9637 3.34334 18.5548 5.41031C19.3516 6.4455 19.75 6.96306 19.75 8.5C19.75 10.0369 19.3516 10.5545 18.5548 11.5897C16.9637 13.6566 14.2955 16 10.375 16C6.45448 16 3.78621 13.6566 2.19521 11.5897Z"
+                          stroke="#323231" stroke-width="2"/>
+                        <path
+                          d="M13.1875 8.5C13.1875 10.0533 11.9283 11.3125 10.375 11.3125C8.82166 11.3125 7.5625 10.0533 7.5625 8.5C7.5625 6.94666 8.82166 5.6875 10.375 5.6875C11.9283 5.6875 13.1875 6.94666 13.1875 8.5Z"
+                          stroke="#323231" stroke-width="2"/>
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else {
+      <div>Список пуст</div>
+    }
+  </div>
+  <div class="company-rightSection">
+    <a class="btn btn-primary" target="_blank" [routerLink]="['/order-create']">+ Добавить</a>
+    <div class="job-widget__wrapper">
+      <div class="job-widget__wrapper__header">
+        Должности
+      </div>
+      <div class="content">
+        <div class="table-wrapper">
+          <table cTable borderless>
+            <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Название</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td scope="row" >J00001</td>
+              <td scope="row" class="last_td">Сотрудник</td>
+              <div class="actionGroup">
+                <button title="Редактировать">
+                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.47437 8.89372V11.5279H4.10854L11.266 4.37049L11.2666 4.36993C11.527 4.10951 11.6573 3.97925 11.7061 3.829C11.749 3.69673 11.7491 3.55426 11.7061 3.422C11.6572 3.27164 11.5268 3.14119 11.266 2.88039L10.1202 1.73467C9.86058 1.475 9.73046 1.3449 9.58044 1.29615C9.44814 1.25317 9.3057 1.25317 9.1734 1.29615C9.02325 1.34493 8.89299 1.47518 8.63299 1.73523L8.63181 1.73635L1.47437 8.89372Z" stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <button title="Удалить">
+                  <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M12.6667 3.5L11.9992 13.5108C11.9408 14.3875 11.9116 14.8259 11.7222 15.1583C11.5555 15.451 11.304 15.6863 11.0009 15.8332C10.6567 16 10.2172 16 9.3385 16H5.99481C5.11606 16 4.67668 16 4.33241 15.8332C4.02931 15.6863 3.77782 15.451 3.6111 15.1583C3.42172 14.8259 3.3925 14.3875 3.33405 13.5108L2.66667 3.5M1 3.5H14.3333M11 3.5L10.7745 2.82339C10.5559 2.16771 10.4466 1.83987 10.2439 1.59748C10.0649 1.38344 9.83508 1.21777 9.57542 1.11565C9.28133 1 8.93583 1 8.24467 1H7.08867C6.3975 1 6.052 1 5.75792 1.11565C5.49827 1.21777 5.2684 1.38344 5.08941 1.59748C4.88671 1.83987 4.77743 2.16771 4.55887 2.82339L4.33333 3.5"
+                      stroke="#ED7474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </tr>
+            <tr>
+              <td scope="row" >J00001</td>
+              <td scope="row" class="last_td">Руководитель отедела исследований</td>
+              <div class="actionGroup">
+                <button title="Редактировать">
+                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.47437 8.89372V11.5279H4.10854L11.266 4.37049L11.2666 4.36993C11.527 4.10951 11.6573 3.97925 11.7061 3.829C11.749 3.69673 11.7491 3.55426 11.7061 3.422C11.6572 3.27164 11.5268 3.14119 11.266 2.88039L10.1202 1.73467C9.86058 1.475 9.73046 1.3449 9.58044 1.29615C9.44814 1.25317 9.3057 1.25317 9.1734 1.29615C9.02325 1.34493 8.89299 1.47518 8.63299 1.73523L8.63181 1.73635L1.47437 8.89372Z" stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <button title="Удалить">
+                  <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M12.6667 3.5L11.9992 13.5108C11.9408 14.3875 11.9116 14.8259 11.7222 15.1583C11.5555 15.451 11.304 15.6863 11.0009 15.8332C10.6567 16 10.2172 16 9.3385 16H5.99481C5.11606 16 4.67668 16 4.33241 15.8332C4.02931 15.6863 3.77782 15.451 3.6111 15.1583C3.42172 14.8259 3.3925 14.3875 3.33405 13.5108L2.66667 3.5M1 3.5H14.3333M11 3.5L10.7745 2.82339C10.5559 2.16771 10.4466 1.83987 10.2439 1.59748C10.0649 1.38344 9.83508 1.21777 9.57542 1.11565C9.28133 1 8.93583 1 8.24467 1H7.08867C6.3975 1 6.052 1 5.75792 1.11565C5.49827 1.21777 5.2684 1.38344 5.08941 1.59748C4.88671 1.83987 4.77743 2.16771 4.55887 2.82339L4.33333 3.5"
+                      stroke="#ED7474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-    @switch (tab) {
-      @case ('company') {
-        @if (companyData?.length) {
-          <div class="content">
-            <div class="table-wrapper">
-              <table cTable hover borderless>
-                <thead>
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Дата создания</th>
-                  <th scope="col">Тип лицензии</th>
-                  <th scope="col">Лицензия</th>
-                  <th scope="col">Дата изменения</th>
-                  <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                  @for (company of companyData; track company.id) {
-                    <tr>
-                      <td scope="row" [title]="company.id">{{ company.id.substring(0, 3) }}...</td>
-                      <td>{{ company.created_at | date : "dd.MM.YYYY" }}</td>
-                      <td>{{ company.is_free }}</td>
-                      <td>{{ company.license_id }}</td>
-                      <td>{{ company?.modified_at | date: "dd.MM.YYYY" }}</td>
-                      <td>
-                        <button title="Просмотреть" style="border: none; background-color: white; border-radius: 50%; width: 38px; height: 38px"
-                                (click)="navigateToCompany(company.id)"
-                        >
-                          <svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2.19521 11.5897C1.3984 10.5545 1 10.0369 1 8.5C1 6.96306 1.3984 6.4455 2.19521 5.41031C3.78621 3.34334 6.45448 1 10.375 1C14.2955 1 16.9637 3.34334 18.5548 5.41031C19.3516 6.4455 19.75 6.96306 19.75 8.5C19.75 10.0369 19.3516 10.5545 18.5548 11.5897C16.9637 13.6566 14.2955 16 10.375 16C6.45448 16 3.78621 13.6566 2.19521 11.5897Z" stroke="#323231" stroke-width="2"/>
-                            <path d="M13.1875 8.5C13.1875 10.0533 11.9283 11.3125 10.375 11.3125C8.82166 11.3125 7.5625 10.0533 7.5625 8.5C7.5625 6.94666 8.82166 5.6875 10.375 5.6875C11.9283 5.6875 13.1875 6.94666 13.1875 8.5Z" stroke="#323231" stroke-width="2"/>
-                          </svg>
-                        </button>
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          </div>
-        } @else {
-          <div>Список пуст</div>
-        }
-      }
-      @case ('user') {
-        @if (userData?.length) {
-          <div class="content">
-            <div class="table-wrapper">
-              <table cTable hover borderless>
-                <thead>
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Пользователь</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Лицензия</th>
-                  <th></th>
-                  <!--                  <th scope="col">Дата создания</th>-->
-                  <!--                  <th scope="col">Тип лицензии</th>-->
-                  <!--                  <th scope="col">Лицензия</th>-->
-                  <!--                  <th scope="col">Дата изменения</th>-->
-                  <!--                  <th scope="col">Действия</th>-->
-                </tr>
-                </thead>
-                <tbody>
-                  @for (user of userData; track user.id) {
-                    <tr>
-                      <td scope="row" [title]="user.id">{{ user.id.substring(0, 3) }}...</td>
-                      <td>{{ user.username }}</td>
-                      <td>{{ user.email }}</td>
-                      <td>{{ user.license_id }}</td>
-                      <td>
-                        <button class="goToUser">
-                          <svg width="21" height="17" viewBox="0 0 21 17" fill="none"
-                               xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M2.19521 11.5897C1.3984 10.5545 1 10.0369 1 8.5C1 6.96306 1.3984 6.4455 2.19521 5.41031C3.78621 3.34334 6.45448 1 10.375 1C14.2955 1 16.9637 3.34334 18.5548 5.41031C19.3516 6.4455 19.75 6.96306 19.75 8.5C19.75 10.0369 19.3516 10.5545 18.5548 11.5897C16.9637 13.6566 14.2955 16 10.375 16C6.45448 16 3.78621 13.6566 2.19521 11.5897Z"
-                              stroke="#323231" stroke-width="2"/>
-                            <path
-                              d="M13.1875 8.5C13.1875 10.0533 11.9283 11.3125 10.375 11.3125C8.82166 11.3125 7.5625 10.0533 7.5625 8.5C7.5625 6.94666 8.82166 5.6875 10.375 5.6875C11.9283 5.6875 13.1875 6.94666 13.1875 8.5Z"
-                              stroke="#323231" stroke-width="2"/>
-                          </svg>
-                        </button>
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          </div>
-        } @else {
-          <div>Список пуст</div>
-        }
-      }
-    }
-
   </div>
-  <app-order-widget class="orderWidget"></app-order-widget>
 </div>
