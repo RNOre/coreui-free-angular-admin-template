@@ -22,8 +22,14 @@ import {PaginationDirective} from "../../../directives/pagination.directive";
 })
 export class LicenseComponent implements OnInit {
 
-  licenseData: LicenseInterface[] | undefined;
-  licenseMeta: PaginationMetaInterface = {
+  licenseDataCompany: LicenseInterface[] | undefined;
+  licenseDataUser: LicenseInterface[] | undefined;
+  licenseMetaCompany: PaginationMetaInterface = {
+    currentPage: 1,
+    perPage: 10,
+    currentCount: 0
+  };
+  licenseMetaUser: PaginationMetaInterface = {
     currentPage: 1,
     perPage: 10,
     currentCount: 0
@@ -34,24 +40,23 @@ export class LicenseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getLicenses();
+    this.getLicensesCompany();
+    this.getLicensesUser();
   }
 
-  getLicenses() {
+  getLicensesCompany() {
     const filter = {
       "filter": {
-        "search": "",
-        "status": {
+        "kind": {
           "company": "{}",
-          "user": "{}"
         }
       },
       "order": {
         "activatedAt": "asc"
       },
       "pagination": {
-        "limit": this.licenseMeta.perPage,
-        "offset": (this.licenseMeta.currentPage - 1) * this.licenseMeta.perPage
+        "limit": this.licenseMetaCompany.perPage,
+        "offset": (this.licenseMetaCompany.currentPage - 1) * this.licenseMetaCompany.perPage
       }
     }
 
@@ -60,17 +65,46 @@ export class LicenseComponent implements OnInit {
     }>('http://82.97.241.8:8083/admin/api/v1/licenses/filter', filter)
       .subscribe(
         (res) => {
-          this.licenseData = res.data?.items;
-          this.licenseMeta.totalCount = res.data.total;
-          this.licenseMeta.currentCount = this.licenseData?.length || 0;
+          this.licenseDataCompany = res.data?.items;
+          this.licenseMetaCompany.totalCount = res.data.total;
+          this.licenseMetaCompany.currentCount = this.licenseDataCompany?.length || 0;
+        }
+      )
+  }
+  getLicensesUser() {
+    const filter = {
+      "filter": {
+        "kind": {
+          "user": "{}"
+        }
+      },
+      "order": {
+        "activatedAt": "asc"
+      },
+      "pagination": {
+        "limit": this.licenseMetaUser.perPage,
+        "offset": (this.licenseMetaUser.currentPage - 1) * this.licenseMetaUser.perPage
+      }
+    }
+
+    this.$http.post<{
+      data: { items: LicenseInterface[]; total: number }
+    }>('http://82.97.241.8:8083/admin/api/v1/licenses/filter', filter)
+      .subscribe(
+        (res) => {
+          this.licenseDataUser = res.data?.items;
+          this.licenseMetaUser.totalCount = res.data.total;
+          this.licenseMetaUser.currentCount = this.licenseDataUser?.length || 0;
         }
       )
   }
 
-  pageChange(page: number) {
-    console.log(page);
-    this.licenseMeta.currentPage = page;
-
-    this.getLicenses();
+  pageChangeCompany(page: number) {
+    this.licenseMetaCompany.currentPage = page;
+    this.getLicensesCompany();
+  }
+  pageChangeUser(page: number) {
+    this.licenseMetaUser.currentPage = page;
+    this.getLicensesUser();
   }
 }

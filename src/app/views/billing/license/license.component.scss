@@ -37,3 +37,22 @@ h1 {
     background-color: #ed7474;
   }
 }
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 12px;
+  height: 60px;
+  background-color: transparent;
+  &-deleted {
+    padding: 6px 12px;
+    border-radius: 22px;
+    background-color: #ed7474;
+  }
+  &-active {
+    padding: 6px 12px;
+    border-radius: 22px;
+    background-color: #74ed8a;
+  }
+}
