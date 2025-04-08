@@ -24,19 +24,6 @@ import {DatePipe, JsonPipe} from "@angular/common";
 })
 export class CompanyPageComponent implements OnInit {
 
-  filterCompany: FilterInterface = {
-    filter: {
-      company_id: this.route.snapshot.params['id']
-    },
-    order: {
-      createdAt: 'asc'
-    },
-    pagination: {
-      limit: 10,
-      offset: 0
-    }
-  }
-
   filterUser: FilterInterface = {
     filter: {
       company_id: this.route.snapshot.params['id']

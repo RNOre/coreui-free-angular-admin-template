@@ -8,9 +8,9 @@ import {ActivatedRoute, Router} from "@angular/router";
   standalone: true,
   styleUrl: './sidebar.component.scss'
 })
-export class SidebarComponent implements OnInit{
+export class SidebarComponent implements OnInit {
   isOpen = false;
-  selectedNav: 'order' | 'company' | 'tariff' | 'license' | 'home' = 'company';
+  selectedNav: 'order' | 'company' | 'tariff' | 'license' | 'home' | 'user' = 'company';
 
   constructor(private $router: Router, private route: ActivatedRoute) {
   }
@@ -30,11 +30,15 @@ export class SidebarComponent implements OnInit{
         this.selectedNav = 'order';
         break;
       case '/home':
-        this.selectedNav = 'home'
+        this.selectedNav = 'home';
+        break;
+      case '/user':
+        this.selectedNav = 'user';
+        break;
     }
   }
 
-  navigateTo(path: 'order' | 'company' | 'tariff' | 'license' | 'home') {
+  navigateTo(path: 'order' | 'company' | 'tariff' | 'license' | 'home' | 'user') {
     this.selectedNav = path;
     this.isOpen = false;
 
@@ -53,6 +57,9 @@ export class SidebarComponent implements OnInit{
         break;
       case "order":
         this.$router.navigate(['order']).then();
+        break;
+      case "user":
+        this.$router.navigate(['user']).then();
         break;
     }
   }

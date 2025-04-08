@@ -1,14 +1,23 @@
 <div class="companyPage">
   <div class="companyPage-info">
     <div class="header">
-      Организация
+      Пользователь
     </div>
-    <form [formGroup]="companyField" (ngSubmit)="updateCompanyData()" class="companyPage-data">
-      <input cFormControl placeholder="Название организации" [formControl]="companyField.controls.name"
-             style="margin-bottom: 11px;"/>
-      <input cFormControl placeholder="ИНН" [formControl]="companyField.controls.inn"/>
-      @if (!companyField.untouched) {
-        <button class="btn btn-primary" style="margin: 11px auto">Обновить</button>
+    <form [formGroup]="userField" (ngSubmit)="updateUserData()" class="companyPage-data">
+      <input cFormControl placeholder="Имя" [formControl]="userField.controls.name"/>
+      <input cFormControl placeholder="Username" [formControl]="userField.controls.username"/>
+      <input cFormControl placeholder="Email" [formControl]="userField.controls.email"/>
+      <select name="sex"
+              id="sex"
+              cSelect
+              [formControl]="userField.controls.sex"
+      >
+        <option value="male">Мужчина</option>
+        <option value="female">Женщина</option>
+      </select>
+      <input type="date" [formControl]="userField.controls.birth_date" class="datePicker" placeholder="Дата рождения"/>
+      @if (!userField.untouched) {
+        <button class="btn btn-primary" style="margin: 11px auto" [disabled]="!userField.valid">Обновить</button>
       }
     </form>
   </div>
@@ -52,45 +61,6 @@
                   </td>
                   <td>
                     {{ license.expires_at | date : "dd.MM.YYYY" }}
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="companyPage-users" style="margin-top: 14px">
-      <div class="companyPage-users__header">Сотрудники</div>
-      <div class="content">
-        <div class="table-wrapper" style="max-height: 300px">
-          <table cTable hover borderless>
-            <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">ФИО</th>
-              <th scope="col">username</th>
-              <th scope="col">email</th>
-              <th scope="col">админ</th>
-            </tr>
-            </thead>
-            <tbody>
-              @for (user of userData; track user.id) {
-                <tr>
-                  <td scope="row" [title]="user.id">
-                    {{ user.id?.substring(0, 5) }}...
-                  </td>
-                  <td>
-                    {{ user.name || '-' }}
-                  </td>
-                  <td>
-                    {{ user.username || '-' }}
-                  </td>
-                  <td>
-                    {{ user.email || '-' }}
-                  </td>
-                  <td>
-                    {{ user.is_admin }}
                   </td>
                 </tr>
               }

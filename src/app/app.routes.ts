@@ -9,11 +9,13 @@ import {CompanyComponent} from "./views/company/company.component";
 import {CompanyPageComponent} from "./views/company/company-page/company-page.component";
 import {LicenseComponent} from "./views/billing/license/license.component";
 import {MainPageComponent} from "./views/main-page/main-page.component";
+import {UserComponent} from "./views/user/user.component";
+import {UserPageComponent} from "./views/user/user-page/user-page.component";
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
@@ -56,6 +58,14 @@ export const routes: Routes = [
       {
         path: 'home',
         component: MainPageComponent
+      },
+      {
+        path: 'user',
+        component: UserComponent
+      },
+      {
+        path: 'user/:id',
+        component: UserPageComponent
       }
     ]
   },
