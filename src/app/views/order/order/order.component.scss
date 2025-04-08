@@ -21,7 +21,6 @@
 }
 
 
-
 .tariff {
   &List {
     display: flex;
@@ -73,5 +72,41 @@
 
   &-reject {
     background-color: #ed7474;
+  }
+}
+
+.order_status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 12px;
+  height: 60px;
+  background-color: transparent;
+  color: white;
+  gap: 17px;
+
+  &-reject {
+    padding: 6px 12px;
+    border-radius: 22px;
+    background-color: #ed7474;
+  }
+
+  &-success {
+    padding: 6px 12px;
+    border-radius: 22px;
+    background-color: #74ed8a;
+  }
+
+  & > a {
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

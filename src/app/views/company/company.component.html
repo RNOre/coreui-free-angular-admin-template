@@ -11,7 +11,6 @@
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Дата создания</th>
-              <th scope="col">Тип лицензии</th>
               <th scope="col">Лицензия</th>
               <th scope="col">Дата изменения</th>
               <th scope="col"></th>
@@ -22,7 +21,6 @@
                 <tr>
                   <td scope="row" [title]="company.id">{{ company.id.substring(0, 3) }}...</td>
                   <td>{{ company.created_at | date : "dd.MM.YYYY" }}</td>
-                  <td>{{ company.is_free }}</td>
                   <td>{{ company.license_id }}</td>
                   <td class="last_td">{{ company?.modified_at | date: "dd.MM.YYYY" }}</td>
                   <div class="actionGroup">

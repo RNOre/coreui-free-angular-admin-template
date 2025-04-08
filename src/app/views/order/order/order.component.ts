@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {FilterInterface, PaginationInterface} from "../../../interfaces/global";
+import {FilterInterface, PaginationInterface, PaginationMetaInterface} from "../../../interfaces/global";
 import {OrderInterface} from "../../../interfaces/order";
 import {
   ButtonCloseDirective,
@@ -19,6 +19,7 @@ import {IconDirective} from "@coreui/icons-angular";
 import {cilCheckAlt, cilX} from "@coreui/icons";
 import {RouterLink} from "@angular/router";
 import {TariffInterface} from "../../../interfaces/billing";
+import {PaginationDirective} from "../../../directives/pagination.directive";
 
 @Component({
   selector: 'app-order',
@@ -36,7 +37,8 @@ import {TariffInterface} from "../../../interfaces/billing";
     ModalTitleDirective,
     ModalToggleDirective,
     FooterComponent,
-    ModalFooterComponent
+    ModalFooterComponent,
+    PaginationDirective
   ],
   templateUrl: './order.component.html',
   standalone: true,
@@ -60,29 +62,18 @@ export class OrderComponent implements OnInit {
   total!: number;
   activeTariff = '';
 
-
-  filter: {
-    search: string;
-    status: any;
-    order: { created_at: 'asc' | 'desc' },
-    pagination: PaginationInterface
-  } = {
-    search: '',
-    status: {
-      // @ts-ignore
-      all: {}
-    },
-    order: {
-      created_at: 'desc',
-    },
-    pagination: {
-      limit: 10,
-      offset: 0
-    }
-  }
-
-  orderData: OrderInterface[] | undefined;
-  totalCount: number | undefined;
+  orderDataUser: OrderInterface[] | undefined;
+  orderDataCompany: OrderInterface[] | undefined;
+  orderMetaUser: PaginationMetaInterface = {
+    currentPage: 1,
+    perPage: 10,
+    currentCount: 0
+  };
+  orderMetaCompany: PaginationMetaInterface = {
+    currentPage: 1,
+    perPage: 10,
+    currentCount: 0
+  };
 
   icons = {cilCheckAlt, cilX}
 
@@ -91,16 +82,58 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.getTariffs();
-    this.getOrders();
+    this.getOrdersUser();
+    this.getOrdersCompany();
   }
 
-  getOrders() {
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/orders/filter',
-      {filter: this.filter})
+  getOrdersUser() {
+    const filter = {
+      search: '',
+      kind: {
+        // @ts-ignore
+        user: {}
+      },
+      order: {
+        created_at: 'desc',
+      },
+      pagination: {
+        "limit": this.orderMetaUser.perPage,
+        "offset": (this.orderMetaUser.currentPage - 1) * this.orderMetaUser.perPage
+      }
+    }
+
+    this.$http.post('http://82.97.241.8:8083/admin/api/v1/orders/filter', {
+      filter
+    })
       // @ts-ignore
       .subscribe((res: { data: { items: OrderInterface[], total: number } }) => {
-        this.orderData = res?.data.items;
-        this.totalCount = res?.data.total;
+        this.orderDataUser = res?.data.items;
+        this.orderMetaUser.totalCount = res.data.total;
+        this.orderMetaUser.currentCount = this.orderDataUser?.length || 0;
+      })
+  }
+
+  getOrdersCompany() {
+    const filter = {
+      search: '',
+      kind: {
+        company: {}
+      },
+      order: {
+        created_at: 'desc',
+      },
+      pagination: {
+        "limit": this.orderMetaCompany.perPage,
+        "offset": (this.orderMetaCompany.currentPage - 1) * this.orderMetaCompany.perPage
+      }
+    }
+
+    this.$http.post('http://82.97.241.8:8083/admin/api/v1/orders/filter', {filter})
+      // @ts-ignore
+      .subscribe((res: { data: { items: OrderInterface[], total: number } }) => {
+        this.orderDataCompany = res?.data.items;
+        this.orderMetaCompany.totalCount = res.data.total;
+        this.orderMetaCompany.currentCount = this.orderDataCompany?.length || 0;
       })
   }
 
@@ -121,7 +154,7 @@ export class OrderComponent implements OnInit {
     this.$http.post('http://82.97.241.8:8083/admin/api/v1/order-accept', body)
       .subscribe({
         next: () => {
-          this.getOrders();
+          this.tab === 'company' ? this.getOrdersCompany() : this.getOrdersUser();
         }
       });
   }
@@ -130,7 +163,7 @@ export class OrderComponent implements OnInit {
     this.$http.patch('http://82.97.241.8:8083/admin/api/v1/order/' + order_id, {})
       // @ts-ignore
       .subscribe((res: { data: OrderInterface }) => {
-        this.getOrders()
+        this.tab === 'company' ? this.getOrdersCompany() : this.getOrdersUser();
       });
   }
 
@@ -143,6 +176,16 @@ export class OrderComponent implements OnInit {
         // @ts-ignore
         this.total = res?.data.total
       })
+  }
+
+  pageChangeCompany(page: number) {
+    this.orderMetaCompany.currentPage = page;
+    this.getOrdersCompany();
+  }
+
+  pageChangeUser(page: number) {
+    this.orderMetaUser.currentPage = page;
+    this.getOrdersUser();
   }
 
   protected readonly Date = Date;
