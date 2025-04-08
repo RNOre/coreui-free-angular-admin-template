@@ -8,6 +8,7 @@ import {OrderItemComponent} from "./views/order/order-item/order-item.component"
 import {CompanyComponent} from "./views/company/company.component";
 import {CompanyPageComponent} from "./views/company/company-page/company-page.component";
 import {LicenseComponent} from "./views/billing/license/license.component";
+import {MainPageComponent} from "./views/main-page/main-page.component";
 
 export const routes: Routes = [
   {
@@ -52,6 +53,10 @@ export const routes: Routes = [
         component: CompanyPageComponent
 
       },
+      {
+        path: 'home',
+        component: MainPageComponent
+      }
     ]
   },
   {

@@ -29,6 +29,8 @@ export class SidebarComponent implements OnInit{
       case '/order':
         this.selectedNav = 'order';
         break;
+      case '/home':
+        this.selectedNav = 'home'
     }
   }
 
@@ -38,7 +40,7 @@ export class SidebarComponent implements OnInit{
 
     switch (path) {
       case "home":
-        this.$router.navigate(['']).then();
+        this.$router.navigate(['home']).then();
         break;
       case "tariff":
         this.$router.navigate(['billing', 'tariffs']).then();

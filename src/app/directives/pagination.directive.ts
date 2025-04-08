@@ -37,6 +37,6 @@ export class PaginationDirective implements OnInit {
     })
 
     const host = this.element.nativeElement;
-    host.insertAfter(componentRef.location.nativeElement, host.firstChild);
+    // host?.insertAfter(componentRef.location.nativeElement, host.firstChild);
   }
 }
