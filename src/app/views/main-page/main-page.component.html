@@ -48,7 +48,7 @@
                     <tr>
                       <td scope="row" [title]="company.id">{{ company.id.substring(0, 3) }}...</td>
                       <td>{{ company.created_at | date : "dd.MM.YYYY" }}</td>
-                      <td>{{ company.license_id }}</td>
+                      <td>{{ company.tariff_name }}</td>
                       <td>{{ company?.modified_at | date: "dd.MM.YYYY" }}</td>
                       <td>
                         <button title="Просмотреть" style="border: none; background-color: white; border-radius: 50%; width: 38px; height: 38px"
@@ -95,7 +95,7 @@
                       <td scope="row" [title]="user.id">{{ user.id.substring(0, 3) }}...</td>
                       <td>{{ user.username }}</td>
                       <td>{{ user.email }}</td>
-                      <td>{{ user.license_id }}</td>
+                      <td>{{ user.tariff_name }}</td>
                       <td>
                         <button class="goToUser">
                           <svg width="21" height="17" viewBox="0 0 21 17" fill="none"

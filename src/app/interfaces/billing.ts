@@ -22,6 +22,7 @@ export interface CompanyInterface {
   license_id: string;
   modified_at: string;
   name: string;
+  tariff_name: string;
 }
 
 export interface UserInterface {
@@ -41,6 +42,7 @@ export interface UserInterface {
   photo_id: string | null;
   sex: string;
   username: string;
+  tariff_name: string;
 }
 
 export interface LicenseInterface {

@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {FilterInterface} from "../../../interfaces/global";
+import {FilterInterface, PaginationMetaInterface} from "../../../interfaces/global";
 import {TariffInterface} from "../../../interfaces/billing";
 import {
   ButtonCloseDirective,
@@ -25,6 +25,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {DatePipe, JsonPipe, NgStyle} from "@angular/common";
 import {getSupportedInputTypes} from "@angular/cdk/platform";
 import {Router} from "@angular/router";
+import {PaginationDirective} from "../../../directives/pagination.directive";
 
 @Component({
   selector: 'app-tariff',
@@ -47,27 +48,26 @@ import {Router} from "@angular/router";
     FormFloatingDirective,
     NgStyle,
     JsonPipe,
-    DatePipe
+    DatePipe,
+    PaginationDirective
   ],
   templateUrl: './tariff.component.html',
   standalone: true,
   styleUrl: './tariff.component.scss'
 })
 export class TariffComponent implements OnInit {
-  filter: FilterInterface = {
-    filter: {
-      search: ''
-    },
-    order: {
-      activatedAt: 'asc'
-    },
-    pagination: {
-      limit: 10,
-      offset: 0
-    }
+  tariffsDataCompany!: TariffInterface[] | undefined;
+  tariffsDataUser!: TariffInterface[] | undefined;
+  tariffMetaCompany: PaginationMetaInterface = {
+    currentPage: 1,
+    perPage: 10,
+    currentCount: 0
   };
-  tariffsData!: TariffInterface[] | undefined;
-  total!: number | undefined;
+  tariffMetaUser: PaginationMetaInterface = {
+    currentPage: 1,
+    perPage: 10,
+    currentCount: 0
+  };
   baseTariff!: TariffInterface | undefined;
 
   editedTariffID = '';
@@ -78,14 +78,16 @@ export class TariffComponent implements OnInit {
     name: new FormControl(''),
     kind: new FormControl(''),
     limit: new FormControl(15),
-    period: new FormControl(30)
+    period: new FormControl(30),
+    price: new FormControl()
   })
 
   editTariff = new FormGroup({
     name: new FormControl(''),
     kind: new FormControl(''),
     limit: new FormControl(15),
-    period: new FormControl(30)
+    period: new FormControl(30),
+    price: new FormControl()
   })
 
   tab = 'company';
@@ -94,7 +96,8 @@ export class TariffComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getTariffs();
+    this.getTariffsCompany();
+    this.getTariffsUser();
   }
 
   getDate(date: string) {
@@ -106,54 +109,106 @@ export class TariffComponent implements OnInit {
   }
 
   createTariff() {
-    const body = {
-      kind: this.newTariff.controls?.kind?.value,
-      limit: this.newTariff.controls?.limit?.value,
-      name: this.newTariff.controls?.name?.value,
-      period: this.newTariff.controls?.period.value
-    }
-
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariff-create', body)
+    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariff-create', this.newTariff.value)
       .subscribe(() => {
-        this.getTariffs();
+        this.getTariffsCompany();
       });
   }
 
-  getTariffs() {
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', this.filter)
+  getTariffsCompany() {
+    const filter: FilterInterface = {
+      filter: {
+        kind: {
+          company: "{}"
+        }
+      },
+      order: {
+        activatedAt: 'asc'
+      },
+      pagination: {
+        limit: this.tariffMetaCompany.perPage,
+        offset: (this.tariffMetaCompany.currentPage - 1) * this.tariffMetaCompany.perPage
+      }
+    };
+    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
-        this.baseTariff = res.data.items?.find((el)=>el.id === '0bc810cf-707a-437f-bf72-9f3b8ea9cf72');
-        this.tariffsData = res.data.items?.filter((el)=>el.id !== '0bc810cf-707a-437f-bf72-9f3b8ea9cf72');
-        this.total = res?.data.total
+        this.tariffsDataCompany = res.data.items;
+        if (this.tariffsDataCompany?.length) {
+          this.tariffMetaCompany.totalCount = res.data.total;
+          this.tariffMetaCompany.currentCount = this.tariffsDataCompany.length;
+        }
       })
   }
+
+  getTariffsUser() {
+    const filter: FilterInterface = {
+      filter: {
+        kind: {
+          user: "{}"
+        }
+      },
+      order: {
+        activatedAt: 'asc'
+      },
+      pagination: {
+        limit: this.tariffMetaCompany.perPage,
+        offset: (this.tariffMetaCompany.currentPage - 1) * this.tariffMetaCompany.perPage
+      }
+    };
+    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', filter)
+      // @ts-ignore
+      .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
+        this.baseTariff = res.data.items?.find((el) => el.id === '0bc810cf-707a-437f-bf72-9f3b8ea9cf72');
+        this.tariffsDataUser = res.data.items?.filter((el) => el.id !== '0bc810cf-707a-437f-bf72-9f3b8ea9cf72');
+        if (this.tariffsDataUser?.length) {
+          this.tariffMetaUser.totalCount = res.data.total;
+          this.tariffMetaUser.totalCount--;
+          this.tariffMetaUser.currentCount = this.tariffsDataUser.length;
+        }
+      })
+  }
+
   getTariffItem(id: string) {
     this.editedTariffID = id;
     this.$http.get<{ data: TariffInterface }>('http://82.97.241.8:8083/admin/api/v1/tariff/' + id)
-      .subscribe((res)=>{
+      .subscribe((res) => {
         this.editTariff.controls.name.setValue(res.data.name);
         this.editTariff.controls.period.setValue(res.data.period);
         this.editTariff.controls.kind.setValue(res.data.kind);
         this.editTariff.controls.limit.setValue(res.data.limit);
+        this.editTariff.controls.price.setValue(res.data.price)
       })
   }
+
   updateTariff() {
     const body = {
       ...this.editTariff.value,
       tariff_id: this.editedTariffID
     }
     this.$http.patch<{ data: TariffInterface }>('http://82.97.241.8:8083/admin/api/v1/tariff-update', body)
-      .subscribe((res)=>{
-        this.getTariffs();
+      .subscribe((res) => {
+        this.getTariffsCompany();
+        this.getTariffsUser()
       });
   }
 
   deleteTariff(id: string) {
     this.$http.delete<{ data: TariffInterface }>('http://82.97.241.8:8083/admin/api/v1/tariff/' + id)
       .subscribe((res) => {
-        this.getTariffs();
+        this.getTariffsCompany();
+        this.getTariffsUser();
       })
+  }
+
+  pageChangeCompany(page: number) {
+    this.tariffMetaCompany.currentPage = page;
+    this.getTariffsCompany();
+  }
+
+  pageChangeUser(page: number) {
+    this.tariffMetaUser.currentPage = page;
+    this.getTariffsUser();
   }
 
   protected readonly getSupportedInputTypes = getSupportedInputTypes;
