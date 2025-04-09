@@ -64,5 +64,20 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+  setIsOpen(value: boolean) {
+    if (value) {
+      this.isOpen = true
+      document.body.classList.add('no-scroll');
+    } else {
+      this.isOpen = false;
+      document.body.classList.remove('no-scroll')
+    }
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.$router.navigate(['login']).then();
+  }
+
   protected readonly open = open;
 }

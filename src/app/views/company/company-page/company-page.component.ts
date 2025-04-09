@@ -71,7 +71,7 @@ export class CompanyPageComponent implements OnInit {
 
     this.$http.post<{
       data: { items: UserInterface[], total: number }
-    }>('http://82.97.241.8:8083/admin/api/v1/users/filter', this.filterUser)
+    }>('users/filter', this.filterUser)
       .subscribe({
         next: (res) => {
           this.userData = res.data.items;
@@ -98,7 +98,7 @@ export class CompanyPageComponent implements OnInit {
       }
     }
 
-    this.$http.post<{ data:{items: LicenseInterface[]} }>('http://82.97.241.8:8083/admin/api/v1/licenses/filter', filter)
+    this.$http.post<{ data:{items: LicenseInterface[]} }>('licenses/filter', filter)
       .subscribe(
         (res) => {
           this.licenseData = res.data.items
@@ -107,7 +107,7 @@ export class CompanyPageComponent implements OnInit {
   }
 
   getCompany() {
-    this.$http.get<{ data: CompanyInterface }>('http://82.97.241.8:8083/admin/api/v1/company/' + this.company_id)
+    this.$http.get<{ data: CompanyInterface }>('company/' + this.company_id)
       .subscribe({
         next: (res) => {
           if (res.data) {

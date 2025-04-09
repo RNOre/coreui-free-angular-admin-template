@@ -61,7 +61,7 @@ export class MainPageComponent implements OnInit {
         offset: (this.companyMeta.currentPage - 1) * this.companyMeta.perPage
       }
     };
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/companies/filter', filter)
+    this.$http.post('companies/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         // @ts-ignore
@@ -93,7 +93,7 @@ export class MainPageComponent implements OnInit {
     };
     this.$http.post<{
       data: { items: UserInterface[], total: number }
-    }>('http://82.97.241.8:8083/admin/api/v1/users/filter', filter)
+    }>('users/filter', filter)
       .subscribe({
         next: (res) => {
           this.userData = res.data.items;

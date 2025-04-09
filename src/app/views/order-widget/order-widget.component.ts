@@ -42,7 +42,7 @@ export class OrderWidgetComponent implements OnInit {
   totalCount: number | undefined;
 
   ngOnInit() {
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/orders/filter',
+    this.$http.post('orders/filter',
       {filter: this.filter})
       // @ts-ignore
       .subscribe((res: { data: { items: OrderInterface[], total: number } }) => {

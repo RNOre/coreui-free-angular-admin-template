@@ -62,7 +62,7 @@ export class LicenseComponent implements OnInit {
 
     this.$http.post<{
       data: { items: LicenseInterface[]; total: number }
-    }>('http://82.97.241.8:8083/admin/api/v1/licenses/filter', filter)
+    }>('licenses/filter', filter)
       .subscribe(
         (res) => {
           this.licenseDataCompany = res.data?.items;
@@ -89,7 +89,7 @@ export class LicenseComponent implements OnInit {
 
     this.$http.post<{
       data: { items: LicenseInterface[]; total: number }
-    }>('http://82.97.241.8:8083/admin/api/v1/licenses/filter', filter)
+    }>('licenses/filter', filter)
       .subscribe(
         (res) => {
           this.licenseDataUser = res.data?.items;

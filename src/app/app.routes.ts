@@ -11,6 +11,7 @@ import {LicenseComponent} from "./views/billing/license/license.component";
 import {MainPageComponent} from "./views/main-page/main-page.component";
 import {UserComponent} from "./views/user/user.component";
 import {UserPageComponent} from "./views/user/user-page/user-page.component";
+import {authGuard} from "./guard/auth.guard";
 
 export const routes: Routes = [
   {
@@ -21,6 +22,7 @@ export const routes: Routes = [
   {
     path: '',
     component: DefaultLayoutComponent,
+    canActivate: [authGuard],
     data: {
       title: 'Home'
     },

@@ -54,7 +54,7 @@ export class CompanyComponent implements OnInit {
         "offset": (this.meta.currentPage - 1) * this.meta.perPage
       }
     };
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/companies/filter', filter)
+    this.$http.post('companies/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         // @ts-ignore

@@ -33,14 +33,14 @@
         @if (companyData?.length) {
           <div class="content">
             <div class="table-wrapper">
-              <table cTable hover borderless pagination [paginationMeta]="companyMeta" (pageChange)="pageChangeCompany($event)">
+              <table cTable borderless pagination [paginationMeta]="companyMeta" (pageChange)="pageChangeCompany($event)">
                 <thead>
                 <tr>
                   <th scope="col">ID</th>
                   <th scope="col">Дата создания</th>
                   <th scope="col">Лицензия</th>
                   <th scope="col">Дата изменения</th>
-                  <th scope="col"></th>
+                  <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,9 +49,9 @@
                       <td scope="row" [title]="company.id">{{ company.id.substring(0, 3) }}...</td>
                       <td>{{ company.created_at | date : "dd.MM.YYYY" }}</td>
                       <td>{{ company.tariff_name }}</td>
-                      <td>{{ company?.modified_at | date: "dd.MM.YYYY" }}</td>
-                      <td>
-                        <button title="Просмотреть" style="border: none; background-color: white; border-radius: 50%; width: 38px; height: 38px"
+                      <td class="last_td">{{ company?.modified_at | date: "dd.MM.YYYY" }}</td>
+                      <div style="background-color: transparent">
+                        <button title="Просмотреть" class="goToUser"
                                 (click)="navigateToCompany(company.id)"
                         >
                           <svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +59,7 @@
                             <path d="M13.1875 8.5C13.1875 10.0533 11.9283 11.3125 10.375 11.3125C8.82166 11.3125 7.5625 10.0533 7.5625 8.5C7.5625 6.94666 8.82166 5.6875 10.375 5.6875C11.9283 5.6875 13.1875 6.94666 13.1875 8.5Z" stroke="#323231" stroke-width="2"/>
                           </svg>
                         </button>
-                      </td>
+                      </div>
                     </tr>
                   }
                 </tbody>
@@ -74,7 +74,7 @@
         @if (userData?.length) {
           <div class="content">
             <div class="table-wrapper">
-              <table cTable hover borderless pagination [paginationMeta]="userMeta" (pageChange)="pageChangeUser($event)">
+              <table cTable borderless pagination [paginationMeta]="userMeta" (pageChange)="pageChangeUser($event)">
                 <thead>
                 <tr>
                   <th scope="col">ID</th>
@@ -82,11 +82,6 @@
                   <th scope="col">Email</th>
                   <th scope="col">Лицензия</th>
                   <th></th>
-                  <!--                  <th scope="col">Дата создания</th>-->
-                  <!--                  <th scope="col">Тип лицензии</th>-->
-                  <!--                  <th scope="col">Лицензия</th>-->
-                  <!--                  <th scope="col">Дата изменения</th>-->
-                  <!--                  <th scope="col">Действия</th>-->
                 </tr>
                 </thead>
                 <tbody>
@@ -95,8 +90,8 @@
                       <td scope="row" [title]="user.id">{{ user.id.substring(0, 3) }}...</td>
                       <td>{{ user.username }}</td>
                       <td>{{ user.email }}</td>
-                      <td>{{ user.tariff_name }}</td>
-                      <td>
+                      <td class="last_td">{{ user.tariff_name }}</td>
+                      <div style="background-color: transparent">
                         <button class="goToUser">
                           <svg width="21" height="17" viewBox="0 0 21 17" fill="none"
                                xmlns="http://www.w3.org/2000/svg">
@@ -108,7 +103,7 @@
                               stroke="#323231" stroke-width="2"/>
                           </svg>
                         </button>
-                      </td>
+                      </div>
                     </tr>
                   }
                 </tbody>

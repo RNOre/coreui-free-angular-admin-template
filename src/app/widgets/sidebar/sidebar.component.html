@@ -13,7 +13,7 @@
     />
     <div class="navItem sidebar-toggle">
       @if (isOpen) {
-        <div class="navIcon" (click)="isOpen=false">
+        <div class="navIcon" (click)="setIsOpen(false)">
           <svg width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M0.292893 7.29289C-0.0976314 7.68342 -0.0976315 8.31658 0.292892 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34314C8.46159 1.95262 8.46159 1.31946 8.07107 0.928931C7.68054 0.538407 7.04738 0.538407 6.65686 0.928931L0.292893 7.29289ZM19 7L1 7L1 9L19 9L19 7Z"
@@ -21,7 +21,7 @@
           </svg>
         </div>
       } @else {
-        <div class="navIcon" (click)="isOpen=true">
+        <div class="navIcon" (click)="setIsOpen(true)">
           <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="18" height="2" rx="1" fill="#323231"/>
             <rect y="4" width="18" height="2" rx="1" fill="#323231"/>
@@ -123,11 +123,15 @@
         <div class="navIcon" [class.active]="selectedNav ==='user'">
           @if (selectedNav === 'user') {
             <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 17V15C11 12.2386 8.7614 10 6 10C3.23858 10 1 12.2386 1 15V17H11ZM11 17H19V16C19 13.0545 16.7614 11 14 11C12.5867 11 11.3103 11.6255 10.4009 12.6311M9 4C9 5.65685 7.65685 7 6 7C4.34315 7 3 5.65685 3 4C3 2.34315 4.34315 1 6 1C7.65685 1 9 2.34315 9 4ZM16 6C16 7.1046 15.1046 8 14 8C12.8954 8 12 7.1046 12 6C12 4.89543 12.8954 4 14 4C15.1046 4 16 4.89543 16 6Z" stroke="#e7e7e7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M11 17V15C11 12.2386 8.7614 10 6 10C3.23858 10 1 12.2386 1 15V17H11ZM11 17H19V16C19 13.0545 16.7614 11 14 11C12.5867 11 11.3103 11.6255 10.4009 12.6311M9 4C9 5.65685 7.65685 7 6 7C4.34315 7 3 5.65685 3 4C3 2.34315 4.34315 1 6 1C7.65685 1 9 2.34315 9 4ZM16 6C16 7.1046 15.1046 8 14 8C12.8954 8 12 7.1046 12 6C12 4.89543 12.8954 4 14 4C15.1046 4 16 4.89543 16 6Z"
+                stroke="#e7e7e7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           } @else {
             <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 17V15C11 12.2386 8.7614 10 6 10C3.23858 10 1 12.2386 1 15V17H11ZM11 17H19V16C19 13.0545 16.7614 11 14 11C12.5867 11 11.3103 11.6255 10.4009 12.6311M9 4C9 5.65685 7.65685 7 6 7C4.34315 7 3 5.65685 3 4C3 2.34315 4.34315 1 6 1C7.65685 1 9 2.34315 9 4ZM16 6C16 7.1046 15.1046 8 14 8C12.8954 8 12 7.1046 12 6C12 4.89543 12.8954 4 14 4C15.1046 4 16 4.89543 16 6Z" stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M11 17V15C11 12.2386 8.7614 10 6 10C3.23858 10 1 12.2386 1 15V17H11ZM11 17H19V16C19 13.0545 16.7614 11 14 11C12.5867 11 11.3103 11.6255 10.4009 12.6311M9 4C9 5.65685 7.65685 7 6 7C4.34315 7 3 5.65685 3 4C3 2.34315 4.34315 1 6 1C7.65685 1 9 2.34315 9 4ZM16 6C16 7.1046 15.1046 8 14 8C12.8954 8 12 7.1046 12 6C12 4.89543 12.8954 4 14 4C15.1046 4 16 4.89543 16 6Z"
+                stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           }
         </div>
@@ -161,8 +165,23 @@
       </li>
     </ul>
   </div>
-  <div class="custom-sidebar__footer"></div>
+  <div class="custom-sidebar__footer">
+    <div class="navItem" (click)="logout()">
+      <div class="navIcon">
+        <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M4.735 13.8571L1 10M1 10L4.735 6.14286M1 10H12.5714M4.85714 1L15.1429 1.00289C16.5627 1.00401 17.7136 2.15516 17.7143 3.57504V16.425C17.7136 17.8448 16.5627 18.996 15.1429 18.9971L4.85714 19"
+            stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      @if (isOpen) {
+        <div class="navTitle">
+          Выход
+        </div>
+      }
+    </div>
+  </div>
 </div>
 @if (isOpen) {
-  <div class="overall" (click)="isOpen = false"></div>
+  <div class="overall" (click)="setIsOpen(false)"></div>
 }

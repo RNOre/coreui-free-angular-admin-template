@@ -97,7 +97,7 @@ export class OrderComponent implements OnInit {
       }
     }
 
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/orders/filter', {
+    this.$http.post('orders/filter', {
       filter
     })
       // @ts-ignore
@@ -123,7 +123,7 @@ export class OrderComponent implements OnInit {
       }
     }
 
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/orders/filter', {filter})
+    this.$http.post('orders/filter', {filter})
       // @ts-ignore
       .subscribe((res: { data: { items: OrderInterface[], total: number } }) => {
         this.orderDataCompany = res?.data.items;
@@ -146,7 +146,7 @@ export class OrderComponent implements OnInit {
       tariff_id
     }
 
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/order-accept', body)
+    this.$http.post('order-accept', body)
       .subscribe({
         next: () => {
           this.tab === 'company' ? this.getOrdersCompany() : this.getOrdersUser();
@@ -155,7 +155,7 @@ export class OrderComponent implements OnInit {
   }
 
   rejectOrder(order_id: string) {
-    this.$http.patch('http://82.97.241.8:8083/admin/api/v1/order/' + order_id, {})
+    this.$http.patch('order/' + order_id, {})
       // @ts-ignore
       .subscribe((res: { data: OrderInterface }) => {
         this.tab === 'company' ? this.getOrdersCompany() : this.getOrdersUser();
@@ -177,7 +177,7 @@ export class OrderComponent implements OnInit {
         offset: (this.tariffMetaCompany.currentPage - 1) * this.tariffMetaCompany.perPage
       }
     };
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', filter)
+    this.$http.post('tariffs/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         // @ts-ignore

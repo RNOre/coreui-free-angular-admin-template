@@ -55,7 +55,7 @@ export class OrderItemComponent implements OnInit {
   getOrderInfo() {
     this.$http.get<{
       data: OrderInterface
-    }>('http://82.97.241.8:8083/admin/api/v1/order/' + this.route.snapshot.params['id'])
+    }>('order/' + this.route.snapshot.params['id'])
       .subscribe((res) => {
         this.$order = res.data;
         this.orderData.controls.id.setValue(this.$order.id);
@@ -68,7 +68,7 @@ export class OrderItemComponent implements OnInit {
   }
 
   getTariffList() {
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', this.filter)
+    this.$http.post('tariffs/filter', this.filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         // @ts-ignore
@@ -82,12 +82,12 @@ export class OrderItemComponent implements OnInit {
       tariff_id: this.orderData.controls.tariff_id.value
     }
 
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/order-accept', body)
+    this.$http.post('order-accept', body)
       .subscribe();
   }
 
   rejectOrder() {
-    this.$http.patch(`http://82.97.241.8:8083/admin/api/v1/order/${this.$order.id}`,{})
+    this.$http.patch(`order/${this.$order.id}`,{})
       .subscribe(() => this.$router.navigate(['/company', 'order']).then())
   }
 }

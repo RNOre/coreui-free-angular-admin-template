@@ -64,7 +64,7 @@ export class UserPageComponent implements OnInit {
         "offset": (this.meta.currentPage - 1) * this.meta.perPage
       }
     };
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/users/filter', filter)
+    this.$http.post('users/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         // @ts-ignore
@@ -96,7 +96,7 @@ export class UserPageComponent implements OnInit {
 
     this.$http.post<{
       data: { items: LicenseInterface[], total: number }
-    }>('http://82.97.241.8:8083/admin/api/v1/licenses/filter', filter)
+    }>('licenses/filter', filter)
       .subscribe(
         (res) => {
           this.licenseData = res.data.items;
@@ -113,7 +113,7 @@ export class UserPageComponent implements OnInit {
 
   updateUserData() {
     this.$http
-      .patch('http://82.97.241.8:8083/admin/api/v1/user-update', {
+      .patch('user-update', {
         ...this.userField.value
       })
       .subscribe();

@@ -109,7 +109,7 @@ export class TariffComponent implements OnInit {
   }
 
   createTariff() {
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariff-create', this.newTariff.value)
+    this.$http.post('tariff-create', this.newTariff.value)
       .subscribe(() => {
         this.getTariffsCompany();
       });
@@ -130,7 +130,7 @@ export class TariffComponent implements OnInit {
         offset: (this.tariffMetaCompany.currentPage - 1) * this.tariffMetaCompany.perPage
       }
     };
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', filter)
+    this.$http.post('tariffs/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         this.tariffsDataCompany = res.data.items;
@@ -156,7 +156,7 @@ export class TariffComponent implements OnInit {
         offset: (this.tariffMetaCompany.currentPage - 1) * this.tariffMetaCompany.perPage
       }
     };
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', filter)
+    this.$http.post('tariffs/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         this.baseTariff = res.data.items?.find((el) => el.id === '0bc810cf-707a-437f-bf72-9f3b8ea9cf72');
@@ -171,7 +171,7 @@ export class TariffComponent implements OnInit {
 
   getTariffItem(id: string) {
     this.editedTariffID = id;
-    this.$http.get<{ data: TariffInterface }>('http://82.97.241.8:8083/admin/api/v1/tariff/' + id)
+    this.$http.get<{ data: TariffInterface }>('tariff/' + id)
       .subscribe((res) => {
         this.editTariff.controls.name.setValue(res.data.name);
         this.editTariff.controls.period.setValue(res.data.period);
@@ -186,7 +186,7 @@ export class TariffComponent implements OnInit {
       ...this.editTariff.value,
       tariff_id: this.editedTariffID
     }
-    this.$http.patch<{ data: TariffInterface }>('http://82.97.241.8:8083/admin/api/v1/tariff-update', body)
+    this.$http.patch<{ data: TariffInterface }>('tariff-update', body)
       .subscribe((res) => {
         this.getTariffsCompany();
         this.getTariffsUser()
@@ -194,7 +194,7 @@ export class TariffComponent implements OnInit {
   }
 
   deleteTariff(id: string) {
-    this.$http.delete<{ data: TariffInterface }>('http://82.97.241.8:8083/admin/api/v1/tariff/' + id)
+    this.$http.delete<{ data: TariffInterface }>('tariff/' + id)
       .subscribe((res) => {
         this.getTariffsCompany();
         this.getTariffsUser();

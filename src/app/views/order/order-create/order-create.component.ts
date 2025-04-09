@@ -103,7 +103,7 @@ export class OrderCreateComponent implements OnInit {
         offset: (this.tariffMetaCompany.currentPage - 1) * this.tariffMetaCompany.perPage
       }
     };
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', filter)
+    this.$http.post('tariffs/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         this.tariffsData = res.data.items;

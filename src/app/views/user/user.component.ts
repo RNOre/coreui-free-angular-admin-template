@@ -49,7 +49,7 @@ export class UserComponent implements OnInit{
         "offset": (this.meta.currentPage - 1) * this.meta.perPage
       }
     };
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/users/filter', filter)
+    this.$http.post('users/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         // @ts-ignore
