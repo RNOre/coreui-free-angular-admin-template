@@ -85,6 +85,7 @@
   background-color: transparent;
   color: white;
   gap: 17px;
+  width: 100px;
 
   &-reject {
     padding: 6px 12px;
@@ -97,16 +98,15 @@
     border-radius: 22px;
     background-color: #74ed8a;
   }
-
-  & > a {
-    background-color: #f5f5f5;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    padding: 10px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+}
+.showOrder {
+  background-color: #f5f5f5;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

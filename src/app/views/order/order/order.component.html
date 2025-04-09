@@ -1,30 +1,13 @@
+<div class="page-header">
+  <h1>Заявки</h1>
+  <div>В данном разделе представлены заявки</div>
+</div>
 <div>
   <h1>Заявки от юр.лиц</h1>
   <div class="wrapper-container">
     <div class="table-header">
       <div>
-        Заявки от {{ tab === 'user' ? 'пользователей' : 'организаций' }}
-      </div>
-      <div class="btn-switch__group">
-        <button title="Пользователи" class="btn-switch user-toggle" [class.active]="tab === 'user'"
-                (click)="tab='user'">
-          <svg width="15" height="20" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M7.49504 9.05957C7.39973 9.05048 7.28537 9.05048 7.18053 9.05957C4.91225 8.98687 3.11093 7.21504 3.11093 5.03433C3.11093 2.80818 4.99802 1 7.34255 1C9.67759 1 11.5742 2.80818 11.5742 5.03433C11.5647 7.21504 9.76337 8.98687 7.49504 9.05957Z"
-              stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path
-              d="M2.72984 12.4124C0.423387 13.8844 0.423387 16.2832 2.72984 17.7461C5.35081 19.418 9.64919 19.418 12.2702 17.7461C14.5766 16.2741 14.5766 13.8753 12.2702 12.4124C9.65872 10.7496 5.36034 10.7496 2.72984 12.4124Z"
-              stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <button title="Компании" class="btn-switch company-toggle" [class.active]="tab === 'company'"
-                (click)="tab='company'">
-          <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M9 17H19V7C19 5.89543 18.1046 5 17 5H13M9 13H9.01M15 13H15.01M5 13H5.01M9 9H9.01M15 9H15.01M5 9H5.01M9 5H9.01M5 5H5.01M13 17V3C13 1.89543 12.1046 1 11 1H3C1.89543 1 1 1.89543 1 3V17H13Z"
-              stroke="#4E4C58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
+        Заявки от организаций
       </div>
     </div>
     <div class="content">
@@ -38,39 +21,21 @@
               <th scope="col">Дата создания</th>
               <th scope="col">Название компании</th>
               <th scope="col">Тариф</th>
-              <!--              <th scope="col">Участники</th>-->
               <th scope="col">Инн</th>
+              <th scope="col"></th>
               <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
               @for (order of orderDataCompany; track order.id) {
                 <tr>
-                  <td scope="row" [title]="order.id"><a [routerLink]="[order.id]">{{ order.id.substring(0, 3) }}...</a>
-                  </td>
+                  <td scope="row" [title]="order.id">{{ order.id.substring(0, 3) }}...</td>
                   <td>{{ getDate(order.created_at) }}</td>
                   <td>{{ order.company_name }}</td>
                   <td>{{ order.tariff_name }}</td>
-                  <!--                  <td>-->
-                  <!--                    <button-->
-                  <!--                      [cTooltip]="tooltipContent"-->
-                  <!--                      cButton-->
-                  <!--                      cTooltipPlacement="right"-->
-                  <!--                      cTooltipTrigger="click"-->
-                  <!--                      class="me-1"-->
-                  <!--                      color="secondary"-->
-                  <!--                    >-->
-                  <!--                      Просмотреть участников-->
-                  <!--                      <ng-template #tooltipContent>-->
-                  <!--                        @for (user of order.users; track user.username) {-->
-                  <!--                          <div cTextColor="success" style="text-align: left">{{ user.username }}</div>-->
-                  <!--                        }-->
-                  <!--                      </ng-template>-->
-                  <!--                    </button>-->
-                  <!--                  </td>-->
                   <td class="last_td">{{ order.inn }}</td>
-                  <div class="order_status">
-                    <a title="Просмотреть" [routerLink]="[order.id]">
+                  <td style="background-color: transparent; margin: auto; writing-mode: tb">
+                    <a title="Просмотреть" [routerLink]="[order.id]" class="showOrder">
                       <svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M2.19521 11.5897C1.3984 10.5545 1 10.0369 1 8.5C1 6.96306 1.3984 6.4455 2.19521 5.41031C3.78621 3.34334 6.45448 1 10.375 1C14.2955 1 16.9637 3.34334 18.5548 5.41031C19.3516 6.4455 19.75 6.96306 19.75 8.5C19.75 10.0369 19.3516 10.5545 18.5548 11.5897C16.9637 13.6566 14.2955 16 10.375 16C6.45448 16 3.78621 13.6566 2.19521 11.5897Z"
@@ -80,6 +45,8 @@
                           stroke="#323231" stroke-width="2"/>
                       </svg>
                     </a>
+                  </td>
+                  <div class="order_status">
                     @switch (order.status) {
                       @case ('waiting') {
                         <div class="actionGroup">

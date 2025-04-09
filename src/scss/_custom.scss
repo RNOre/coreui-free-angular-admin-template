@@ -123,3 +123,18 @@ td {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
 }
+
+.page-header {
+  color: #323231;
+  margin-bottom: 30px;
+
+  > h1 {
+    font-size: 48px;
+    font-weight: 600;
+  }
+
+  > div {
+    font-weight: 500;
+    font-size: 16px;
+  }
+}
