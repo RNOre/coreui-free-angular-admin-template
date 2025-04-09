@@ -59,13 +59,13 @@
                           <button title="Отклонить" style="background-color: #ed7474" (click)="rejectOrder(order.id)">
                             <svg [cIcon]="icons.cilX"></svg>
                           </button>
-                          <c-modal #selectTariffModal alignment="center" [id]="'tm'+order.id.substring(0,10)">
-                            <c-modal-header style="display: flex; justify-content: space-between">
+                          <c-modal #selectTariffModal size="xl" alignment="center" [id]="'tm'+order.id.substring(0,10)" class="setTariffModal">
+                            <c-modal-header style="display: flex; justify-content: space-between; color: #323231">
                               <h5 cModalTitle>Новая заявка</h5>
                               <button [cModalToggle]="selectTariffModal.id" cButtonClose></button>
                             </c-modal-header>
                             <c-modal-body>
-                              <div class="tariffList">
+                              <div class="tariffList" pagination [paginationMeta]="tariffMetaCompany" (pageChange)="pageChangeTariff($event)">
                                 @for (tariff of tariffsData; track tariff.id) {
                                   <div class="tariffItem" (click)="activeTariff = tariff.id"
                                        [class.active]="activeTariff === tariff.id">
@@ -123,23 +123,6 @@
                   <td>{{ getDate(order.created_at) }}</td>
                   <td>{{ order.company_name }}</td>
                   <td>{{ order.tariff_name }}</td>
-                  <!--                  <td>-->
-                  <!--                    <button-->
-                  <!--                      [cTooltip]="tooltipContent"-->
-                  <!--                      cButton-->
-                  <!--                      cTooltipPlacement="right"-->
-                  <!--                      cTooltipTrigger="click"-->
-                  <!--                      class="me-1"-->
-                  <!--                      color="secondary"-->
-                  <!--                    >-->
-                  <!--                      Просмотреть участников-->
-                  <!--                      <ng-template #tooltipContent>-->
-                  <!--                        @for (user of order.users; track user.username) {-->
-                  <!--                          <div cTextColor="success" style="text-align: left">{{ user.username }}</div>-->
-                  <!--                        }-->
-                  <!--                      </ng-template>-->
-                  <!--                    </button>-->
-                  <!--                  </td>-->
                   <td class="last_td">{{ order.inn }}</td>
                   @switch (order.status) {
                     @case ('waiting') {

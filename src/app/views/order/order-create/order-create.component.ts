@@ -5,9 +5,10 @@ import {env} from "../../../../../env";
 import {ButtonDirective, FormControlDirective, FormDirective, FormLabelDirective} from "@coreui/angular";
 import {IconDirective} from "@coreui/icons-angular";
 import {cilPlus, cilTrash} from "@coreui/icons";
-import {FilterInterface} from "../../../interfaces/global";
+import {FilterInterface, PaginationMetaInterface} from "../../../interfaces/global";
 import {TariffInterface} from "../../../interfaces/billing";
 import {NgStyle} from "@angular/common";
+import {PaginationDirective} from "../../../directives/pagination.directive";
 
 @Component({
   selector: 'app-order-create',
@@ -19,7 +20,8 @@ import {NgStyle} from "@angular/common";
     ReactiveFormsModule,
     ButtonDirective,
     IconDirective,
-    NgStyle
+    NgStyle,
+    PaginationDirective
   ],
   templateUrl: './order-create.component.html',
   standalone: true,
@@ -49,17 +51,10 @@ export class OrderCreateComponent implements OnInit {
     ]),
   })
 
-  filter: FilterInterface = {
-    filter: {
-      search: ''
-    },
-    order: {
-      activatedAt: 'asc'
-    },
-    pagination: {
-      limit: 10,
-      offset: 0
-    }
+  tariffMetaCompany: PaginationMetaInterface = {
+    currentPage: 1,
+    perPage: 6,
+    currentCount: 0
   };
   tariffsData!: TariffInterface[] | undefined;
   userList: { username: string }[] = [{username: ''}];
@@ -72,7 +67,7 @@ export class OrderCreateComponent implements OnInit {
       company_name: this.order.controls.company_name.value,
       company_info: this.order.controls.company_info.value,
       inn: this.order.controls.inn.value,
-      tariff_id: this.activeTariff === '1'? '' : this.activeTariff,
+      tariff_id: this.activeTariff === '1' ? '' : this.activeTariff,
       users: [
         ...this.userList.map((el) => {
           return {
@@ -94,23 +89,40 @@ export class OrderCreateComponent implements OnInit {
   }
 
   getTariffs() {
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', this.filter)
+    const filter: FilterInterface = {
+      filter: {
+        kind: {
+          company: "{}"
+        }
+      },
+      order: {
+        activatedAt: 'asc'
+      },
+      pagination: {
+        limit: this.tariffMetaCompany.currentPage === 1 ? 5 : 6,
+        offset: (this.tariffMetaCompany.currentPage - 1) * this.tariffMetaCompany.perPage
+      }
+    };
+    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         this.tariffsData = res.data.items;
-        this.tariffsData.push({
-          id: '1',
-          created_at: '',
-          deleted_at: null,
-          is_deleted: false,
-          is_free: true,
-          kind: "company",
-          limit: 0,
-          name: "Собственный",
-          period: 0,
-          price: 0,
-          extra: 'Если вы не нашли подходящий тариф, мы с вами свяжемся'
-        })
+        this.tariffMetaCompany.totalCount = res.data.total + 1;
+        if (this.tariffMetaCompany.currentPage === 1)
+          this.tariffsData.unshift({
+            id: '1',
+            created_at: '',
+            deleted_at: null,
+            is_deleted: false,
+            is_free: true,
+            kind: "company",
+            limit: 0,
+            name: "Собственный",
+            period: 0,
+            price: 0,
+            extra: 'Если вы не нашли подходящий тариф, мы с вами свяжемся'
+          })
+        this.tariffMetaCompany.currentCount = this.tariffsData.length;
       })
   }
 
@@ -128,5 +140,10 @@ export class OrderCreateComponent implements OnInit {
       default:
         return '700px'
     }
+  }
+
+  pageChange(page: number) {
+    this.tariffMetaCompany.currentPage = page;
+    this.getTariffs();
   }
 }

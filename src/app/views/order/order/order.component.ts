@@ -46,21 +46,16 @@ import {PaginationDirective} from "../../../directives/pagination.directive";
 })
 export class OrderComponent implements OnInit {
   tab = 'company';
-  filterTariff: FilterInterface = {
-    filter: {
-      search: ''
-    },
-    order: {
-      activatedAt: 'asc'
-    },
-    pagination: {
-      limit: 10,
-      offset: 0
-    }
-  };
+
   tariffsData!: TariffInterface[];
   total!: number;
   activeTariff = '';
+
+  tariffMetaCompany: PaginationMetaInterface = {
+    currentPage: 1,
+    perPage: 10,
+    currentCount: 0
+  };
 
   orderDataUser: OrderInterface[] | undefined;
   orderDataCompany: OrderInterface[] | undefined;
@@ -168,13 +163,27 @@ export class OrderComponent implements OnInit {
   }
 
   getTariffs() {
-    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', this.filterTariff)
+    const filter: FilterInterface = {
+      filter: {
+        kind: {
+          company: "{}"
+        }
+      },
+      order: {
+        activatedAt: 'asc'
+      },
+      pagination: {
+        limit: this.tariffMetaCompany.perPage,
+        offset: (this.tariffMetaCompany.currentPage - 1) * this.tariffMetaCompany.perPage
+      }
+    };
+    this.$http.post('http://82.97.241.8:8083/admin/api/v1/tariffs/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         // @ts-ignore
         this.tariffsData = res?.data?.items;
-        // @ts-ignore
-        this.total = res?.data.total
+        this.tariffMetaCompany.totalCount = res.data.total;
+        this.tariffMetaCompany.currentCount = this.tariffsData.length;
       })
   }
 
@@ -186,6 +195,11 @@ export class OrderComponent implements OnInit {
   pageChangeUser(page: number) {
     this.orderMetaUser.currentPage = page;
     this.getOrdersUser();
+  }
+
+  pageChangeTariff(page: number) {
+    this.tariffMetaCompany.currentPage = page;
+    this.getTariffs();
   }
 
   protected readonly Date = Date;
