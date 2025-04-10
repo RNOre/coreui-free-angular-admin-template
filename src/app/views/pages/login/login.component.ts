@@ -42,9 +42,14 @@ export class LoginComponent {
   }
 
   login() {
-    // this.$http
-    //   .post('auth', this.authData.value)
-    //   .subscribe();
+    this.$http
+      .post('http://82.97.241.8:8083/api/v1/auth', this.authData.value)
+      .subscribe({
+        next: () => {
+          localStorage.setItem('token', 'true');
+          this.$router.navigate(['home']).then();
+        }
+      });
     if (this.authData.controls.password.value === 'admin' && this.authData.controls.username.value === 'admin') {
       localStorage.setItem('token', 'true');
       this.$router.navigate(['home']).then();
