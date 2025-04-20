@@ -4,10 +4,22 @@ import {ActivatedRoute} from "@angular/router";
 import {CompanyInterface, LicenseInterface, UserInterface} from "../../../interfaces/billing";
 import {FilterInterface, PaginationInterface} from "../../../interfaces/global";
 import {filter} from "rxjs";
-import {FormControlDirective, TableDirective} from "@coreui/angular";
+import {
+  AvatarComponent,
+  ButtonCloseDirective,
+  FormControlDirective,
+  FormSelectDirective,
+  ModalBodyComponent,
+  ModalComponent,
+  ModalHeaderComponent,
+  ModalTitleDirective,
+  ModalToggleDirective,
+  TableDirective
+} from "@coreui/angular";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {OrderInterface} from "../../../interfaces/order";
 import {DatePipe, JsonPipe} from "@angular/common";
+import {isAdmin} from "../../../core/global";
 
 @Component({
   selector: 'app-company-page',
@@ -16,7 +28,15 @@ import {DatePipe, JsonPipe} from "@angular/common";
     ReactiveFormsModule,
     TableDirective,
     JsonPipe,
-    DatePipe
+    DatePipe,
+    AvatarComponent,
+    FormSelectDirective,
+    ButtonCloseDirective,
+    ModalBodyComponent,
+    ModalComponent,
+    ModalHeaderComponent,
+    ModalTitleDirective,
+    ModalToggleDirective
   ],
   templateUrl: './company-page.component.html',
   standalone: true,
@@ -24,22 +44,20 @@ import {DatePipe, JsonPipe} from "@angular/common";
 })
 export class CompanyPageComponent implements OnInit {
 
-  filterUser: FilterInterface = {
-    filter: {
-      company_id: this.route.snapshot.params['id']
-    },
-    order: {
-      createdAt: 'asc'
-    },
-    pagination: {
-      limit: 10,
-      offset: 0
-    }
-  }
-
   companyField = new FormGroup({
     name: new FormControl('', [Validators.required]),
     inn: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email])
+  })
+
+  userField = new FormGroup({
+    avatar: new FormControl(''),
+    birth_date: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    name: new FormControl('', [Validators.required]),
+    sex: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required])
   })
 
   company_id!: number;
@@ -55,33 +73,15 @@ export class CompanyPageComponent implements OnInit {
 
   ngOnInit() {
     this.company_id = this.route.snapshot.params['id'];
-    // this.$http.post<{
-    //   data: {
-    //     items: CompanyInterface[]
-    //   }
-    // }>('http://82.97.241.8:8083/admin/api/v1/companies/filter', this.filterCompany)
-    //   .subscribe((res) => {
-    //     this.companyData = res.data.items[4];
-    //     if (this.companyData) {
-    //       this.companyField.controls.name.setValue(this.companyData.name);
-    //       this.companyField.controls.inn.setValue(this.companyData.inn)
-    //     }
-    //   })
-    this.getCompany();
 
-    this.$http.post<{
-      data: { items: UserInterface[], total: number }
-    }>('users/filter', this.filterUser)
-      .subscribe({
-        next: (res) => {
-          this.userData = res.data.items;
-        }
-      })
+    this.getCompany();
+    this.getUsers();
     this.getLicenses();
   }
 
   updateCompanyData() {
-    //
+    this.$http.patch('http://82.97.241.8:8083/api/v1/company-update', this.companyField.value)
+      .subscribe((res) => this.getCompany());
   }
 
   getLicenses() {
@@ -98,7 +98,9 @@ export class CompanyPageComponent implements OnInit {
       }
     }
 
-    this.$http.post<{ data:{items: LicenseInterface[]} }>('licenses/filter', filter)
+    this.$http.post<{
+      data: { items: LicenseInterface[] }
+    }>(isAdmin() ? 'licenses/filter' : 'http://82.97.241.8:8083/api/v1/licenses/filter', filter)
       .subscribe(
         (res) => {
           this.licenseData = res.data.items
@@ -107,14 +109,56 @@ export class CompanyPageComponent implements OnInit {
   }
 
   getCompany() {
-    this.$http.get<{ data: CompanyInterface }>('company/' + this.company_id)
+    this.$http.get<{
+      data: CompanyInterface
+    }>(this.isLegal() ? 'http://82.97.241.8:8083/api/v1/company/info' : 'company/' + this.company_id)
       .subscribe({
         next: (res) => {
           if (res.data) {
             this.companyField.controls.name.setValue(res.data.name);
-            this.companyField.controls.inn.setValue(res.data.inn)
+            this.companyField.controls.inn.setValue(res.data.inn);
+            this.companyField.controls.email.setValue(res.data.email);
           }
         }
       })
+  }
+
+  getUsers() {
+    const filterUser: FilterInterface = {
+      filter: {
+        company_id: this.route.snapshot.params['id']
+      },
+      order: {
+        createdAt: 'asc'
+      },
+      pagination: {
+        limit: 10,
+        offset: 0
+      }
+    }
+    this.$http.post<{
+      data: { items: UserInterface[], total: number }
+    }>(isAdmin() ? 'users/filter' : 'http://82.97.241.8:8083/api/v1/users/filter', filterUser)
+      .subscribe({
+        next: (res) => {
+          this.userData = res.data.items;
+        }
+      })
+  }
+
+  isLegal() {
+    return this.route.snapshot.params['id'] === 'legal';
+  }
+
+  createUser() {
+    let body = {
+      ...this.userField.value,
+      is_admin: false,
+      company_id: isAdmin() ? this.company_id : undefined
+    };
+
+    this.$http
+      .post(isAdmin() ? 'user-create' : 'http://82.97.241.8:8083/api/v1/user-create', body)
+      .subscribe(() => this.getUsers());
   }
 }

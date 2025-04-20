@@ -42,17 +42,19 @@ export class LoginComponent {
   }
 
   login() {
+    if (this.authData.controls.password.value === 'admin' && this.authData.controls.username.value === 'admin') {
+      localStorage.setItem('isAdmin', 'true');
+      localStorage.setItem('token', 'admin');
+      this.$router.navigate(['home']).then();
+      return;
+    }
     this.$http
-      .post('http://82.97.241.8:8083/api/v1/auth', this.authData.value)
+      .post<{data:{token: string}}>('http://82.97.241.8:8083/api/v1/auth', this.authData.value)
       .subscribe({
-        next: () => {
-          localStorage.setItem('token', 'true');
+        next: (res) => {
+          localStorage.setItem('token', res.data.token);
           this.$router.navigate(['home']).then();
         }
       });
-    if (this.authData.controls.password.value === 'admin' && this.authData.controls.username.value === 'admin') {
-      localStorage.setItem('token', 'true');
-      this.$router.navigate(['home']).then();
-    }
   }
 }

@@ -1,9 +1,31 @@
 <div class="companyPage">
   <div class="companyPage-info">
     <div class="header">
-      Пользователь
+      {{ isAdmin? 'Пользователь': 'Сотрудник' }}
     </div>
     <form [formGroup]="userField" (ngSubmit)="updateUserData()" class="companyPage-data">
+      <c-avatar color="secondary" size="xl" class="avatar">
+        <label for="file">
+          @if(userData && userData.photo_link) {
+            <img
+              [src]="userData.photo_link"
+              alt=""
+              style="width: 64px; height: 64px; object-fit: cover; border-radius: 50%"
+            />
+          }@else {
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M13.9576 2.68927H11.572L9.99732 1.19622C9.82436 1.03222 9.59004 0.939941 9.34512 0.939941H5.65512C5.41019 0.939941 5.17588 1.03222 5.00291 1.19622L3.4282 2.68927H1.04262C0.532705 2.68927 0.120117 3.08047 0.120117 3.56394V13.1853C0.120117 13.6687 0.532705 14.0599 1.04262 14.0599H13.9576C14.4675 14.0599 14.8801 13.6687 14.8801 13.1853V3.56394C14.8801 3.08047 14.4675 2.68927 13.9576 2.68927ZM7.50012 11.4359C5.46231 11.4359 3.81012 9.86941 3.81012 7.93727C3.81012 6.00514 5.46231 4.43861 7.50012 4.43861C9.53792 4.43861 11.1901 6.00514 11.1901 7.93727C11.1901 9.86941 9.53792 11.4359 7.50012 11.4359Z"
+                fill="#CFD0D7"/>
+              <path
+                d="M7.50012 9.68661C8.51908 9.68661 9.34512 8.90341 9.34512 7.93727C9.34512 6.97114 8.51908 6.18794 7.50012 6.18794C6.48115 6.18794 5.65512 6.97114 5.65512 7.93727C5.65512 8.90341 6.48115 9.68661 7.50012 9.68661Z"
+                fill="#CFD0D7"/>
+            </svg>
+          }
+        </label>
+        <input type="file" id="file" style="display: none" (change)="loadImage($event)"
+               accept="image/png, image/gif, image/jpeg"/>
+      </c-avatar>
       <input cFormControl placeholder="Имя" [formControl]="userField.controls.name"/>
       <input cFormControl placeholder="Username" [formControl]="userField.controls.username"/>
       <input cFormControl placeholder="Email" [formControl]="userField.controls.email"/>
@@ -21,53 +43,55 @@
       }
     </form>
   </div>
-  <div class="companyPage-rightSide">
-    <div class="companyPage-users">
-      <div class="companyPage-users__header">Лицензии</div>
-      <div class="content">
-        <div class="table-wrapper" style="max-height: 300px">
-          <table cTable hover borderless>
-            <thead>
-            <tr>
-              <th scope="col">Название</th>
-              <th scope="col">Дата создания</th>
-              <th scope="col">Период</th>
-              <th scope="col">Сотрудников</th>
-              <th scope="col">Цена</th>
-              <th scope="col">Дата начала</th>
-              <th scope="col">Дата окончания</th>
-            </tr>
-            </thead>
-            <tbody>
-              @for (license of licenseData; track license.id) {
-                <tr>
-                  <td scope="row">
-                    {{ license.tariff_name }}
-                  </td>
-                  <td>
-                    {{ license.created_at | date : "dd.MM.YYYY" }}
-                  </td>
-                  <td>
-                    {{ license.tariff_period }}
-                  </td>
-                  <td>
-                    {{ license.limit }}
-                  </td>
-                  <td>
-                    {{ license.tariff_price }}
-                  </td>
-                  <td>
-                    {{ license.activated_at | date : "dd.MM.YYYY" }}
-                  </td>
-                  <td>
-                    {{ license.expires_at | date : "dd.MM.YYYY" }}
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
+  @if(isAdmin) {
+    <div class="companyPage-rightSide">
+      <div class="companyPage-users">
+        <div class="companyPage-users__header">Лицензии</div>
+        <div class="content">
+          <div class="table-wrapper" style="max-height: 300px">
+            <table cTable hover borderless>
+              <thead>
+              <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Период</th>
+                <th scope="col">Сотрудников</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Дата начала</th>
+                <th scope="col">Дата окончания</th>
+              </tr>
+              </thead>
+              <tbody>
+                @for (license of licenseData; track license.id) {
+                  <tr>
+                    <td scope="row">
+                      {{ license.tariff_name }}
+                    </td>
+                    <td>
+                      {{ license.created_at | date : "dd.MM.YYYY" }}
+                    </td>
+                    <td>
+                      {{ license.tariff_period }}
+                    </td>
+                    <td>
+                      {{ license.limit }}
+                    </td>
+                    <td>
+                      {{ license.tariff_price }}
+                    </td>
+                    <td>
+                      {{ license.activated_at | date : "dd.MM.YYYY" }}
+                    </td>
+                    <td>
+                      {{ license.expires_at | date : "dd.MM.YYYY" }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  }
 </div>

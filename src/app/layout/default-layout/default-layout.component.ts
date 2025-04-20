@@ -11,12 +11,14 @@ import {
   SidebarHeaderComponent,
   SidebarNavComponent, SidebarService,
   SidebarToggleDirective,
-  SidebarTogglerDirective
+  SidebarTogglerDirective, ToastBodyComponent, ToastComponent, ToasterComponent, ToastHeaderComponent
 } from '@coreui/angular';
 
 import {DefaultFooterComponent, DefaultHeaderComponent} from './';
 import {navItems} from './_nav';
 import {SidebarComponent} from "../../widgets/sidebar/sidebar.component";
+import {ToastService} from "../../core/services/toast.service";
+import {JsonPipe} from "@angular/common";
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -45,24 +47,39 @@ function isOverflown(element: HTMLElement) {
     ContainerComponent,
     RouterOutlet,
     SidebarComponent,
-    DefaultHeaderComponent
+    DefaultHeaderComponent,
+    ToasterComponent,
+    ToastComponent,
+    ToastHeaderComponent,
+    ToastBodyComponent,
+    JsonPipe
   ]
 })
 export class DefaultLayoutComponent implements OnDestroy, OnInit {
   // @ViewChild('overflow', {static: true}) scrollbar!: NgScrollbar
   public navItems = navItems;
 
-  constructor(private $sidebar: SidebarService) {
+  constructor(private $sidebar: SidebarService, private $toast: ToastService) {
   }
   ngOnInit(): void {
     //@ts-ignore
     // this.$sidebar.sidebarState$.subscribe((res) => {
     //   console.log(res);
     // });
+    // this.$toast.setToast({
+    //   title: 'title',
+    //   text: 'text',
+    //   duration: 1000,
+    //   show: true
+    // })
   }
 
   ngOnDestroy(): void {
     //
+  }
+
+  getToast() {
+    return this.$toast.$toast();
   }
 
   protected readonly window = window;

@@ -6,7 +6,8 @@
     <form [formGroup]="companyField" (ngSubmit)="updateCompanyData()" class="companyPage-data">
       <input cFormControl placeholder="Название организации" [formControl]="companyField.controls.name"
              style="margin-bottom: 11px;"/>
-      <input cFormControl placeholder="ИНН" [formControl]="companyField.controls.inn"/>
+      <input cFormControl placeholder="ИНН" [formControl]="companyField.controls.inn" style="margin-bottom: 11px;"/>
+      <input cFormControl placeholder="Email" [formControl]="companyField.controls.email"/>
       @if (!companyField.untouched) {
         <button class="btn btn-primary" style="margin: 11px auto">Обновить</button>
       }
@@ -61,7 +62,15 @@
       </div>
     </div>
     <div class="companyPage-users" style="margin-top: 14px">
-      <div class="companyPage-users__header">Сотрудники</div>
+      <div class="companyPage-users__header">
+        <div>Сотрудники</div>
+        <div class="addBtn" [cModalToggle]="'addUser'">
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 8.07104H15.1421M8.07107 15.1421V0.999977" stroke="#323231" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
       <div class="content">
         <div class="table-wrapper" style="max-height: 300px">
           <table cTable hover borderless>
@@ -101,3 +110,29 @@
     </div>
   </div>
 </div>
+<c-modal #createUserModal size="sm" alignment="center" [id]="'addUser'" class="setTariffModal">
+  <c-modal-header style="display: flex; justify-content: space-between; color: #323231">
+    <h5 cModalTitle>Добавление сотрудника</h5>
+    <button [cModalToggle]="'addUser'" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form [formGroup]="userField" (ngSubmit)="createUser()" class="addUser-fields">
+      <input cFormControl placeholder="Имя" [formControl]="userField.controls.name"/>
+      <input cFormControl placeholder="Username" [formControl]="userField.controls.username"/>
+      <input cFormControl placeholder="Email" [formControl]="userField.controls.email"/>
+      <select name="sex"
+              id="sex"
+              cSelect
+              [formControl]="userField.controls.sex"
+      >
+        <option value="male">Мужчина</option>
+        <option value="female">Женщина</option>
+      </select>
+      <input type="date" [formControl]="userField.controls.birth_date" class="datePicker" placeholder="Дата рождения"/>
+      <input cFormControl type="password" [formControl]="userField.controls.password" placeholder="Придумайте пароль"/>
+      @if (!userField.untouched) {
+        <button class="btn btn-primary" style="margin: 11px auto" [disabled]="!userField.valid" >Создать</button>
+      }
+    </form>
+  </c-modal-body>
+</c-modal>

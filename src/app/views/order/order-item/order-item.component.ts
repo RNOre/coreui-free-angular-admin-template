@@ -30,6 +30,7 @@ export class OrderItemComponent implements OnInit {
     tariff_id: new FormControl(''),
     status: new FormControl('')
   });
+  originalValues: any;
   tariffList!: TariffInterface[] | undefined;
   filter: FilterInterface = {
     filter: {
@@ -62,6 +63,8 @@ export class OrderItemComponent implements OnInit {
         this.orderData.controls.company_name.setValue(this.$order.company_name);
         this.orderData.controls.tariff_id.setValue(this.$order.tariff_id);
         this.orderData.controls.status.setValue(this.$order.status);
+        // @ts-ignore
+        this.originalValues = {...this.orderData.value};
 
         this.getTariffList();
       });
@@ -86,8 +89,23 @@ export class OrderItemComponent implements OnInit {
       .subscribe();
   }
 
-  rejectOrder() {
-    this.$http.patch(`order/${this.$order.id}`,{})
-      .subscribe(() => this.$router.navigate(['/company', 'order']).then())
+  updateOrder() {
+    this.$http
+      .patch('order/' + this.route.snapshot.params['id'], this.getChangedValues())
+      .subscribe();
+  }
+  getChangedValues() {
+    const currentValues = this.orderData.value;
+    const changedValues = {};
+// @ts-ignore
+    Object.keys(currentValues).forEach(key => {
+      // @ts-ignore
+      if (JSON.stringify(currentValues[key]) !== JSON.stringify(this.originalValues[key])) {
+        // @ts-ignore
+        changedValues[key] = currentValues[key];
+      }
+    });
+
+    return changedValues;
   }
 }

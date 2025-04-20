@@ -31,47 +31,57 @@
               />
             </div>
             <div class="mb-3">
-              <!--            <label cLabel for="company_info">Информация о компании</label>-->
-              <input cFormControl
-                     name="company_info"
-                     id="company_info"
-                     placeholder="*Введите информация о компании"
-                     type="text"
-                     [formControl]="order.controls.company_info"
-              />
-            </div>
-            <div class="mb-3">
               <!--            <label cLabel for="inn">ИНН</label>-->
               <input cFormControl
                      id="inn"
                      name="inn"
                      placeholder="*Введите инн компании"
-                     type="text"
+                     type="string"
                      [formControl]="order.controls.inn"
               />
             </div>
-            <div class="userList">
-              @for (user of userList; track user.username; let last = $last; let index = $index) {
-                <div class="mb-3 userItem">
-                  <input cFormControl
-                         placeholder="Введите username пользователя"
-                         type="text"
-                         [(ngModel)]="userList[index].username"
-                         [name]="'user_'+index"
-                         [ngModelOptions]="{standalone: true}"
-                  />
-                  @if (last) {
-                    <button title="Добавить пользователя" type="button" (click)="userList.push({username:''});">
-                      <svg [cIcon]="icons.cilPlus"></svg>
-                    </button>
-                  } @else {
-                    <button title="Удалить пользователя" type="button" (click)="deleteUser(index);">
-                      <svg [cIcon]="icons.cilTrash"></svg>
-                    </button>
-                  }
-                </div>
-              }
+            <div class="mb-3">
+              <!--            <label cLabel for="company_info">Информация о компании</label>-->
+              <input cFormControl
+                     name="email"
+                     id="email"
+                     placeholder="*Email"
+                     type="email"
+                     [formControl]="order.controls.email"
+              />
             </div>
+            <div class="mb-3">
+              <!--            <label cLabel for="inn">ИНН</label>-->
+              <input cFormControl
+                     id="phone"
+                     name="phone"
+                     placeholder="Телефон"
+                     type="tel"
+                     [formControl]="order.controls.phone"
+              />
+            </div>
+<!--            <div class="userList">-->
+<!--              @for (user of userList; track user.username; let last = $last; let index = $index) {-->
+<!--                <div class="mb-3 userItem">-->
+<!--                  <input cFormControl-->
+<!--                         placeholder="Введите username пользователя"-->
+<!--                         type="text"-->
+<!--                         [(ngModel)]="userList[index].username"-->
+<!--                         [name]="'user_'+index"-->
+<!--                         [ngModelOptions]="{standalone: true}"-->
+<!--                  />-->
+<!--                  @if (last) {-->
+<!--                    <button title="Добавить пользователя" type="button" (click)="userList.push({username:''});">-->
+<!--                      <svg [cIcon]="icons.cilPlus"></svg>-->
+<!--                    </button>-->
+<!--                  } @else {-->
+<!--                    <button title="Удалить пользователя" type="button" (click)="deleteUser(index);">-->
+<!--                      <svg [cIcon]="icons.cilTrash"></svg>-->
+<!--                    </button>-->
+<!--                  }-->
+<!--                </div>-->
+<!--              }-->
+<!--            </div>-->
             <button cButton color="primary" type="submit" [disabled]="!order.valid">Продолжить</button>
           </form>
         </div>
@@ -98,6 +108,8 @@
                   }
                 </div>
               </div>
+            } @empty {
+              <div>Список тарифов пуст</div>
             }
           </div>
           <div style="display: flex; justify-content: center; gap: 10px; margin-top: 30px;">
@@ -127,6 +139,3 @@
     }
   </div>
 </div>
-
-
-

@@ -1,0 +1,58 @@
+.analysis {
+  &-wrapper {
+    width: 280px;
+    background-color: #e7e7e7;
+    padding: 15px;
+    border-radius: 35px;
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 24px;
+  }
+
+  &-deleteBtn {
+    background-color: white;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+  }
+
+  &-body {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 20px;
+
+    > section {
+      background-color: #e7e7e7;
+      border-radius: 22px;
+      padding: 16px 19px;
+      margin-top: 20px;
+      font-weight: 400;
+      font-size: 12px;
+
+      &> b {
+        font-weight: 500;
+        font-size: 32px;
+      }
+
+      &:first-child {
+        background-color: white;
+        margin-top: 0;
+      }
+    }
+  }
+}
+.pdf {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto 0;
+}

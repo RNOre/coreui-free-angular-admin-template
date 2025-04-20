@@ -12,6 +12,10 @@ import {MainPageComponent} from "./views/main-page/main-page.component";
 import {UserComponent} from "./views/user/user.component";
 import {UserPageComponent} from "./views/user/user-page/user-page.component";
 import {authGuard} from "./guard/auth.guard";
+import {MainPageLegalComponent} from "./views/main-page/main-page-legal/main-page-legal.component";
+import {AnalysisPageComponent} from "./views/analysis-page/analysis-page.component";
+import {UserLegalComponent} from "./views/user-legal/user-legal.component";
+import {AnalysisItemComponent} from "./views/analysis-item/analysis-item.component";
 
 export const routes: Routes = [
   {
@@ -68,6 +72,22 @@ export const routes: Routes = [
       {
         path: 'user/:id',
         component: UserPageComponent
+      },
+      {
+        path: 'main-legal',
+        component: MainPageLegalComponent
+      },
+      {
+        path: 'user-legal',
+        component: UserLegalComponent
+      },
+      {
+        path: 'analysis',
+        component: AnalysisPageComponent
+      },
+      {
+        path: 'analysis/:id',
+        component: AnalysisItemComponent
       }
     ]
   },

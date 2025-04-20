@@ -43,12 +43,13 @@ export class OrderCreateComponent implements OnInit {
     company_name: new FormControl('', [
       Validators.required
     ]),
-    company_info: new FormControl('', [
-      Validators.required
-    ]),
     inn: new FormControl('', [
       Validators.required
     ]),
+    email: new FormControl('', [
+      Validators.required, Validators.email
+    ]),
+    phone: new FormControl('')
   })
 
   tariffMetaCompany: PaginationMetaInterface = {
@@ -63,22 +64,25 @@ export class OrderCreateComponent implements OnInit {
   successfulCreate = false;
 
   createOrder() {
-    const body = {
-      company_name: this.order.controls.company_name.value,
-      company_info: this.order.controls.company_info.value,
-      inn: this.order.controls.inn.value,
-      tariff_id: this.activeTariff === '1' ? '' : this.activeTariff,
-      users: [
-        ...this.userList.map((el) => {
-          return {
-            is_admin: true,
-            username: el.username
-          }
-        })
-      ]
-    }
+    // const body = {
+    //   company_name: this.order.controls.company_name.value,
+    //   company_info: this.order.controls.email.value,
+    //   inn: this.order.controls.inn.value,
+    //   tariff_id: this.activeTariff === '1' ? '' : this.activeTariff,
+    //   users: [
+    //     ...this.userList.map((el) => {
+    //       return {
+    //         is_admin: true,
+    //         username: el.username
+    //       }
+    //     })
+    //   ]
+    // }
 
-    this.$http.post('http://82.97.241.8:8083/api/v1/order-create', body)
+    this.$http.post('http://82.97.241.8:8083/api/v1/order-create', {
+      ...this.order.value,
+      tariff_id: this.activeTariff === '1' ? '00000000-0000-0000-0000-000000000000' : this.activeTariff
+    })
       .subscribe({
         next: () => this.step = 3
       });

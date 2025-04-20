@@ -1,0 +1,126 @@
+<div class="page-header">
+  <h1>Сотрудники</h1>
+  <div>В данном разделе представлены сотрудники организации</div>
+</div>
+<div class="company-layout">
+  <div class="company">
+    <div class="company-header">
+      <div>Сотрудники</div>
+      <div class="addUser" [cModalToggle]="createTariffModal.id">
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 8.07129H15.1421M8.07107 15.1424V1.00022" stroke="#323231" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    @if (userData?.length) {
+      <div class="content">
+        <div class="table-wrapper">
+          <table cTable borderless pagination [paginationMeta]="meta" (pageChange)="pageChange($event)">
+            <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Пользователь</th>
+              <th scope="col">Email</th>
+              <th scope="col">Лицензия</th>
+              <th scope="col">Дата создания</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (user of userData; track user.id) {
+                <tr>
+                  <td scope="row" [title]="user.id">{{ user.id.substring(0, 3) }}...</td>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.tariff_name }}</td>
+                  <td class="last_td">{{ user.created_at | date : "dd.MM.YYYY" }}</td>
+                  <div class="actionGroup">
+                    <button title="Просмотреть"
+                            (click)="navigateToUser(user.id)"
+                    >
+                      <svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M2.19521 11.5897C1.3984 10.5545 1 10.0369 1 8.5C1 6.96306 1.3984 6.4455 2.19521 5.41031C3.78621 3.34334 6.45448 1 10.375 1C14.2955 1 16.9637 3.34334 18.5548 5.41031C19.3516 6.4455 19.75 6.96306 19.75 8.5C19.75 10.0369 19.3516 10.5545 18.5548 11.5897C16.9637 13.6566 14.2955 16 10.375 16C6.45448 16 3.78621 13.6566 2.19521 11.5897Z"
+                          stroke="#323231" stroke-width="2"/>
+                        <path
+                          d="M13.1875 8.5C13.1875 10.0533 11.9283 11.3125 10.375 11.3125C8.82166 11.3125 7.5625 10.0533 7.5625 8.5C7.5625 6.94666 8.82166 5.6875 10.375 5.6875C11.9283 5.6875 13.1875 6.94666 13.1875 8.5Z"
+                          stroke="#323231" stroke-width="2"/>
+                      </svg>
+                    </button>
+                    <button title="Удалить"
+                            (click)="deleteUser(user.id)"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.60487 2.51176L9.13923 9.49601C9.09847 10.1077 9.07807 10.4136 8.94597 10.6455C8.82964 10.8497 8.65417 11.0138 8.44272 11.1163C8.20254 11.2327 7.89597 11.2327 7.28289 11.2327H4.95008C4.337 11.2327 4.03046 11.2327 3.79027 11.1163C3.5788 11.0138 3.40335 10.8497 3.28703 10.6455C3.15491 10.4136 3.13452 10.1077 3.09374 9.49601L2.62812 2.51176M1.46533 2.51176H10.7677M8.44208 2.51176L8.28475 2.03971C8.13225 1.58226 8.05597 1.35353 7.91458 1.18443C7.78969 1.0351 7.62934 0.919508 7.44818 0.848264C7.24301 0.767578 7.00196 0.767578 6.51975 0.767578H5.71324C5.23103 0.767578 4.98998 0.767578 4.78482 0.848264C4.60366 0.919508 4.44329 1.0351 4.31841 1.18443C4.17699 1.35353 4.10075 1.58226 3.94826 2.03971L3.79091 2.51176" stroke="#ED7474" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else {
+      <div>Список пуст</div>
+    }
+  </div>
+  <c-modal #createTariffModal alignment="center" id="verticallyCenteredModal">
+    <c-modal-header>
+      <h5 cModalTitle>Добавить сотрудника</h5>
+      <button [cModalToggle]="createTariffModal.id" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <label>Имя</label>
+      <input cFormControl
+             name="name"
+             id="name"
+             type="text"
+             [formControl]="newUser.controls.name"
+             class="input-item"
+      />
+      <label>Username</label>
+      <input name="username"
+             cFormControl
+             id="username"
+             aria-label="Default select example" cSelect
+             [formControl]="newUser.controls.username"
+             class="input-item"
+      />
+      <div>
+        <label>Email</label>
+        <input cFormControl
+               name="email"
+               id="email"
+               [formControl]="newUser.controls.email"
+               class="input-item"
+        />
+      </div>
+      <div>
+        <label>Пароль</label>
+        <input cFormControl
+               name="password"
+               id="password"
+               type="password"
+               class="input-item"
+               [formControl]="newUser.controls.password"
+        />
+      </div>
+      <label>Дата рождения</label>
+      <br/>
+      <input type="date" [formControl]="newUser.controls.birth_date" class="datePicker"/>
+      <br/>
+      <label>Пол</label>
+      <select name="sex"
+              id="sex"
+              cSelect
+              [formControl]="newUser.controls.sex"
+      >
+        <option value="male">Мужчина</option>
+        <option value="female">Женщина</option>
+      </select>
+      <button cButton color="primary" [cModalToggle]="createTariffModal.id" (click)="addUser()" [disabled]="!newUser.valid">Создать</button>
+    </c-modal-body>
+  </c-modal>
+</div>

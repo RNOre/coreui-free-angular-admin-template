@@ -18,3 +18,5 @@ export interface PaginationMetaInterface {
   perPage: number;
   currentCount: number;
 }
+
+export type navItem ='order' | 'company' | 'tariff' | 'license' | 'home' | 'user' | 'analysis' | 'main-legal' | 'user-legal';

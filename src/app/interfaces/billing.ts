@@ -23,6 +23,7 @@ export interface CompanyInterface {
   modified_at: string;
   name: string;
   tariff_name: string;
+  email: string;
 }
 
 export interface UserInterface {
@@ -43,6 +44,7 @@ export interface UserInterface {
   sex: string;
   username: string;
   tariff_name: string;
+  photo_link: string;
 }
 
 export interface LicenseInterface {

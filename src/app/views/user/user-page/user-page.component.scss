@@ -40,6 +40,20 @@
           outline: 0;
         }
       }
+
+      >.avatar {
+        margin: auto;
+
+        > label {
+          width: 64px;
+          height: 64px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+        }
+      }
     }
 
     &-rightSide {

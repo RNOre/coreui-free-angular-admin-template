@@ -77,35 +77,8 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.getTariffs();
-    this.getOrdersUser();
+    // this.getOrdersUser();
     this.getOrdersCompany();
-  }
-
-  getOrdersUser() {
-    const filter = {
-      search: '',
-      kind: {
-        // @ts-ignore
-        user: {}
-      },
-      order: {
-        created_at: 'desc',
-      },
-      pagination: {
-        "limit": this.orderMetaUser.perPage,
-        "offset": (this.orderMetaUser.currentPage - 1) * this.orderMetaUser.perPage
-      }
-    }
-
-    this.$http.post('orders/filter', {
-      filter
-    })
-      // @ts-ignore
-      .subscribe((res: { data: { items: OrderInterface[], total: number } }) => {
-        this.orderDataUser = res?.data.items;
-        this.orderMetaUser.totalCount = res.data.total;
-        this.orderMetaUser.currentCount = this.orderDataUser?.length || 0;
-      })
   }
 
   getOrdersCompany() {
@@ -142,23 +115,33 @@ export class OrderComponent implements OnInit {
 
   acceptOrder(order_id: string, tariff_id: string) {
     const body = {
-      order_id,
-      tariff_id
+      tariff_id,
+      status: "success"
     }
 
-    this.$http.post('order-accept', body)
+    this.$http.patch('order/' + order_id, body)
       .subscribe({
         next: () => {
-          this.tab === 'company' ? this.getOrdersCompany() : this.getOrdersUser();
+          this.getOrdersCompany()
         }
       });
   }
 
+  checkTariff($event: MouseEvent, order: OrderInterface) {
+    if (order.tariff_id != '00000000-0000-0000-0000-000000000000') {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      this.$http
+        .post('order-accept', {order_id: order.id})
+        .subscribe(() => this.getOrdersCompany());
+    }
+  }
+
   rejectOrder(order_id: string) {
-    this.$http.patch('order/' + order_id, {})
-      // @ts-ignore
-      .subscribe((res: { data: OrderInterface }) => {
-        this.tab === 'company' ? this.getOrdersCompany() : this.getOrdersUser();
+    this.$http.post('order-reject', {order_id})
+      .subscribe(() => {
+        this.getOrdersCompany()
       });
   }
 
@@ -190,11 +173,6 @@ export class OrderComponent implements OnInit {
   pageChangeCompany(page: number) {
     this.orderMetaCompany.currentPage = page;
     this.getOrdersCompany();
-  }
-
-  pageChangeUser(page: number) {
-    this.orderMetaUser.currentPage = page;
-    this.getOrdersUser();
   }
 
   pageChangeTariff(page: number) {

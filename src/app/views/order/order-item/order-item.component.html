@@ -2,63 +2,60 @@
   <div class="order-info__wrapper">
     <h1>Информация о компании</h1>
     <div class="order-info">
-      <div class="inputField">
-        <label> Название компании </label>
-        <input cFormControl
-               name="company_name"
-               id="company_name"
-               placeholder="Введите информация о компании"
-               type="text"
-               [formControl]="orderData.controls.company_name"
-        />
-      </div>
-      @if ($order?.created_at) {
+      <form [formGroup]="orderData">
+        @if ($order?.created_at) {
+          <div class="inputField">
+            <label> Дата создания </label>
+            <div> {{ $order.created_at | date: 'dd.MM.yyyy' }}</div>
+          </div>
+        }
+        @if ($order?.success_at) {
+          <div class="inputField">
+            <label> Дата принятия </label>
+            <div> {{ $order.success_at | date: 'dd.MM.yyyy' }}</div>
+          </div>
+        }
+        @if ($order?.rejected_at) {
+          <div class="inputField">
+            <label> Дата отколнения </label>
+            <div> {{ $order.rejected_at | date: 'dd.MM.yyyy' }}</div>
+          </div>
+        }
+          <input cFormControl
+                 style="margin-top: 20px"
+                 name="company_name"
+                 id="company_name"
+                 placeholder="Введите информация о компании"
+                 type="text"
+                 [formControl]="orderData.controls.company_name"
+          />
         <div class="inputField">
-          <label> Дата создания </label>
-          <div> {{ $order.created_at | date: 'dd.MM.yyyy' }}</div>
+          <label> Статус </label>
+          <select name="status"
+                  id="status"
+                  aria-label="Default select example" cSelect
+                  [formControl]="orderData.controls.status"
+          >
+            <option value="success">Создано</option>
+            <option value="waiting">В ожидании</option>
+            <option value="rejected">Отклонено</option>
+          </select>
         </div>
-      }
-      <div class="inputField">
-        <label> Статус </label>
-        <select name="status"
-                id="status"
-                aria-label="Default select example" cSelect
-                [formControl]="orderData.controls.status"
-        >
-          <option value="success">Создано</option>
-          <option value="waiting">В ожидании</option>
-          <option value="rejected">Отклонено</option>
-        </select>
-      </div>
-      <div class="inputField">
-        <label> Тарифф </label>
-        <select name="tariff"
-                id="tariff"
-                aria-label="Default select example" cSelect
-                [formControl]="orderData.controls.tariff_id"
-                (change)="selectTariff()"
-        >
-          @for (tariff of tariffList; track tariff.id) {
-            <option [value]="tariff.id">{{ tariff.name }}</option>
-          }
-        </select>
-      </div>
-      @if ($order?.success_at) {
         <div class="inputField">
-          <label> Дата принятия </label>
-          <div> {{ $order.success_at | date: 'dd.MM.yyyy' }}</div>
+          <label> Тарифф </label>
+          <select name="tariff"
+                  id="tariff"
+                  aria-label="Default select example" cSelect
+                  [formControl]="orderData.controls.tariff_id"
+                  (change)="selectTariff()"
+          >
+            @for (tariff of tariffList; track tariff.id) {
+              <option [value]="tariff.id">{{ tariff.name }}</option>
+            }
+          </select>
         </div>
-      }
-      @if ($order?.rejected_at) {
-        <div class="inputField">
-          <label> Дата отколнения </label>
-          <div> {{ $order.rejected_at | date: 'dd.MM.yyyy' }}</div>
-        </div>
-      }
-      <div class="order-actionGroup">
-        <button cButton> Сохранить </button>
-        <button cButton color="danger" (click)="rejectOrder()"> Отклонить заявку </button>
-      </div>
+        <button cButton type="submit" (click)="updateOrder()"> Сохранить </button>
+      </form>
     </div>
   </div>
   <div class="order-users__wrapper">

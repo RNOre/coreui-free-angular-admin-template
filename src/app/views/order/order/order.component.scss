@@ -84,18 +84,21 @@
   background-color: transparent;
   color: white;
   gap: 17px;
-  width: 100px;
+  width: 120px;
+  text-align: center;
 
   &-reject {
     padding: 6px 12px;
     border-radius: 22px;
     background-color: #ed7474;
+    width: 100%;
   }
 
   &-success {
     padding: 6px 12px;
     border-radius: 22px;
     background-color: #74ed8a;
+    width: 100%;
   }
 }
 .showOrder {

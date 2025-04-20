@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import {navItem} from "../../interfaces/global";
+import {isAdmin} from "../../core/global";
 
 @Component({
   selector: 'app-sidebar',
@@ -10,12 +12,14 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class SidebarComponent implements OnInit {
   isOpen = false;
-  selectedNav: 'order' | 'company' | 'tariff' | 'license' | 'home' | 'user' = 'company';
+  isAdmin = false;
+  selectedNav: navItem = 'company';
 
   constructor(private $router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.isAdmin = !!localStorage.getItem('isAdmin') || false;
     switch (this.$router.url) {
       case '/billing/tariffs':
         this.selectedNav = 'tariff';
@@ -35,10 +39,19 @@ export class SidebarComponent implements OnInit {
       case '/user':
         this.selectedNav = 'user';
         break;
+      case "/analysis":
+        this.selectedNav = 'analysis';
+        break;
+      case "/main-legal":
+        this.selectedNav = 'main-legal';
+        break;
+      case "/user-legal":
+        this.selectedNav = 'user-legal';
+        break;
     }
   }
 
-  navigateTo(path: 'order' | 'company' | 'tariff' | 'license' | 'home' | 'user') {
+  navigateTo(path: navItem) {
     this.selectedNav = path;
     this.isOpen = false;
 
@@ -53,13 +66,24 @@ export class SidebarComponent implements OnInit {
         this.$router.navigate(['billing', 'licenses']).then();
         break;
       case "company":
-        this.$router.navigate(['company']).then();
+        if (isAdmin())
+          this.$router.navigate(['company']).then();
+        else this.$router.navigate(['company', 'legal']).then();
         break;
       case "order":
         this.$router.navigate(['order']).then();
         break;
       case "user":
         this.$router.navigate(['user']).then();
+        break;
+      case "analysis":
+        this.$router.navigate(['analysis']).then();
+        break;
+      case "main-legal":
+        this.$router.navigate(['main-legal']).then();
+        break;
+      case "user-legal":
+        this.$router.navigate(['user-legal']).then();
         break;
     }
   }

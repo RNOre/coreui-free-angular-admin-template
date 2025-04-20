@@ -1,0 +1,54 @@
+<div class="page-header">
+  <h1>Панель управления</h1>
+  <div>Здравствуйте! Добро пожаловать в панель управления!</div>
+</div>
+<div class="company-layout">
+  <div class="company">
+    <div class="company-header">
+      <div>Сотрудники</div>
+    </div>
+    <div class="content">
+      <div class="table-wrapper">
+        <table cTable borderless pagination [paginationMeta]="userMeta" (pageChange)="pageChangeUser($event)">
+          <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Пользователь</th>
+            <th scope="col">Email</th>
+            <th scope="col">Лицензия</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+            @if (userData?.length) {
+              @for (user of userData; track user.id) {
+                <tr>
+                  <td scope="row" [title]="user.id">{{ user.id.substring(0, 3) }}...</td>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.email }}</td>
+                  <td class="last_td">{{ user.tariff_name }}</td>
+                  <div style="background-color: transparent">
+                    <button class="goToUser">
+                      <svg width="21" height="17" viewBox="0 0 21 17" fill="none"
+                           xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M2.19521 11.5897C1.3984 10.5545 1 10.0369 1 8.5C1 6.96306 1.3984 6.4455 2.19521 5.41031C3.78621 3.34334 6.45448 1 10.375 1C14.2955 1 16.9637 3.34334 18.5548 5.41031C19.3516 6.4455 19.75 6.96306 19.75 8.5C19.75 10.0369 19.3516 10.5545 18.5548 11.5897C16.9637 13.6566 14.2955 16 10.375 16C6.45448 16 3.78621 13.6566 2.19521 11.5897Z"
+                          stroke="#323231" stroke-width="2"/>
+                        <path
+                          d="M13.1875 8.5C13.1875 10.0533 11.9283 11.3125 10.375 11.3125C8.82166 11.3125 7.5625 10.0533 7.5625 8.5C7.5625 6.94666 8.82166 5.6875 10.375 5.6875C11.9283 5.6875 13.1875 6.94666 13.1875 8.5Z"
+                          stroke="#323231" stroke-width="2"/>
+                      </svg>
+                    </button>
+                  </div>
+                </tr>
+              }
+            } @else {
+              <div>Список пуст</div>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <app-analysis-widget class="orderWidget"></app-analysis-widget>
+</div>

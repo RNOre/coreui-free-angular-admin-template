@@ -47,7 +47,7 @@ export class CompanyComponent implements OnInit {
         search: ''
       },
       order: {
-        createdAt: 'asc'
+        createdAt: 'desc'
       },
       pagination: {
         "limit": this.meta.perPage,

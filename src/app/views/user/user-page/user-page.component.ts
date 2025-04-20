@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {LicenseInterface, TariffInterface, UserInterface} from "../../../interfaces/billing";
 import {FilterInterface, PaginationMetaInterface} from "../../../interfaces/global";
-import {FormControlDirective, FormSelectDirective, TableDirective} from "@coreui/angular";
+import {AvatarComponent, FormControlDirective, FormSelectDirective, TableDirective} from "@coreui/angular";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {DatePipe} from "@angular/common";
 
@@ -14,7 +14,8 @@ import {DatePipe} from "@angular/common";
     ReactiveFormsModule,
     DatePipe,
     FormControlDirective,
-    FormSelectDirective
+    FormSelectDirective,
+    AvatarComponent
   ],
   templateUrl: './user-page.component.html',
   standalone: true,
@@ -22,7 +23,7 @@ import {DatePipe} from "@angular/common";
 })
 export class UserPageComponent implements OnInit {
 
-  user_id!: number;
+  user_id!: string;
   licenseData: LicenseInterface[] | undefined;
   userData: UserInterface | undefined;
   meta: PaginationMetaInterface = {
@@ -31,7 +32,10 @@ export class UserPageComponent implements OnInit {
     currentCount: 0
   };
 
+  isAdmin = localStorage.getItem('isAdmin');
+
   userField = new FormGroup({
+    avatar: new FormControl(''),
     birth_date: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
@@ -52,23 +56,11 @@ export class UserPageComponent implements OnInit {
   }
 
   getUserInfo() {
-    const filter: FilterInterface = {
-      filter: {
-        id: this.user_id
-      },
-      order: {
-        createdAt: 'asc'
-      },
-      pagination: {
-        "limit": this.meta.perPage,
-        "offset": (this.meta.currentPage - 1) * this.meta.perPage
-      }
-    };
-    this.$http.post('users/filter', filter)
+    this.$http.get<{data: UserInterface}>(this.isAdmin?'user/' + this.user_id: 'http://82.97.241.8:8083/api/v1/user/' + this.user_id)
       // @ts-ignore
-      .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
+      .subscribe((res) => {
         // @ts-ignore
-        this.userData = res.data.items[2];
+        this.userData = res.data;
         if (this.userData) {
           this.userField.controls.name.setValue(this.userData.name)
           this.userField.controls.username.setValue(this.userData.username)
@@ -76,7 +68,6 @@ export class UserPageComponent implements OnInit {
           this.userField.controls.sex.setValue(this.userData.sex)
           this.userField.controls.email.setValue(this.userData.email)
         }
-        this.meta.totalCount = res.data.total;
       })
   }
 
@@ -113,9 +104,23 @@ export class UserPageComponent implements OnInit {
 
   updateUserData() {
     this.$http
-      .patch('user-update', {
-        ...this.userField.value
+      .patch(this.isAdmin ? 'user-update' : 'http://82.97.241.8:8083/api/v1/user-update', {
+        ...this.userField.value, user_id: this.userData?.id
       })
-      .subscribe();
+      .subscribe(()=>this.getUserInfo());
+  }
+
+  loadImage(file: any) {
+    const image: File = file?.target.files[0];
+
+    if (image) {
+      const formData = new FormData();
+      formData.append('file', image);
+      formData.append('user_id', this.user_id);
+
+      this.$http
+        .post(this.isAdmin ? 'user/photo' : 'http://82.97.241.8:8083/api/v1/user/photo', formData)
+        .subscribe(()=>this.getUserInfo());
+    }
   }
 }
