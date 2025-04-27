@@ -21,15 +21,14 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes,
       withRouterConfig({
-        onSameUrlNavigation: 'reload'
+        onSameUrlNavigation: 'reload',
       }),
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
         anchorScrolling: 'enabled'
       }),
       withEnabledBlockingInitialNavigation(),
-      withViewTransitions(),
-      withHashLocation()
+      withViewTransitions()
     ),
     importProvidersFrom(SidebarModule, DropdownModule),
     IconSetService,

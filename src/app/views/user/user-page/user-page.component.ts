@@ -40,7 +40,8 @@ export class UserPageComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
     sex: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required])
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('')
   })
 
   constructor(private $http: HttpClient, private route: ActivatedRoute) {
@@ -56,7 +57,9 @@ export class UserPageComponent implements OnInit {
   }
 
   getUserInfo() {
-    this.$http.get<{data: UserInterface}>(this.isAdmin?'user/' + this.user_id: 'http://82.97.241.8:8083/api/v1/user/' + this.user_id)
+    this.$http.get<{
+      data: UserInterface
+    }>(this.isAdmin ? 'user/' + this.user_id : 'http://82.97.241.8:8083/api/v1/user/' + this.user_id)
       // @ts-ignore
       .subscribe((res) => {
         // @ts-ignore
@@ -105,9 +108,9 @@ export class UserPageComponent implements OnInit {
   updateUserData() {
     this.$http
       .patch(this.isAdmin ? 'user-update' : 'http://82.97.241.8:8083/api/v1/user-update', {
-        ...this.userField.value, user_id: this.userData?.id
+        ...this.userField.value, user_id: this.userData?.id, password: this.userField.controls.password ?? undefined
       })
-      .subscribe(()=>this.getUserInfo());
+      .subscribe(() => this.getUserInfo());
   }
 
   loadImage(file: any) {
@@ -120,7 +123,7 @@ export class UserPageComponent implements OnInit {
 
       this.$http
         .post(this.isAdmin ? 'user/photo' : 'http://82.97.241.8:8083/api/v1/user/photo', formData)
-        .subscribe(()=>this.getUserInfo());
+        .subscribe(() => this.getUserInfo());
     }
   }
 }

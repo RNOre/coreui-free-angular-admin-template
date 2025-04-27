@@ -72,55 +72,56 @@
       <button [cModalToggle]="createTariffModal.id" cButtonClose></button>
     </c-modal-header>
     <c-modal-body>
-      <label>Имя</label>
-      <input cFormControl
-             name="name"
-             id="name"
-             type="text"
-             [formControl]="newUser.controls.name"
-             class="input-item"
-      />
-      <label>Username</label>
-      <input name="username"
-             cFormControl
-             id="username"
-             aria-label="Default select example" cSelect
-             [formControl]="newUser.controls.username"
-             class="input-item"
-      />
-      <div>
-        <label>Email</label>
+        <label>Имя</label>
         <input cFormControl
-               name="email"
-               id="email"
-               [formControl]="newUser.controls.email"
+               name="name"
+               id="name"
+               type="text"
+               [formControl]="newUser.controls.name"
                class="input-item"
         />
-      </div>
-      <div>
-        <label>Пароль</label>
-        <input cFormControl
-               name="password"
-               id="password"
-               type="password"
+        <label>Username</label>
+        <input name="username"
+               cFormControl
+               id="username"
+               aria-label="Default select example" cSelect
+               [formControl]="newUser.controls.username"
                class="input-item"
-               [formControl]="newUser.controls.password"
         />
-      </div>
-      <label>Дата рождения</label>
-      <br/>
-      <input type="date" [formControl]="newUser.controls.birth_date" class="datePicker"/>
-      <br/>
-      <label>Пол</label>
-      <select name="sex"
-              id="sex"
-              cSelect
-              [formControl]="newUser.controls.sex"
-      >
-        <option value="male">Мужчина</option>
-        <option value="female">Женщина</option>
-      </select>
-      <button cButton color="primary" [cModalToggle]="createTariffModal.id" (click)="addUser()" [disabled]="!newUser.valid">Создать</button>
+        <div>
+          <label>Email</label>
+          <input cFormControl
+                 name="email"
+                 id="email"
+                 [formControl]="newUser.controls.email"
+                 class="input-item"
+          />
+        </div>
+        <div>
+          <label>Пароль</label>
+          <input cFormControl
+                 name="password"
+                 id="password"
+                 type="password"
+                 class="input-item"
+                 [formControl]="newUser.controls.password"
+          />
+        </div>
+        <label>Дата рождения</label>
+        <br/>
+        <input type="date" [formControl]="newUser.controls.birth_date" class="datePicker"/>
+        <br/>
+        <label>Пол</label>
+        <select name="sex"
+                id="sex"
+                cSelect
+                [formControl]="newUser.controls.sex"
+        >
+          <option value="male">Мужчина</option>
+          <option value="female">Женщина</option>
+        </select>
+        <button cButton color="primary" [cModalToggle]="createTariffModal.id" (click)="addUser()" [disabled]="!newUser.valid">
+          Создать</button>
     </c-modal-body>
   </c-modal>
 </div>

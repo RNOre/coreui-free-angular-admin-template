@@ -57,33 +57,33 @@ export class SidebarComponent implements OnInit {
 
     switch (path) {
       case "home":
-        this.$router.navigate(['home']).then();
+        this.$router.navigate(['/home']).then();
         break;
       case "tariff":
-        this.$router.navigate(['billing', 'tariffs']).then();
+        this.$router.navigate(['/billing', 'tariffs']).then();
         break;
       case "license":
-        this.$router.navigate(['billing', 'licenses']).then();
+        this.$router.navigate(['/billing', 'licenses']).then();
         break;
       case "company":
         if (isAdmin())
-          this.$router.navigate(['company']).then();
-        else this.$router.navigate(['company', 'legal']).then();
+          this.$router.navigate(['/company']).then();
+        else this.$router.navigate(['/company', 'legal']).then();
         break;
       case "order":
-        this.$router.navigate(['order']).then();
+        this.$router.navigate(['/order']).then();
         break;
       case "user":
-        this.$router.navigate(['user']).then();
+        this.$router.navigate(['/user']).then();
         break;
       case "analysis":
-        this.$router.navigate(['analysis']).then();
+        this.$router.navigate(['/analysis']).then();
         break;
       case "main-legal":
-        this.$router.navigate(['main-legal']).then();
+        this.$router.navigate(['/main-legal']).then();
         break;
       case "user-legal":
-        this.$router.navigate(['user-legal']).then();
+        this.$router.navigate(['/user-legal']).then();
         break;
     }
   }
@@ -100,6 +100,7 @@ export class SidebarComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('isAdmin');
     this.$router.navigate(['login']).then();
   }
 

@@ -38,6 +38,7 @@
         <option value="female">Женщина</option>
       </select>
       <input type="date" [formControl]="userField.controls.birth_date" class="datePicker" placeholder="Дата рождения"/>
+      <input cFormControl placeholder="******" [formControl]="userField.controls.password" type="password"/>
       @if (!userField.untouched) {
         <button class="btn btn-primary" style="margin: 11px auto" [disabled]="!userField.valid">Обновить</button>
       }

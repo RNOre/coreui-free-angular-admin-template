@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {DatePipe} from "@angular/common";
+import {Component, OnInit} from '@angular/core';
+import {DatePipe, JsonPipe} from "@angular/common";
 import {PaginationDirective} from "../../directives/pagination.directive";
 import {
   ButtonCloseDirective,
@@ -36,13 +36,14 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
     ModalHeaderComponent,
     ModalTitleDirective,
     ModalToggleDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    JsonPipe
   ],
   templateUrl: './user-legal.component.html',
   standalone: true,
   styleUrl: './user-legal.component.scss'
 })
-export class UserLegalComponent {
+export class UserLegalComponent implements OnInit{
   meta: PaginationMetaInterface = {
     currentPage: 1,
     perPage: 10,
@@ -57,7 +58,7 @@ export class UserLegalComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     birth_date: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
-    post: new FormControl('', Validators.required),
+    // post: new FormControl('', Validators.required),
     sex: new FormControl('', Validators.required),
     username: new FormControl('', Validators.required),
   })
@@ -112,7 +113,9 @@ export class UserLegalComponent {
   addUser() {
     this.$http
       .post('http://82.97.241.8:8083/api/v1/user-create', this.newUser.value)
-      .subscribe();
+      .subscribe(()=>{
+        this.getUserList();
+      });
   }
 
   deleteUser(id: string) {

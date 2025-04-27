@@ -1,13 +1,14 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { delay, filter, map, tap } from 'rxjs/operators';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {Title} from '@angular/platform-browser';
+import {ActivatedRoute, NavigationEnd, Router, RouterOutlet} from '@angular/router';
+import {delay, filter, map, tap} from 'rxjs/operators';
 
-import { ColorModeService } from '@coreui/angular';
-import { IconSetService } from '@coreui/icons-angular';
-import { iconSubset } from './icons/icon-subset';
+import {ColorModeService} from '@coreui/angular';
+import {IconSetService} from '@coreui/icons-angular';
+import {iconSubset} from './icons/icon-subset';
 import {HttpClientModule} from "@angular/common/http";
+import {isAdmin} from "./core/global";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [RouterOutlet, HttpClientModule],
 })
 export class AppComponent implements OnInit {
-  title = 'CoreUI Angular Admin Template';
+  title = isAdmin() ? 'KOE Admin' : 'KOE';
 
   readonly #destroyRef: DestroyRef = inject(DestroyRef);
   readonly #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
   constructor() {
     this.#titleService.setTitle(this.title);
     // iconSet singleton
-    this.#iconSetService.icons = { ...iconSubset };
+    this.#iconSetService.icons = {...iconSubset};
     this.#colorModeService.localStorageItemName.set('coreui-free-angular-admin-template-theme-default');
     this.#colorModeService.eventName.set('ColorSchemeChange');
   }
@@ -37,8 +38,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
 
     this.#router.events.pipe(
-        takeUntilDestroyed(this.#destroyRef)
-      ).subscribe((evt) => {
+      takeUntilDestroyed(this.#destroyRef)
+    ).subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }
