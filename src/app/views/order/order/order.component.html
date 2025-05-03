@@ -8,6 +8,21 @@
       <div>
         Заявки от организаций
       </div>
+      <div class="filter">
+        <select name="kind"
+                id="kind"
+                aria-label="Default select example" cSelect
+                [formControl]="filter"
+                class="input-item"
+                (change)="getOrdersCompany()"
+        >
+          <option value="all">Все</option>
+          <option value="success">Приняты</option>
+          <option value="rejected">Отклонены</option>
+          <option value="waiting">Новые</option>
+
+        </select>
+      </div>
     </div>
     <div class="content">
       <div class="table-wrapper">

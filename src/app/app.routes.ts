@@ -32,17 +32,12 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'billing',
-        children: [
-          {
-            path: 'tariffs',
-            component: TariffComponent
-          },
-          {
-            path: 'licenses',
-            component: LicenseComponent
-          }
-        ]
+        path: 'billing/tariffs',
+        component: TariffComponent
+      },
+      {
+        path: 'billing/licenses',
+        component: LicenseComponent
       },
       {
         path: 'order',

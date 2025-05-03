@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {CompanyInterface, LicenseInterface, UserInterface} from "../../../interfaces/billing";
-import {FilterInterface, PaginationInterface} from "../../../interfaces/global";
+import {FilterInterface, PaginationInterface, PaginationMetaInterface} from "../../../interfaces/global";
 import {filter} from "rxjs";
 import {
   AvatarComponent,
@@ -13,13 +13,14 @@ import {
   ModalComponent,
   ModalHeaderComponent,
   ModalTitleDirective,
-  ModalToggleDirective,
-  TableDirective
+  ModalToggleDirective, ProgressComponent,
+  TableDirective, ToastBodyComponent, ToastComponent, ToasterComponent, ToastHeaderComponent
 } from "@coreui/angular";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {OrderInterface} from "../../../interfaces/order";
 import {DatePipe, JsonPipe} from "@angular/common";
 import {isAdmin} from "../../../core/global";
+import {PaginationDirective} from "../../../directives/pagination.directive";
 
 @Component({
   selector: 'app-company-page',
@@ -36,7 +37,14 @@ import {isAdmin} from "../../../core/global";
     ModalComponent,
     ModalHeaderComponent,
     ModalTitleDirective,
-    ModalToggleDirective
+    ModalToggleDirective,
+    RouterLink,
+    PaginationDirective,
+    ToasterComponent,
+    ToastComponent,
+    ToastHeaderComponent,
+    ProgressComponent,
+    ToastBodyComponent
   ],
   templateUrl: './company-page.component.html',
   standalone: true,
@@ -64,6 +72,13 @@ export class CompanyPageComponent implements OnInit {
   companyData!: CompanyInterface;
   userData!: UserInterface[];
   licenseData: LicenseInterface[] | undefined;
+  userMeta: PaginationMetaInterface = {
+    currentPage: 1,
+    perPage: 10,
+    currentCount: 0
+  };
+  visible = signal(false);
+  percentage = signal(0);
 
   constructor(
     private $http: HttpClient,
@@ -132,8 +147,8 @@ export class CompanyPageComponent implements OnInit {
         createdAt: 'asc'
       },
       pagination: {
-        limit: 10,
-        offset: 0
+        limit: this.userMeta.perPage,
+        offset: (this.userMeta.currentPage - 1) * this.userMeta.perPage
       }
     }
     this.$http.post<{
@@ -142,6 +157,11 @@ export class CompanyPageComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.userData = res.data.items;
+          if (this.userData) {
+            this.userData = this.userData.filter((user) => !user.is_admin);
+            this.userMeta.totalCount = this.userData.length;
+            this.userMeta.currentCount = this.userData.length;
+          }
         }
       })
   }
@@ -159,6 +179,38 @@ export class CompanyPageComponent implements OnInit {
 
     this.$http
       .post(isAdmin() ? 'user-create' : 'http://82.97.241.8:8083/api/v1/user-create', body)
-      .subscribe(() => this.getUsers());
+      .subscribe({
+        next: () => this.getUsers(),
+        error: () => this.toggleToast()
+      });
+  }
+
+  deleteUser(id: string) {
+    this.$http.delete('user/' + id)
+      .subscribe((res) => this.getUsers());
+  }
+
+  pageChangeUser(page: number) {
+    this.userMeta.currentPage = page;
+    this.getUsers();
+  }
+
+  get limit() {
+    if (this.licenseData)
+      return this.licenseData[0].limit
+    return 0;
+  }
+
+  onTimerChange($event: number) {
+    this.percentage.set($event * 25);
+  }
+
+  toggleToast() {
+    this.visible.update((value) => !value);
+  }
+
+  onVisibleChange($event: boolean) {
+    this.visible.set($event);
+    this.percentage.set(this.visible() ? this.percentage() : 0);
   }
 }

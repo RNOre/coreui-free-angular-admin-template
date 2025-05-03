@@ -20,6 +20,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.isAdmin = !!localStorage.getItem('isAdmin') || false;
+    console.log(this.$router.url)
     switch (this.$router.url) {
       case '/billing/tariffs':
         this.selectedNav = 'tariff';

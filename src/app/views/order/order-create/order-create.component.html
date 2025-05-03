@@ -39,6 +39,16 @@
                      type="string"
                      [formControl]="order.controls.inn"
               />
+              @if(order.controls.inn?.errors?.['invalidInnLength']) {
+                <div>
+                  ИНН должен содержать 10 или 12 цифр!
+                </div>
+              }
+              @if(order.controls.inn?.errors?.['invalidInnFormat']) {
+                <div>
+                  ИНН должен состоять только из цифр!
+                </div>
+              }
             </div>
             <div class="mb-3">
               <!--            <label cLabel for="company_info">Информация о компании</label>-->
@@ -55,8 +65,9 @@
               <input cFormControl
                      id="phone"
                      name="phone"
-                     placeholder="Телефон"
                      type="tel"
+                     appPhoneNumber
+                     placeholder="+7 (XXX) XXX-XX-XX"
                      [formControl]="order.controls.phone"
               />
             </div>

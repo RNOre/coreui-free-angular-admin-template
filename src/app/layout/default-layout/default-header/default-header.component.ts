@@ -1,11 +1,13 @@
 import {JsonPipe, NgTemplateOutlet} from '@angular/common';
-import {Component, computed, inject, input} from '@angular/core';
+import {Component, computed, EventEmitter, inject, input, Output} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 
 import {
   AvatarComponent,
   BadgeComponent,
   BreadcrumbRouterComponent,
+  ButtonCloseDirective,
+  ButtonDirective,
   ColorModeService,
   ContainerComponent,
   DropdownComponent,
@@ -14,23 +16,32 @@ import {
   DropdownItemDirective,
   DropdownMenuDirective,
   DropdownToggleDirective,
+  FormControlDirective,
+  FormSelectDirective,
   HeaderComponent,
   HeaderNavComponent,
   HeaderTogglerDirective,
+  ModalBodyComponent,
+  ModalComponent,
+  ModalHeaderComponent,
+  ModalTitleDirective,
+  ModalToggleDirective,
   NavItemComponent,
   NavLinkDirective,
   SidebarToggleDirective
 } from '@coreui/angular';
 
 import {IconDirective} from '@coreui/icons-angular';
+import {FormsModule} from "@angular/forms";
 
 @Component({
     selector: 'app-default-header',
     templateUrl: './default-header.component.html',
     standalone: true,
-    imports: [ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, IconDirective, HeaderNavComponent, NavItemComponent, NavLinkDirective, RouterLink, RouterLinkActive, NgTemplateOutlet, BreadcrumbRouterComponent, DropdownComponent, DropdownToggleDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective, JsonPipe]
+  imports: [ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, IconDirective, HeaderNavComponent, NavItemComponent, NavLinkDirective, RouterLink, RouterLinkActive, NgTemplateOutlet, BreadcrumbRouterComponent, DropdownComponent, DropdownToggleDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective, JsonPipe, ModalComponent, ModalHeaderComponent, ModalBodyComponent, ButtonCloseDirective, ButtonDirective, FormControlDirective, FormSelectDirective, FormsModule, ModalTitleDirective, ModalToggleDirective]
 })
 export class DefaultHeaderComponent extends HeaderComponent {
+  @Output() openModal = new EventEmitter();
 
   readonly #colorModeService = inject(ColorModeService);
   readonly colorMode = this.#colorModeService.colorMode;

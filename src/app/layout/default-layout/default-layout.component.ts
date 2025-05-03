@@ -1,17 +1,28 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, signal, ViewChild} from '@angular/core';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {NgScrollbar} from 'ngx-scrollbar';
 
 import {IconDirective} from '@coreui/icons-angular';
 import {
+  ButtonCloseDirective,
   ContainerComponent,
+  ModalBodyComponent,
+  ModalComponent,
+  ModalHeaderComponent,
+  ModalTitleDirective,
+  ModalToggleDirective,
   ShadowOnScrollDirective,
   SidebarBrandComponent,
   SidebarFooterComponent,
   SidebarHeaderComponent,
-  SidebarNavComponent, SidebarService,
+  SidebarNavComponent,
+  SidebarService,
   SidebarToggleDirective,
-  SidebarTogglerDirective, ToastBodyComponent, ToastComponent, ToasterComponent, ToastHeaderComponent
+  SidebarTogglerDirective,
+  ToastBodyComponent,
+  ToastComponent,
+  ToasterComponent,
+  ToastHeaderComponent
 } from '@coreui/angular';
 
 import {DefaultFooterComponent, DefaultHeaderComponent} from './';
@@ -52,12 +63,20 @@ function isOverflown(element: HTMLElement) {
     ToastComponent,
     ToastHeaderComponent,
     ToastBodyComponent,
-    JsonPipe
+    JsonPipe,
+    ButtonCloseDirective,
+    ModalBodyComponent,
+    ModalComponent,
+    ModalHeaderComponent,
+    ModalTitleDirective,
+    ModalToggleDirective
   ]
 })
 export class DefaultLayoutComponent implements OnDestroy, OnInit {
   // @ViewChild('overflow', {static: true}) scrollbar!: NgScrollbar
   public navItems = navItems;
+
+  visible = false;
 
   constructor(private $sidebar: SidebarService, private $toast: ToastService) {
   }
@@ -80,6 +99,10 @@ export class DefaultLayoutComponent implements OnDestroy, OnInit {
 
   getToast() {
     return this.$toast.$toast();
+  }
+
+  toggleModal() {
+    this.visible = !this.visible;
   }
 
   protected readonly window = window;

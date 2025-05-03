@@ -42,4 +42,36 @@ export class AnalysisItemComponent implements OnInit {
     return result;
   }
 
+  getPdf() {
+    const filter = {
+      "filter": {
+        search: this.analysis_id
+      },
+      "order": {
+        "colonies": "desc",
+        "createdAt": "asc"
+      },
+      "pagination": {
+        "limit": 1,
+        "offset": 0
+      }
+    }
+
+    this.$http.post('http://82.97.241.8:8083/api/v1/company-studies/pdf', filter,{
+      responseType: 'arraybuffer' // Explicitly tell HttpClient to expect binary data
+    })
+      .subscribe((res: ArrayBuffer) => {
+        const blob = new Blob([res], {type: 'application/pdf'});
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'analysis_' + this.analysis_id;
+
+        link.click();
+
+        URL.revokeObjectURL(url);
+      });
+  }
+
 }

@@ -6,6 +6,22 @@
   <div class="company">
     <div class="company-header">
       <div>Список организаций</div>
+      @if (tariffList) {
+        <div class="filter">
+          <select name="kind"
+                  id="kind"
+                  aria-label="Default select example" cSelect
+                  [formControl]="filter"
+                  class="input-item"
+                  (change)="getCompanyList()"
+          >
+            <option value="all">Все</option>
+            @for (tariff of tariffList; track tariff.id) {
+              <option [value]="tariff.id">{{ tariff.name }}</option>
+            }
+          </select>
+        </div>
+      }
     </div>
     @if (companyData?.length) {
       <div class="content">
@@ -25,9 +41,9 @@
               @for (company of companyData; track company.id) {
                 <tr>
                   <td scope="row" [title]="company.id">{{ company.id.substring(0, 3) }}...</td>
-                  <td>{{company.name}}</td>
+                  <td>{{ company.name }}</td>
                   <td>{{ company.created_at | date : "dd.MM.YYYY" }}</td>
-                  <td>{{ company.license_id }}</td>
+                  <td>{{ company.tariff_name }}</td>
                   <td class="last_td">{{ company?.modified_at | date: "dd.MM.YYYY" }}</td>
                   <div class="actionGroup">
                     <button title="Просмотреть"
@@ -71,12 +87,14 @@
             </thead>
             <tbody>
             <tr>
-              <td scope="row" >J00001</td>
+              <td scope="row">J00001</td>
               <td scope="row" class="last_td">Сотрудник</td>
               <div class="actionGroup">
                 <button title="Редактировать">
                   <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1.47437 8.89372V11.5279H4.10854L11.266 4.37049L11.2666 4.36993C11.527 4.10951 11.6573 3.97925 11.7061 3.829C11.749 3.69673 11.7491 3.55426 11.7061 3.422C11.6572 3.27164 11.5268 3.14119 11.266 2.88039L10.1202 1.73467C9.86058 1.475 9.73046 1.3449 9.58044 1.29615C9.44814 1.25317 9.3057 1.25317 9.1734 1.29615C9.02325 1.34493 8.89299 1.47518 8.63299 1.73523L8.63181 1.73635L1.47437 8.89372Z" stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M1.47437 8.89372V11.5279H4.10854L11.266 4.37049L11.2666 4.36993C11.527 4.10951 11.6573 3.97925 11.7061 3.829C11.749 3.69673 11.7491 3.55426 11.7061 3.422C11.6572 3.27164 11.5268 3.14119 11.266 2.88039L10.1202 1.73467C9.86058 1.475 9.73046 1.3449 9.58044 1.29615C9.44814 1.25317 9.3057 1.25317 9.1734 1.29615C9.02325 1.34493 8.89299 1.47518 8.63299 1.73523L8.63181 1.73635L1.47437 8.89372Z"
+                      stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </button>
                 <button title="Удалить">
@@ -89,12 +107,14 @@
               </div>
             </tr>
             <tr>
-              <td scope="row" >J00001</td>
+              <td scope="row">J00001</td>
               <td scope="row" class="last_td">Руководитель отедела исследований</td>
               <div class="actionGroup">
                 <button title="Редактировать">
                   <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1.47437 8.89372V11.5279H4.10854L11.266 4.37049L11.2666 4.36993C11.527 4.10951 11.6573 3.97925 11.7061 3.829C11.749 3.69673 11.7491 3.55426 11.7061 3.422C11.6572 3.27164 11.5268 3.14119 11.266 2.88039L10.1202 1.73467C9.86058 1.475 9.73046 1.3449 9.58044 1.29615C9.44814 1.25317 9.3057 1.25317 9.1734 1.29615C9.02325 1.34493 8.89299 1.47518 8.63299 1.73523L8.63181 1.73635L1.47437 8.89372Z" stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M1.47437 8.89372V11.5279H4.10854L11.266 4.37049L11.2666 4.36993C11.527 4.10951 11.6573 3.97925 11.7061 3.829C11.749 3.69673 11.7491 3.55426 11.7061 3.422C11.6572 3.27164 11.5268 3.14119 11.266 2.88039L10.1202 1.73467C9.86058 1.475 9.73046 1.3449 9.58044 1.29615C9.44814 1.25317 9.3057 1.25317 9.1734 1.29615C9.02325 1.34493 8.89299 1.47518 8.63299 1.73523L8.63181 1.73635L1.47437 8.89372Z"
+                      stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </button>
                 <button title="Удалить">

@@ -27,8 +27,7 @@ export class OrderItemComponent implements OnInit {
   orderData = new FormGroup({
     company_name: new FormControl(''),
     id: new FormControl(''),
-    tariff_id: new FormControl(''),
-    status: new FormControl('')
+    tariff_id: new FormControl('')
   });
   originalValues: any;
   tariffList!: TariffInterface[] | undefined;
@@ -62,7 +61,6 @@ export class OrderItemComponent implements OnInit {
         this.orderData.controls.id.setValue(this.$order.id);
         this.orderData.controls.company_name.setValue(this.$order.company_name);
         this.orderData.controls.tariff_id.setValue(this.$order.tariff_id);
-        this.orderData.controls.status.setValue(this.$order.status);
         // @ts-ignore
         this.originalValues = {...this.orderData.value};
 
@@ -81,11 +79,10 @@ export class OrderItemComponent implements OnInit {
 
   selectTariff() {
     const body = {
-      order_id: this.$order.id,
       tariff_id: this.orderData.controls.tariff_id.value
     }
 
-    this.$http.post('order-accept', body)
+    this.$http.patch('order/' + this.$order.id, body)
       .subscribe();
   }
 
@@ -94,6 +91,7 @@ export class OrderItemComponent implements OnInit {
       .patch('order/' + this.route.snapshot.params['id'], this.getChangedValues())
       .subscribe();
   }
+
   getChangedValues() {
     const currentValues = this.orderData.value;
     const changedValues = {};

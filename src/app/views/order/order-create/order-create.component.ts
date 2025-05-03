@@ -1,5 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators
+} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {env} from "../../../../../env";
 import {ButtonDirective, FormControlDirective, FormDirective, FormLabelDirective} from "@coreui/angular";
@@ -9,6 +17,7 @@ import {FilterInterface, PaginationMetaInterface} from "../../../interfaces/glob
 import {TariffInterface} from "../../../interfaces/billing";
 import {NgStyle} from "@angular/common";
 import {PaginationDirective} from "../../../directives/pagination.directive";
+import {PhoneNumberDirective} from "../../../directives/phone-number.directive";
 
 @Component({
   selector: 'app-order-create',
@@ -21,13 +30,15 @@ import {PaginationDirective} from "../../../directives/pagination.directive";
     ButtonDirective,
     IconDirective,
     NgStyle,
-    PaginationDirective
+    PaginationDirective,
+    PhoneNumberDirective
   ],
   templateUrl: './order-create.component.html',
   standalone: true,
   styleUrl: './order-create.component.scss'
 })
 export class OrderCreateComponent implements OnInit {
+  errorInn = '';
   constructor(private $http: HttpClient) {
   }
 
@@ -44,7 +55,7 @@ export class OrderCreateComponent implements OnInit {
       Validators.required
     ]),
     inn: new FormControl('', [
-      Validators.required
+      Validators.required, this.innValidator()
     ]),
     email: new FormControl('', [
       Validators.required, Validators.email
@@ -81,7 +92,7 @@ export class OrderCreateComponent implements OnInit {
 
     this.$http.post('http://82.97.241.8:8083/api/v1/order-create', {
       ...this.order.value,
-      tariff_id: this.activeTariff === '1' ? '00000000-0000-0000-0000-000000000000' : this.activeTariff
+      tariff_id: this.activeTariff === '1' ? undefined : this.activeTariff
     })
       .subscribe({
         next: () => this.step = 3
@@ -149,5 +160,22 @@ export class OrderCreateComponent implements OnInit {
   pageChange(page: number) {
     this.tariffMetaCompany.currentPage = page;
     this.getTariffs();
+  }
+  innValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value;
+      if (!value) return null; // Пропускаем пустые значения (если нужно, можно добавить Validators.required)
+
+      // Проверяем длину ИНН (10 или 12 цифр)
+      const isValidLength = value.length === 10 || value.length === 12;
+      if (!isValidLength) return {invalidInnLength: true};
+
+      // Проверяем, что строка состоит только из цифр
+      const isNumeric = /^\d+$/.test(value);
+      if (!isNumeric) return {invalidInnFormat: true};
+
+      // Дополнительно можно добавить проверку контрольной суммы (см. ниже)
+      return null; // Валидация пройдена
+    }
   }
 }

@@ -8,6 +8,7 @@
       class="mb-4 d-print-none header header-sticky p-0 shadow-sm main-header"
       position="sticky"
       sidebarId="sidebar1"
+      (openModal)="toggleModal()"
     />
     <!--app-body-->
     <div class="body flex-grow-1">
@@ -34,4 +35,15 @@
     </div>
   </div>
 </div>
-
+<c-modal #serviceInfo alignment="center" id="serviceInfo" [visible]="visible">
+  <c-modal-header>
+    <h5 cModalTitle>Информация</h5>
+    <button [cModalToggle]="serviceInfo.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <div>Административная панель мобильного приложения КОЕ</div>
+    <div>Версия: 1.0</div>
+    <div>Версия административной панели: 1.0</div>
+    <a href="assets/politic.pdf" download="politic">Политика в отношении персональных данных</a>
+  </c-modal-body>
+</c-modal>

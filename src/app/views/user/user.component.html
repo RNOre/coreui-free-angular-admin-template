@@ -6,6 +6,30 @@
   <div class="company">
     <div class="company-header">
       <div>Список пользователей</div>
+      <div style="display: flex; gap: 17px; align-items: center">
+        @if (tariffList) {
+          <div class="filter">
+            <select name="kind"
+                    id="kind"
+                    aria-label="Default select example" cSelect
+                    [formControl]="filter"
+                    class="input-item"
+                    (change)="getUserList()"
+            >
+              <option value="all">Все</option>
+              @for (tariff of tariffList; track tariff.id) {
+                <option [value]="tariff.id">{{ tariff.name }}</option>
+              }
+            </select>
+          </div>
+        }
+        <div class="addBtn" [cModalToggle]="'addUser'">
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 8.07104H15.1421M8.07107 15.1421V0.999977" stroke="#323231" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
     </div>
     @if (userData?.length) {
       <div class="content">
@@ -54,3 +78,29 @@
     }
   </div>
 </div>
+<c-modal #createUserModal size="sm" alignment="center" [id]="'addUser'" class="setTariffModal">
+  <c-modal-header style="display: flex; justify-content: space-between; color: #323231">
+    <h5 cModalTitle>Добавление сотрудника</h5>
+    <button [cModalToggle]="'addUser'" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form [formGroup]="userField" (ngSubmit)="createUser()" class="addUser-fields">
+      <input cFormControl placeholder="Имя" [formControl]="userField.controls.name"/>
+      <input cFormControl placeholder="Username" [formControl]="userField.controls.username"/>
+      <input cFormControl placeholder="Email" [formControl]="userField.controls.email"/>
+      <select name="sex"
+              id="sex"
+              cSelect
+              [formControl]="userField.controls.sex"
+      >
+        <option value="male">Мужчина</option>
+        <option value="female">Женщина</option>
+      </select>
+      <input type="date" [formControl]="userField.controls.birth_date" class="datePicker" placeholder="Дата рождения"/>
+      <input cFormControl type="password" [formControl]="userField.controls.password" placeholder="Придумайте пароль"/>
+      @if (!userField.untouched) {
+        <button class="btn btn-primary" style="margin: 11px auto" [disabled]="!userField.valid"  [cModalToggle]="'addUser'">Создать</button>
+      }
+    </form>
+  </c-modal-body>
+</c-modal>

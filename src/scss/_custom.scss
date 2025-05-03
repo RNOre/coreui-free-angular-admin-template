@@ -73,6 +73,8 @@
     background-color: white;
     border-radius: 20px;
     overflow: auto;
+    //min-height: 400px;
+    max-height: calc(60vh - 20px);
   }
 }
 

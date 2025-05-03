@@ -21,26 +21,14 @@
             <div> {{ $order.rejected_at | date: 'dd.MM.yyyy' }}</div>
           </div>
         }
-          <input cFormControl
-                 style="margin-top: 20px"
-                 name="company_name"
-                 id="company_name"
-                 placeholder="Введите информация о компании"
-                 type="text"
-                 [formControl]="orderData.controls.company_name"
-          />
-        <div class="inputField">
-          <label> Статус </label>
-          <select name="status"
-                  id="status"
-                  aria-label="Default select example" cSelect
-                  [formControl]="orderData.controls.status"
-          >
-            <option value="success">Создано</option>
-            <option value="waiting">В ожидании</option>
-            <option value="rejected">Отклонено</option>
-          </select>
-        </div>
+        <input cFormControl
+               style="margin-top: 20px"
+               name="company_name"
+               id="company_name"
+               placeholder="Введите информация о компании"
+               type="text"
+               [formControl]="orderData.controls.company_name"
+        />
         <div class="inputField">
           <label> Тарифф </label>
           <select name="tariff"
@@ -54,19 +42,8 @@
             }
           </select>
         </div>
-        <button cButton type="submit" (click)="updateOrder()"> Сохранить </button>
+        <button cButton type="submit" (click)="updateOrder()"> Сохранить</button>
       </form>
-    </div>
-  </div>
-  <div class="order-users__wrapper">
-    <h1>Участники</h1>
-    <div class="order-users">
-      @for(user of $order?.users; track user.username){
-        <div class="order-users__item">
-          <div>{{user.username}}</div>
-          <button cButton color="danger">Удалить</button>
-        </div>
-      }
     </div>
   </div>
 </div>

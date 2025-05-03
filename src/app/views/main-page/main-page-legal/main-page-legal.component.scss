@@ -31,34 +31,6 @@
   }
 }
 
-.btn-switch {
-  width: 38px;
-  height: 38px;
-  border: none;
-  background-color: transparent;
-
-  &.active {
-    border-radius: 50%;
-
-    &.user-toggle {
-      background-color: #d7ed74;
-    }
-
-    &.company-toggle {
-      background-color: #bcb4f6;
-    }
-  }
-
-  &__group {
-    display: flex;
-    align-content: center;
-    gap: 4px;
-    background-color: white;
-    border-radius: 25px;
-    padding: 6px;
-  }
-}
-
 .orderWidget {
   flex: 1;
 }

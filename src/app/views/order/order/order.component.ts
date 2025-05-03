@@ -5,7 +5,7 @@ import {OrderInterface} from "../../../interfaces/order";
 import {
   ButtonCloseDirective,
   ButtonDirective,
-  FooterComponent,
+  FooterComponent, FormSelectDirective,
   ModalBodyComponent,
   ModalComponent, ModalFooterComponent,
   ModalHeaderComponent,
@@ -20,6 +20,7 @@ import {cilCheckAlt, cilX} from "@coreui/icons";
 import {RouterLink} from "@angular/router";
 import {TariffInterface} from "../../../interfaces/billing";
 import {PaginationDirective} from "../../../directives/pagination.directive";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-order',
@@ -38,7 +39,9 @@ import {PaginationDirective} from "../../../directives/pagination.directive";
     ModalToggleDirective,
     FooterComponent,
     ModalFooterComponent,
-    PaginationDirective
+    PaginationDirective,
+    FormSelectDirective,
+    ReactiveFormsModule
   ],
   templateUrl: './order.component.html',
   standalone: true,
@@ -50,6 +53,8 @@ export class OrderComponent implements OnInit {
   tariffsData!: TariffInterface[];
   total!: number;
   activeTariff = '';
+
+  filter = new FormControl('all');
 
   tariffMetaCompany: PaginationMetaInterface = {
     currentPage: 1,
@@ -87,8 +92,17 @@ export class OrderComponent implements OnInit {
       kind: {
         company: {}
       },
+      status: (() => {
+        switch(this.filter.value) {
+          case 'all': return {};
+          case 'success': return { success: "{}" };
+          case 'rejected': return { rejected: "{}" };
+          case 'waiting': return { waiting: "{}" };
+          default: return {};
+        }
+      })(),
       order: {
-        created_at: 'desc',
+        created_at: 'asc',
       },
       pagination: {
         "limit": this.orderMetaCompany.perPage,
