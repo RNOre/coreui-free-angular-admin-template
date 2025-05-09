@@ -64,7 +64,7 @@ export class UserComponent implements OnInit{
 
   ngOnInit() {
     this.getUserList();
-    this.getTariffList();
+    // this.getTariffList();
   }
 
   getTariffList() {

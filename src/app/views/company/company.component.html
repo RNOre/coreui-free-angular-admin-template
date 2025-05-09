@@ -6,22 +6,22 @@
   <div class="company">
     <div class="company-header">
       <div>Список организаций</div>
-      @if (tariffList) {
-        <div class="filter">
-          <select name="kind"
-                  id="kind"
-                  aria-label="Default select example" cSelect
-                  [formControl]="filter"
-                  class="input-item"
-                  (change)="getCompanyList()"
-          >
-            <option value="all">Все</option>
-            @for (tariff of tariffList; track tariff.id) {
-              <option [value]="tariff.id">{{ tariff.name }}</option>
-            }
-          </select>
-        </div>
-      }
+<!--      @if (tariffList) {-->
+<!--        <div class="filter">-->
+<!--          <select name="kind"-->
+<!--                  id="kind"-->
+<!--                  aria-label="Default select example" cSelect-->
+<!--                  [formControl]="filter"-->
+<!--                  class="input-item"-->
+<!--                  (change)="getCompanyList()"-->
+<!--          >-->
+<!--            <option value="all">Все</option>-->
+<!--            @for (tariff of tariffList; track tariff.id) {-->
+<!--              <option [value]="tariff.id">{{ tariff.name }}</option>-->
+<!--            }-->
+<!--          </select>-->
+<!--        </div>-->
+<!--      }-->
     </div>
     @if (companyData?.length) {
       <div class="content">

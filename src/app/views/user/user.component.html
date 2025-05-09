@@ -7,22 +7,22 @@
     <div class="company-header">
       <div>Список пользователей</div>
       <div style="display: flex; gap: 17px; align-items: center">
-        @if (tariffList) {
-          <div class="filter">
-            <select name="kind"
-                    id="kind"
-                    aria-label="Default select example" cSelect
-                    [formControl]="filter"
-                    class="input-item"
-                    (change)="getUserList()"
-            >
-              <option value="all">Все</option>
-              @for (tariff of tariffList; track tariff.id) {
-                <option [value]="tariff.id">{{ tariff.name }}</option>
-              }
-            </select>
-          </div>
-        }
+<!--        @if (tariffList) {-->
+<!--          <div class="filter">-->
+<!--            <select name="kind"-->
+<!--                    id="kind"-->
+<!--                    aria-label="Default select example" cSelect-->
+<!--                    [formControl]="filter"-->
+<!--                    class="input-item"-->
+<!--                    (change)="getUserList()"-->
+<!--            >-->
+<!--              <option value="all">Все</option>-->
+<!--              @for (tariff of tariffList; track tariff.id) {-->
+<!--                <option [value]="tariff.id">{{ tariff.name }}</option>-->
+<!--              }-->
+<!--            </select>-->
+<!--          </div>-->
+<!--        }-->
         <div class="addBtn" [cModalToggle]="'addUser'">
           <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 8.07104H15.1421M8.07107 15.1421V0.999977" stroke="#323231" stroke-width="2"

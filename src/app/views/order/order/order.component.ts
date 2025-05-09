@@ -88,29 +88,31 @@ export class OrderComponent implements OnInit {
 
   getOrdersCompany() {
     const filter = {
-      search: '',
-      kind: {
-        company: {}
-      },
-      status: (() => {
-        switch(this.filter.value) {
-          case 'all': return {};
-          case 'success': return { success: "{}" };
-          case 'rejected': return { rejected: "{}" };
-          case 'waiting': return { waiting: "{}" };
-          default: return {};
-        }
-      })(),
-      order: {
-        created_at: 'asc',
-      },
+      "filter": {
+      "search": "",
+        "kind": {
+          "company": {}
+        },
+        status: (() => {
+          switch(this.filter.value) {
+            case 'all': return {};
+            case 'success': return { success: "{}" };
+            case 'rejected': return { rejected: "{}" };
+            case 'waiting': return { waiting: "{}" };
+            default: return {};
+          }
+        })(),
+    },
+      "order": {
+      "activatedAt": "asc"
+    },
       pagination: {
         "limit": this.orderMetaCompany.perPage,
         "offset": (this.orderMetaCompany.currentPage - 1) * this.orderMetaCompany.perPage
       }
     }
 
-    this.$http.post('orders/filter', {filter})
+    this.$http.post('orders/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: OrderInterface[], total: number } }) => {
         this.orderDataCompany = res?.data.items;

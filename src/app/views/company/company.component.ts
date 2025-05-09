@@ -44,7 +44,7 @@ export class CompanyComponent implements OnInit {
 
   ngOnInit() {
     this.getCompanyList();
-    this.getTariffList();
+    // this.getTariffList();
   }
 
   getCompanyList() {
