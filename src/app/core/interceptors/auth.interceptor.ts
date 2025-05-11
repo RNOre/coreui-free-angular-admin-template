@@ -32,13 +32,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         localStorage.removeItem('token');
         router.navigate(['/login']).then();
       }else {
-        const $message = inject(ToastService);
-        $message.setToast({
-          title: 'Ошибка',
-          text: error.message,
-          duration: 1000,
-          show: true
-        })
+        // const $message = inject(ToastService);
+        // $message.setToast({
+        //   title: 'Ошибка',
+        //   text: error.message,
+        //   duration: 1000,
+        //   show: true
+        // })
       }
       return throwError(() => error);
     })

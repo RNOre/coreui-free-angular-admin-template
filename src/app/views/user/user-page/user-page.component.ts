@@ -106,9 +106,12 @@ export class UserPageComponent implements OnInit {
   }
 
   updateUserData() {
+    console.log({
+      ...this.userField.value, user_id: this.userData?.id, password: this.userField.controls.password.value ?? undefined
+    });
     this.$http
       .patch(this.isAdmin ? 'user-update' : 'http://82.97.241.8:8083/api/v1/user-update', {
-        ...this.userField.value, user_id: this.userData?.id, password: this.userField.controls.password ?? undefined
+        ...this.userField.value, user_id: this.userData?.id, password: this.userField.controls.password.value ?? undefined
       })
       .subscribe(() => this.getUserInfo());
   }
