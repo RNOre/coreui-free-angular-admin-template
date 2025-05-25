@@ -16,12 +16,12 @@ import {MainPageLegalComponent} from "./views/main-page/main-page-legal/main-pag
 import {AnalysisPageComponent} from "./views/analysis-page/analysis-page.component";
 import {UserLegalComponent} from "./views/user-legal/user-legal.component";
 import {AnalysisItemComponent} from "./views/analysis-item/analysis-item.component";
+import {LandingComponent} from "./views/landing/landing.component";
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    component: LandingComponent
   },
   {
     path: '',
