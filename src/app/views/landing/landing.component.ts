@@ -23,6 +23,21 @@ export class LandingComponent {
       }
       case 'order': {
         this.$router.navigate(['order-create']).then();
+        break;
+      }
+      case 'tariff': {
+        this.mobileMenu = false;
+        const a = document.createElement('a');
+        a.href='#tariff';
+        a.click();
+        break;
+      }
+      case 'info': {
+        this.mobileMenu = false;
+        const a = document.createElement('a');
+        a.href='#info';
+        a.click();
+        break;
       }
     }
   }

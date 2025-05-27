@@ -17,8 +17,8 @@
     </div>
     <div class="mobileMenu-main">
       <ul>
-        <li><a href="#info" (click)="mobileMenu=false">О нас</a></li>
-        <li (click)="mobileMenu=false"><a href="#tariff">Тарифы</a></li>
+        <li><a (click)="navigateTo('info')">О нас</a></li>
+        <li><a (click)="navigateTo('tariff')">Тарифы</a></li>
         <li (click)="navigateTo('order')">Подключить организацию</li>
         <li (click)="navigateTo('login')">Войти в систему</li>
         <li>Скачать приложение</li>
@@ -211,22 +211,22 @@
         </div>
         <div class="landing__footer-col">
           <div class="landing__footer-row">
-            <p>Проект Стартап-Студии ОГУ
+            <a href="https://startup-osu.ru/" target="_blank">Проект Стартап-Студии ОГУ
               <svg style="vertical-align: top" width="7" height="7" viewBox="0 0 7 7" fill="none"
                    xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M6.5 1C6.5 0.723857 6.27614 0.5 6 0.5L1.5 0.5C1.22386 0.5 1 0.723857 1 1C1 1.27614 1.22386 1.5 1.5 1.5L5.5 1.5L5.5 5.5C5.5 5.77614 5.72386 6 6 6C6.27614 6 6.5 5.77614 6.5 5.5L6.5 1ZM1 6L1.35355 6.35355L6.35355 1.35355L6 1L5.64645 0.646446L0.646447 5.64645L1 6Z"
                   fill="white"/>
               </svg>
-            </p>
-            <p>Политика конфиденциальности
+            </a>
+            <a href="assets/politic.pdf" target="_blank">Политика конфиденциальности
               <svg style="vertical-align: top" width="7" height="7" viewBox="0 0 7 7" fill="none"
                    xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M6.5 1C6.5 0.723857 6.27614 0.5 6 0.5L1.5 0.5C1.22386 0.5 1 0.723857 1 1C1 1.27614 1.22386 1.5 1.5 1.5L5.5 1.5L5.5 5.5C5.5 5.77614 5.72386 6 6 6C6.27614 6 6.5 5.77614 6.5 5.5L6.5 1ZM1 6L1.35355 6.35355L6.35355 1.35355L6 1L5.64645 0.646446L0.646447 5.64645L1 6Z"
                   fill="white"/>
               </svg>
-            </p>
+            </a>
           </div>
         </div>
       </div>
