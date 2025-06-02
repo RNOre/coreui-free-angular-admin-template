@@ -39,6 +39,12 @@
       & > .outline {
         border: 2px #323231 solid;
       }
+
+      & > button {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        font-family: "Montserrat", sans-serif !important;
+      }
     }
   }
 
@@ -225,13 +231,15 @@
 
 .tariff {
   &List {
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: center;
     gap: 40px;
     margin-top: 47px;
+    grid-template-columns: auto auto;
     @media screen and (max-width: 768px) {
       flex-direction: column;
+      grid-template-columns: auto;
     }
   }
 
@@ -259,7 +267,7 @@
           background-color: #bcb4f6;
         }
 
-        width: 38px;
+        min-width: 38px;
         height: 38px;
         border-radius: 50%;
         display: flex;
@@ -279,7 +287,8 @@
 
     &-footer {
       p {
-        margin-bottom: 0;
+        font-weight: 600;
+        font-size: 36px;
       }
     }
   }
