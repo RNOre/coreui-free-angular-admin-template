@@ -5,6 +5,7 @@ import {UserInterface} from "../../../interfaces/billing";
 import {HttpClient} from "@angular/common/http";
 import {PaginationDirective} from "../../../directives/pagination.directive";
 import {TableDirective} from "@coreui/angular";
+import {env} from "../../../../../env";
 
 @Component({
   selector: 'app-main-page-legal',
@@ -54,7 +55,7 @@ export class MainPageLegalComponent implements OnInit {
       }
     this.$http.post<{
       data: { items: UserInterface[], total: number }
-    }>('http://82.97.241.8:8083/api/v1/users/filter', filter)
+    }>(env.host + 'users/filter', filter)
       .subscribe({
         next: (res) => {
           this.userData = res.data.items;

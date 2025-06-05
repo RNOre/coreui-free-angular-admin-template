@@ -27,6 +27,10 @@
                     [formControl]="authData.controls.password"
                   />
                 </c-input-group>
+                <c-input-group style="margin: 10px 0 20px 0">
+                  <input type="checkbox"/>
+                  <label style="margin-left: 10px" [(ngModel)]="isSuperAdmin"> Администратор сервиса</label>
+                </c-input-group>
                 <c-row>
                   <c-col xs="6">
                     <button cButton class="px-4" color="primary" type="submit" [disabled]="!authData.valid">

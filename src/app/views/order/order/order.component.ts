@@ -129,13 +129,8 @@ export class OrderComponent implements OnInit {
     return '';
   }
 
-  acceptOrder(order_id: string, tariff_id: string) {
-    const body = {
-      tariff_id,
-      status: "success"
-    }
-
-    this.$http.patch('order/' + order_id, body)
+  acceptOrder(order_id: string) {
+    this.$http.post('order-accept', {order_id})
       .subscribe({
         next: () => {
           this.getOrdersCompany()

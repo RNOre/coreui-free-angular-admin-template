@@ -21,7 +21,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return next(authReq);
   }
 
-  authReq = req.clone({
+  authReq = authReq.clone({
     url: `${env.host_admin}${req.url}` // Added /api/ prefix
   });
 

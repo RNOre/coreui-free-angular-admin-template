@@ -64,45 +64,50 @@
                     @switch (order.status) {
                       @case ('waiting') {
                         <div class="actionGroup">
+<!--                          <button title="Подтвердить" style="background-color: #74ed8a"-->
+<!--                                  (click)="checkTariff($event, order)"-->
+<!--                                  [cModalToggle]="'tm'+order.id.substring(0,10)"-->
+<!--                                  [attr.data-target]="'#' + order.id"-->
+<!--                          >-->
+<!--                            <svg [cIcon]="icons.cilCheckAlt"></svg>-->
+<!--                          </button>-->
                           <button title="Подтвердить" style="background-color: #74ed8a"
-                                  (click)="checkTariff($event, order)"
-                                  [cModalToggle]="'tm'+order.id.substring(0,10)"
-                                  [attr.data-target]="'#' + order.id"
+                                  (click)="acceptOrder(order.id)"
                           >
                             <svg [cIcon]="icons.cilCheckAlt"></svg>
                           </button>
                           <button title="Отклонить" style="background-color: #ed7474" (click)="rejectOrder(order.id)">
                             <svg [cIcon]="icons.cilX"></svg>
                           </button>
-                            <c-modal #selectTariffModal size="xl" alignment="center" [id]="'tm'+order.id.substring(0,10)" class="setTariffModal">
-                              <c-modal-header style="display: flex; justify-content: space-between; color: #323231">
-                                <h5 cModalTitle>Новая заявка</h5>
-                                <button [cModalToggle]="selectTariffModal.id" cButtonClose></button>
-                              </c-modal-header>
-                              <c-modal-body>
-                              <div class="tariffList" pagination [paginationMeta]="tariffMetaCompany" (pageChange)="pageChangeTariff($event)">
-                                @for (tariff of tariffsData; track tariff.id) {
-                                  <div class="tariffItem" (click)="activeTariff = tariff.id"
-                                       [class.active]="activeTariff === tariff.id">
-                                    <div class="tariffItem-title">{{ tariff.name }}</div>
-                                    <div class="tariffItem-data">
-                                      <div>Тип: <span>{{ tariff.kind }}</span></div>
-                                      <div>Сотрудников: <span>{{ tariff.limit }}</span></div>
-                                      <div>Период: <span>{{ tariff.period }}</span></div>
-                                      <div>Цена: <span>...</span></div>
-                                    </div>
-                                  </div>
-                                }
-                              </div>
-                            </c-modal-body>
-                            @if (activeTariff) {
-                              <c-modal-footer>
-                                <button style="margin: auto" class="btn btn-primary"
-                                        (click)="acceptOrder(order.id, activeTariff)">Принято
-                                </button>
-                              </c-modal-footer>
-                            }
-                          </c-modal>
+<!--                            <c-modal #selectTariffModal size="xl" alignment="center" [id]="'tm'+order.id.substring(0,10)" class="setTariffModal">-->
+<!--                              <c-modal-header style="display: flex; justify-content: space-between; color: #323231">-->
+<!--                                <h5 cModalTitle>Новая заявка</h5>-->
+<!--                                <button [cModalToggle]="selectTariffModal.id" cButtonClose></button>-->
+<!--                              </c-modal-header>-->
+<!--                              <c-modal-body>-->
+<!--                              <div class="tariffList" pagination [paginationMeta]="tariffMetaCompany" (pageChange)="pageChangeTariff($event)">-->
+<!--                                @for (tariff of tariffsData; track tariff.id) {-->
+<!--                                  <div class="tariffItem" (click)="activeTariff = tariff.id"-->
+<!--                                       [class.active]="activeTariff === tariff.id">-->
+<!--                                    <div class="tariffItem-title">{{ tariff.name }}</div>-->
+<!--                                    <div class="tariffItem-data">-->
+<!--                                      <div>Тип: <span>{{ tariff.kind }}</span></div>-->
+<!--                                      <div>Сотрудников: <span>{{ tariff.limit }}</span></div>-->
+<!--                                      <div>Период: <span>{{ tariff.period }}</span></div>-->
+<!--                                      <div>Цена: <span>...</span></div>-->
+<!--                                    </div>-->
+<!--                                  </div>-->
+<!--                                }-->
+<!--                              </div>-->
+<!--                            </c-modal-body>-->
+<!--                            @if (activeTariff) {-->
+<!--                              <c-modal-footer>-->
+<!--                                <button style="margin: auto" class="btn btn-primary"-->
+<!--                                        (click)="acceptOrder(order.id, activeTariff)">Принято-->
+<!--                                </button>-->
+<!--                              </c-modal-footer>-->
+<!--                            }-->
+<!--                          </c-modal>-->
                         </div>
                       }
                       @case ('rejected') {

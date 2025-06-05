@@ -26,6 +26,7 @@ import {DatePipe, JsonPipe, NgStyle} from "@angular/common";
 import {getSupportedInputTypes} from "@angular/cdk/platform";
 import {Router} from "@angular/router";
 import {PaginationDirective} from "../../../directives/pagination.directive";
+import {env} from "../../../../../env";
 
 @Component({
   selector: 'app-tariff',
@@ -130,7 +131,7 @@ export class TariffComponent implements OnInit {
         offset: (this.tariffMetaCompany.currentPage - 1) * this.tariffMetaCompany.perPage
       }
     };
-    this.$http.post('tariffs/filter', filter)
+    this.$http.post(env.host +'tariffs/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         this.tariffsDataCompany = res.data.items;

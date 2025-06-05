@@ -1,7 +1,7 @@
 import {Component, OnInit, signal} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, RouterLink} from "@angular/router";
-import {CompanyInterface, LicenseInterface, UserInterface} from "../../../interfaces/billing";
+import {CompanyInterface, LicenseInterface, TariffInterface, UserInterface} from "../../../interfaces/billing";
 import {FilterInterface, PaginationInterface, PaginationMetaInterface} from "../../../interfaces/global";
 import {filter} from "rxjs";
 import {
@@ -10,7 +10,7 @@ import {
   FormControlDirective,
   FormSelectDirective,
   ModalBodyComponent,
-  ModalComponent,
+  ModalComponent, ModalFooterComponent,
   ModalHeaderComponent,
   ModalTitleDirective,
   ModalToggleDirective, ProgressComponent,
@@ -21,6 +21,7 @@ import {OrderInterface} from "../../../interfaces/order";
 import {DatePipe, JsonPipe} from "@angular/common";
 import {isAdmin} from "../../../core/global";
 import {PaginationDirective} from "../../../directives/pagination.directive";
+import {env} from "../../../../../env";
 
 @Component({
   selector: 'app-company-page',
@@ -44,7 +45,8 @@ import {PaginationDirective} from "../../../directives/pagination.directive";
     ToastComponent,
     ToastHeaderComponent,
     ProgressComponent,
-    ToastBodyComponent
+    ToastBodyComponent,
+    ModalFooterComponent
   ],
   templateUrl: './company-page.component.html',
   standalone: true,
@@ -64,19 +66,22 @@ export class CompanyPageComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
     sex: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required])
+    username: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required]),
+    disable: new FormControl(false)
   })
 
   company_id!: number;
   companyData!: CompanyInterface;
   userData!: UserInterface[];
   licenseData: LicenseInterface[] | undefined;
+  tariffList: TariffInterface[] | undefined;
   userMeta: PaginationMetaInterface = {
     currentPage: 1,
     perPage: 10,
     currentCount: 0
   };
+  activeTariff = '';
   visible = signal(false);
   percentage = signal(0);
 
@@ -92,10 +97,11 @@ export class CompanyPageComponent implements OnInit {
     this.getCompany();
     this.getUsers();
     this.getLicenses();
+    this.getTariffList();
   }
 
   updateCompanyData() {
-    this.$http.patch('http://82.97.241.8:8083/api/v1/company-update', this.companyField.value)
+    this.$http.patch(env.host + 'company-update', this.companyField.value)
       .subscribe((res) => this.getCompany());
   }
 
@@ -115,7 +121,7 @@ export class CompanyPageComponent implements OnInit {
 
     this.$http.post<{
       data: { items: LicenseInterface[] }
-    }>(isAdmin() ? 'licenses/filter' : 'http://82.97.241.8:8083/api/v1/licenses/filter', filter)
+    }>(isAdmin() ? 'licenses/filter' : env.host + 'licenses/filter', filter)
       .subscribe(
         (res) => {
           this.licenseData = res.data.items
@@ -126,7 +132,7 @@ export class CompanyPageComponent implements OnInit {
   getCompany() {
     this.$http.get<{
       data: CompanyInterface
-    }>(this.isLegal() ? 'http://82.97.241.8:8083/api/v1/company/info' : 'company/' + this.company_id)
+    }>(this.isLegal() ? env.host + 'company/info' : 'company/' + this.company_id)
       .subscribe({
         next: (res) => {
           if (res.data) {
@@ -153,7 +159,7 @@ export class CompanyPageComponent implements OnInit {
     }
     this.$http.post<{
       data: { items: UserInterface[], total: number }
-    }>(isAdmin() ? 'users/filter' : 'http://82.97.241.8:8083/api/v1/users/filter', filterUser)
+    }>(isAdmin() ? 'users/filter' : env.host + 'users/filter', filterUser)
       .subscribe({
         next: (res) => {
           this.userData = res.data.items;
@@ -173,12 +179,12 @@ export class CompanyPageComponent implements OnInit {
   createUser() {
     let body = {
       ...this.userField.value,
-      is_admin: false,
+      is_admin: this.userData?.length === 0,
       company_id: isAdmin() ? this.company_id : undefined
     };
 
     this.$http
-      .post(isAdmin() ? 'user-create' : 'http://82.97.241.8:8083/api/v1/user-create', body)
+      .post(isAdmin() ? 'user-create' : env.host + 'user-create', body)
       .subscribe({
         next: () => this.getUsers(),
         error: () => this.toggleToast()
@@ -212,5 +218,36 @@ export class CompanyPageComponent implements OnInit {
   onVisibleChange($event: boolean) {
     this.visible.set($event);
     this.percentage.set(this.visible() ? this.percentage() : 0);
+  }
+
+  addLicense() {
+    this.$http.get<string>(env.host + 'license/payment/' + this.activeTariff)
+      .subscribe((res)=>{
+        const a = document.createElement('a');
+        a.href = res;
+        a.click();
+      });
+  }
+
+  getTariffList() {
+    const filter: FilterInterface = {
+      filter: {
+        kind: {
+          company: "{}"
+        }
+      },
+      order: {
+        activatedAt: 'asc'
+      },
+      pagination: {
+        limit: 100,
+        offset: 0
+      }
+    };
+    this.$http.post(env.host + 'tariffs/filter', filter)
+      // @ts-ignore
+      .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
+        this.tariffList = res.data.items;
+      })
   }
 }

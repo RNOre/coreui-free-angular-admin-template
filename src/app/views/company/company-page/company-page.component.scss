@@ -113,3 +113,60 @@
     justify-content: center;
   }
 }
+.tariff {
+  &List {
+    display: grid;
+    flex-wrap: wrap;
+    gap: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 10px;
+  }
+  &Item {
+    border-radius: 22px;
+    background-color: #f5f5f5;
+    color: #323231;
+    padding: 20px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #bbf0c5;
+    }
+
+    &.active {
+      background-color: #74ed8a;
+    }
+
+    &-title {
+      font-weight: 600;
+      font-size: 24px;
+      margin-bottom: 33px;
+    }
+
+    &-data {
+      font-weight: 600;
+      font-size: 11px;
+
+      & > span {
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.license_status {
+  color: white;
+  font-weight: 500;
+  font-size: 10px;
+  border-radius: 22px;
+  width: 90px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.deleted {
+    background-color: #ed7474;
+  }
+  &.success {
+    background-color: #74ed8a;
+  }
+}

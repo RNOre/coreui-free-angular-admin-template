@@ -15,16 +15,17 @@ import {
   FormControlDirective,
   ButtonDirective
 } from '@coreui/angular';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {env} from "../../../../../env";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle, ReactiveFormsModule]
+  imports: [ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle, ReactiveFormsModule, FormsModule]
 })
 export class LoginComponent {
 
@@ -35,6 +36,8 @@ export class LoginComponent {
     }
   )
 
+  isSuperAdmin = true;
+
   constructor(
     private $http: HttpClient,
     private $router: Router
@@ -42,14 +45,21 @@ export class LoginComponent {
   }
 
   login() {
-    if (this.authData.controls.password.value === 'admin' && this.authData.controls.username.value === 'admin') {
-      localStorage.setItem('isAdmin', 'true');
-      localStorage.setItem('token', 'admin');
-      this.$router.navigate(['home']).then();
+    if (this.isSuperAdmin) {
+      this.$http
+    .post<{data:{token: string}}>('auth', this.authData.value)
+        .subscribe({
+          next: (res) => {
+            localStorage.setItem('isAdmin', 'true');
+            localStorage.setItem('token', res.data.token);
+            console.log(localStorage.getItem('token'))
+            this.$router.navigate(['home']).then();
+          }
+        });
       return;
     }
     this.$http
-      .post<{data:{token: string}}>('http://82.97.241.8:8083/api/v1/auth', this.authData.value)
+      .post<{data:{token: string}}>(env.host + 'auth', this.authData.value)
       .subscribe({
         next: (res) => {
           localStorage.setItem('token', res.data.token);

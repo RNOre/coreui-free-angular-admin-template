@@ -19,6 +19,7 @@ import {cilCheckAlt, cilX} from "@coreui/icons";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {env} from "../../../../env";
 
 @Component({
   selector: 'app-user-legal',
@@ -90,7 +91,7 @@ export class UserLegalComponent implements OnInit{
           offset: (this.meta.currentPage - 1) * this.meta.perPage
         }
       }
-    this.$http.post('http://82.97.241.8:8083/api/v1/users/filter', filter)
+    this.$http.post(env.host + 'users/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         // @ts-ignore
@@ -112,7 +113,7 @@ export class UserLegalComponent implements OnInit{
 
   addUser() {
     this.$http
-      .post('http://82.97.241.8:8083/api/v1/user-create', this.newUser.value)
+      .post(env.host + 'user-create', this.newUser.value)
       .subscribe(()=>{
         this.getUserList();
       });
@@ -120,7 +121,7 @@ export class UserLegalComponent implements OnInit{
 
   deleteUser(id: string) {
     this.$http
-      .delete('http://82.97.241.8:8083/api/v1/user/' + id)
+      .delete(env.host + 'user/' + id)
       .subscribe({
         next: () => this.getUserList()
       });

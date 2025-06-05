@@ -1,4 +1,4 @@
 export const env = {
-  host_admin: 'http://82.97.241.8:8083/admin/api/v1/',
-  host: 'http://82.97.241.8:8083/api/v1/'
+  host_admin: 'https://koecount.ru/api/admin/v1/',
+  host: 'https://koecount.ru/api/v1/'
 }

@@ -4,6 +4,7 @@ import {OrderInterface} from "../../interfaces/order";
 import {AnalysisInterface, PredictedClassesInterface} from "../../interfaces/analysis";
 import {HttpClient} from "@angular/common/http";
 import {DatePipe, KeyValuePipe, NgStyle} from "@angular/common";
+import {env} from "../../../../env";
 
 @Component({
   selector: 'app-analysis-widget',
@@ -61,7 +62,7 @@ export class AnalysisWidgetComponent implements OnInit {
       }
     }
     this.$http
-      .post<{data: { items: AnalysisInterface[], total: number}}>('http://82.97.241.8:8083/api/v1/company-studies/filter', filter)
+      .post<{data: { items: AnalysisInterface[], total: number}}>(env.host + 'company-studies/filter', filter)
     .subscribe(
       {
         next: (res) => {

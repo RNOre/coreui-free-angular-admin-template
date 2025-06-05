@@ -6,6 +6,7 @@ import {FilterInterface, PaginationMetaInterface} from "../../../interfaces/glob
 import {AvatarComponent, FormControlDirective, FormSelectDirective, TableDirective} from "@coreui/angular";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {DatePipe} from "@angular/common";
+import {env} from "../../../../../env";
 
 @Component({
   selector: 'app-user-page',
@@ -59,7 +60,7 @@ export class UserPageComponent implements OnInit {
   getUserInfo() {
     this.$http.get<{
       data: UserInterface
-    }>(this.isAdmin ? 'user/' + this.user_id : 'http://82.97.241.8:8083/api/v1/user/' + this.user_id)
+    }>(this.isAdmin ? 'user/' + this.user_id : env.host + 'user/' + this.user_id)
       // @ts-ignore
       .subscribe((res) => {
         // @ts-ignore
@@ -107,7 +108,7 @@ export class UserPageComponent implements OnInit {
 
   updateUserData() {
     this.$http
-      .patch(this.isAdmin ? 'user-update' : 'http://82.97.241.8:8083/api/v1/user-update', {
+      .patch(this.isAdmin ? 'user-update' : env.host + 'user-update', {
         ...this.userField.value, id: this.userData?.id, password: this.userField.controls.password.value ?? undefined
       })
       .subscribe(() => this.getUserInfo());
@@ -122,7 +123,7 @@ export class UserPageComponent implements OnInit {
       formData.append('user_id', this.user_id);
 
       this.$http
-        .post(this.isAdmin ? 'user/photo' : 'http://82.97.241.8:8083/api/v1/user/photo', formData)
+        .post(this.isAdmin ? 'user/photo' : env.host + 'user/photo', formData)
         .subscribe(() => this.getUserInfo());
     }
   }

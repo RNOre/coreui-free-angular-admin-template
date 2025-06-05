@@ -19,7 +19,7 @@
       @case (1) {
         <div>Заявка на регистрацию организации</div>
         <div class="inviteLegal">
-          <form cForm (ngSubmit)="step=2">
+          <form cForm (ngSubmit)="createOrder()">
             <div class="mb-3">
               <!--            <label cLabel for="company_name">Название компании</label>-->
               <input cFormControl
@@ -97,47 +97,47 @@
           </form>
         </div>
       }
+<!--      @case (2) {-->
+<!--        <div>Выбор тарифа</div>-->
+<!--        <div class="inviteLegal">-->
+<!--          <div class="tariffList" pagination [paginationMeta]="tariffMetaCompany" (pageChange)="pageChange($event)">-->
+<!--            @for (tariff of tariffsData; track tariff.id) {-->
+<!--              <div class="tariffItem" (click)="activeTariff = tariff.id" [class.active]="activeTariff === tariff.id"-->
+<!--              >-->
+<!--                <div class="tariffName">-->
+<!--                  {{ tariff.name }}-->
+<!--                </div>-->
+<!--                <div class="data">-->
+<!--                  @if (!tariff.extra) {-->
+<!--                    <div>Сотрудников: <span>?</span></div>-->
+<!--                    <div>Период: <span>{{ tariff.period }}</span></div>-->
+<!--                    <div>Цена: <span>{{ tariff.price }} ₽</span></div>-->
+<!--                  } @else {-->
+<!--                    <div><span>-->
+<!--                      {{ tariff.extra }}-->
+<!--                    </span></div>-->
+<!--                  }-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            } @empty {-->
+<!--              <div>Список тарифов пуст</div>-->
+<!--            }-->
+<!--          </div>-->
+<!--          <div style="display: flex; justify-content: center; gap: 10px; margin-top: 30px;">-->
+<!--            <button class="btn btn-primary" (click)="step = 1">-->
+<!--              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--                <path-->
+<!--                  d="M0.292893 7.29289C-0.0976314 7.68342 -0.0976315 8.31658 0.292892 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928931C7.68054 0.538407 7.04738 0.538407 6.65685 0.928931L0.292893 7.29289ZM16 7L0.999999 7L0.999999 9L16 9L16 7Z"-->
+<!--                  fill="white"/>-->
+<!--              </svg>-->
+<!--            </button>-->
+<!--            @if (activeTariff) {-->
+<!--              <button (click)="createOrder()" class="btn btn-primary">Создать</button>-->
+<!--            }-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      }-->
       @case (2) {
-        <div>Выбор тарифа</div>
-        <div class="inviteLegal">
-          <div class="tariffList" pagination [paginationMeta]="tariffMetaCompany" (pageChange)="pageChange($event)">
-            @for (tariff of tariffsData; track tariff.id) {
-              <div class="tariffItem" (click)="activeTariff = tariff.id" [class.active]="activeTariff === tariff.id"
-              >
-                <div class="tariffName">
-                  {{ tariff.name }}
-                </div>
-                <div class="data">
-                  @if (!tariff.extra) {
-                    <div>Сотрудников: <span>?</span></div>
-                    <div>Период: <span>{{ tariff.period }}</span></div>
-                    <div>Цена: <span>{{ tariff.price }} ₽</span></div>
-                  } @else {
-                    <div><span>
-                      {{ tariff.extra }}
-                    </span></div>
-                  }
-                </div>
-              </div>
-            } @empty {
-              <div>Список тарифов пуст</div>
-            }
-          </div>
-          <div style="display: flex; justify-content: center; gap: 10px; margin-top: 30px;">
-            <button class="btn btn-primary" (click)="step = 1">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M0.292893 7.29289C-0.0976314 7.68342 -0.0976315 8.31658 0.292892 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928931C7.68054 0.538407 7.04738 0.538407 6.65685 0.928931L0.292893 7.29289ZM16 7L0.999999 7L0.999999 9L16 9L16 7Z"
-                  fill="white"/>
-              </svg>
-            </button>
-            @if (activeTariff) {
-              <button (click)="createOrder()" class="btn btn-primary">Создать</button>
-            }
-          </div>
-        </div>
-      }
-      @case (3) {
         <div>Заявка на регистрацию организации</div>
         <div class="inviteLegal">
           <div style="text-align: center; font-weight: 600; font-size: 16px">

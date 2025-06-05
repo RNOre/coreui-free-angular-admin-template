@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AnalysisInterface, PredictedClassesInterface} from "../../interfaces/analysis";
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
+import {env} from "../../../../env";
 
 @Component({
   selector: 'app-analysis-item',
@@ -27,7 +28,7 @@ export class AnalysisItemComponent implements OnInit {
 
   getData() {
     this.$http
-      .get<{ data: AnalysisInterface }>('http://82.97.241.8:8083/api/v1/study/' + this.analysis_id)
+      .get<{ data: AnalysisInterface }>(env.host + 'study/' + this.analysis_id)
       .subscribe({
         next: (res) => this.analysis = res.data
       })
@@ -57,7 +58,7 @@ export class AnalysisItemComponent implements OnInit {
       }
     }
 
-    this.$http.post('http://82.97.241.8:8083/api/v1/company-studies/pdf', filter,{
+    this.$http.post(env.host + 'company-studies/pdf', filter,{
       responseType: 'arraybuffer' // Explicitly tell HttpClient to expect binary data
     })
       .subscribe((res: ArrayBuffer) => {

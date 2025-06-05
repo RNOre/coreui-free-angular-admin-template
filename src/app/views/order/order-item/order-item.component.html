@@ -29,20 +29,44 @@
                type="text"
                [formControl]="orderData.controls.company_name"
         />
-        <div class="inputField">
-          <label> Тарифф </label>
-          <select name="tariff"
-                  id="tariff"
-                  aria-label="Default select example" cSelect
-                  [formControl]="orderData.controls.tariff_id"
-                  (change)="selectTariff()"
-          >
-            @for (tariff of tariffList; track tariff.id) {
-              <option [value]="tariff.id">{{ tariff.name }}</option>
-            }
-          </select>
-        </div>
-        <button cButton type="submit" (click)="updateOrder()"> Сохранить</button>
+        <input cFormControl
+               style="margin-top: 20px"
+               name="email"
+               id="email"
+               placeholder="email компании"
+               type="text"
+               [formControl]="orderData.controls.email"
+        />
+        <input cFormControl
+               style="margin-top: 20px"
+               name="phone"
+               id="phone"
+               placeholder="phone компании"
+               type="text"
+               [formControl]="orderData.controls.phone"
+        />
+        <input cFormControl
+               style="margin-top: 20px"
+               name="inn"
+               id="inn"
+               placeholder="inn компании"
+               type="text"
+               [formControl]="orderData.controls.inn"
+        />
+<!--        <div class="inputField">-->
+<!--          <label> Тарифф </label>-->
+<!--          <select name="tariff"-->
+<!--                  id="tariff"-->
+<!--                  aria-label="Default select example" cSelect-->
+<!--                  [formControl]="orderData.controls.tariff_id"-->
+<!--                  (change)="selectTariff()"-->
+<!--          >-->
+<!--            @for (tariff of tariffList; track tariff.id) {-->
+<!--              <option [value]="tariff.id">{{ tariff.name }}</option>-->
+<!--            }-->
+<!--          </select>-->
+<!--        </div>-->
+        <button cButton type="submit" (click)="updateOrder()" style="margin-top: 20px;"> Сохранить</button>
       </form>
     </div>
   </div>

@@ -90,12 +90,11 @@ export class OrderCreateComponent implements OnInit {
     //   ]
     // }
 
-    this.$http.post('http://82.97.241.8:8083/api/v1/order-create', {
-      ...this.order.value,
-      tariff_id: this.activeTariff === '1' ? undefined : this.activeTariff
+    this.$http.post(env.host + 'order-create', {
+      ...this.order.value
     })
       .subscribe({
-        next: () => this.step = 3
+        next: () => this.step = 2
       });
   }
 
