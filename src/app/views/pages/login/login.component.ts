@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NgStyle} from '@angular/common';
+import {JsonPipe, NgStyle} from '@angular/common';
 import {IconDirective} from '@coreui/icons-angular';
 import {
   ContainerComponent,
@@ -25,7 +25,7 @@ import {env} from "../../../../../env";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle, ReactiveFormsModule, FormsModule]
+  imports: [ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle, ReactiveFormsModule, FormsModule, JsonPipe]
 })
 export class LoginComponent {
 
