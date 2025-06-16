@@ -6,6 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {PaginationDirective} from "../../../directives/pagination.directive";
 import {TableDirective} from "@coreui/angular";
 import {env} from "../../../../../env";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main-page-legal',
@@ -26,7 +27,7 @@ export class MainPageLegalComponent implements OnInit {
     currentCount: 0
   };
 
-  constructor(private $http: HttpClient) {
+  constructor(private $http: HttpClient, private $router: Router) {
   }
 
   ngOnInit() {
@@ -70,5 +71,10 @@ export class MainPageLegalComponent implements OnInit {
   pageChangeUser(page: number) {
     this.userMeta.currentPage = page;
     this.getUserList();
+  }
+
+  navigateToUser(id: string) {
+    this.$router.navigate(['user', id])
+      .then();
   }
 }

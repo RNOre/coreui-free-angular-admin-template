@@ -26,177 +26,179 @@
           </button>
         </div>
       </div>
-        <div class="content">
-          <div class="table-wrapper" style="max-height: 300px">
-            <table cTable borderless>
-              <thead>
-              <tr>
-                <th scope="col">Название</th>
-                <th scope="col">Дата создания</th>
-                <th scope="col">Период</th>
-                <th scope="col">Сотрудников</th>
-                <th scope="col">Цена</th>
-                <th scope="col">Дата начала</th>
-                <th scope="col">Дата окончания</th>
-                <th scope="col">Статус</th>
-              </tr>
-              </thead>
-              <tbody>
-                @for (license of licenseData; track license.id) {
-                  <tr>
-                    <td scope="row">
-                      {{ license.tariff_name }}
-                    </td>
-                    <td>
-                      {{ license.created_at | date : "dd.MM.YYYY" }}
-                    </td>
-                    <td>
-                      {{ license.tariff_period }}
-                    </td>
-                    <td>
-                      {{ license.limit }}
-                    </td>
-                    <td>
-                      {{ license.tariff_price }}
-                    </td>
-                    <td>
-                      {{ license.activated_at | date : "dd.MM.YYYY" }}
-                    </td>
-                    <td class="last_td">
-                      {{ license.expires_at | date : "dd.MM.YYYY" }}
-                    </td>
-                    <div style="background-color: transparent">
-                      @if(license.is_deleted) {
-                        <div class="license_status deleted">
-                          Закончилась
-                        </div>
-                      } @else {
-                        <div class="license_status success">
-                          Действует
-                        </div>
-                      }
-                    </div>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
+      <div class="content">
+        <div class="table-wrapper" style="max-height: 300px">
+          <table cTable borderless>
+            <thead>
+            <tr>
+              <th scope="col">Название</th>
+              <th scope="col">Дата создания</th>
+              <th scope="col">Период</th>
+              <th scope="col">Сотрудников</th>
+              <th scope="col">Цена</th>
+              <th scope="col">Дата начала</th>
+              <th scope="col">Дата окончания</th>
+              <th scope="col">Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (license of licenseData; track license.id) {
+                <tr>
+                  <td scope="row">
+                    {{ license.tariff_name }}
+                  </td>
+                  <td>
+                    {{ license.created_at | date : "dd.MM.YYYY" }}
+                  </td>
+                  <td>
+                    {{ license.tariff_period }}
+                  </td>
+                  <td>
+                    {{ license.limit }}
+                  </td>
+                  <td>
+                    {{ license.tariff_price }}
+                  </td>
+                  <td>
+                    {{ license.activated_at | date : "dd.MM.YYYY" }}
+                  </td>
+                  <td class="last_td">
+                    {{ license.expires_at | date : "dd.MM.YYYY" }}
+                  </td>
+                  <div style="background-color: transparent">
+                    @if (license.is_deleted) {
+                      <div class="license_status deleted">
+                        Закончилась
+                      </div>
+                    } @else {
+                      <div class="license_status success">
+                        Действует
+                      </div>
+                    }
+                  </div>
+                </tr>
+              }
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="companyPage-users" style="margin-top: 14px">
-        <div class="companyPage-users__header">
-          <div>Сотрудники</div>
-          <div class="companyPage-users__header-right">
-            <div class="userCount">
-              @if (licenseData && userMeta) {
-                {{ userMeta.totalCount }}/{{ licenseData[0].limit - 1 }}
-              } @else {
-                0
-              }
-            </div>
-            <button class="addBtn" [cModalToggle]="'addUser'" [disabled]="userMeta.totalCount === (limit - 1)">
-              <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 8.07104H15.1421M8.07107 15.1421V0.999977" stroke="#323231" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
+    </div>
+    <div class="companyPage-users" style="margin-top: 14px">
+      <div class="companyPage-users__header">
+        <div>Сотрудники</div>
+        <div class="companyPage-users__header-right">
+          <div class="userCount">
+            @if (licenseData && userMeta) {
+              {{ userMeta.totalCount }}/{{ licenseData[0].limit - 1 }}
+            } @else {
+              0
+            }
           </div>
+          <button class="addBtn" [cModalToggle]="'addUser'" [disabled]="userMeta.totalCount === (limit - 1)">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 8.07104H15.1421M8.07107 15.1421V0.999977" stroke="#323231" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </div>
-        <div class="content">
-          <div class="table-wrapper" style="max-height: 300px">
-            <table cTable borderless pagination [paginationMeta]="userMeta" (pageChange)="pageChangeUser($event)">
-              <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">ФИО</th>
-                <th scope="col">username</th>
-                <th scope="col">email</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-                @for (user of userData; track user.id) {
-                  <tr>
-                    <td scope="row" [title]="user.id">
-                      {{ user.id?.substring(0, 5) }}...
-                    </td>
-                    <td>
-                      {{ user.name || '-' }}
-                    </td>
-                    <td>
-                      {{ user.username || '-' }}
-                    </td>
-                    <td class="last_td">
-                      {{ user.email || '-' }}
-                    </td>
-                    <div class="actionGroup">
-                      <button title="Просмотреть" [routerLink]="['/user', user.id]">
-                        <svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M2.19521 11.5897C1.3984 10.5545 1 10.0369 1 8.5C1 6.96306 1.3984 6.4455 2.19521 5.41031C3.78621 3.34334 6.45448 1 10.375 1C14.2955 1 16.9637 3.34334 18.5548 5.41031C19.3516 6.4455 19.75 6.96306 19.75 8.5C19.75 10.0369 19.3516 10.5545 18.5548 11.5897C16.9637 13.6566 14.2955 16 10.375 16C6.45448 16 3.78621 13.6566 2.19521 11.5897Z"
-                            stroke="#323231" stroke-width="2"/>
-                          <path
-                            d="M13.1875 8.5C13.1875 10.0533 11.9283 11.3125 10.375 11.3125C8.82166 11.3125 7.5625 10.0533 7.5625 8.5C7.5625 6.94666 8.82166 5.6875 10.375 5.6875C11.9283 5.6875 13.1875 6.94666 13.1875 8.5Z"
-                            stroke="#323231" stroke-width="2"/>
-                        </svg>
-                      </button>
-                      <button title="Удалить" (click)="deleteUser(user.id)">
-                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M12.6667 3.5L11.9992 13.5108C11.9408 14.3875 11.9116 14.8259 11.7222 15.1583C11.5555 15.451 11.304 15.6863 11.0009 15.8332C10.6567 16 10.2172 16 9.3385 16H5.99481C5.11606 16 4.67668 16 4.33241 15.8332C4.02931 15.6863 3.77782 15.451 3.6111 15.1583C3.42172 14.8259 3.3925 14.3875 3.33405 13.5108L2.66667 3.5M1 3.5H14.3333M11 3.5L10.7745 2.82339C10.5559 2.16771 10.4466 1.83987 10.2439 1.59748C10.0649 1.38344 9.83508 1.21777 9.57542 1.11565C9.28133 1 8.93583 1 8.24467 1H7.08867C6.3975 1 6.052 1 5.75792 1.11565C5.49827 1.21777 5.2684 1.38344 5.08941 1.59748C4.88671 1.83987 4.77743 2.16771 4.55887 2.82339L4.33333 3.5"
-                            stroke="#ED7474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                      </button>
-                    </div>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
+      </div>
+      <div class="content">
+        <div class="table-wrapper" style="max-height: 300px">
+          <table cTable borderless pagination [paginationMeta]="userMeta" (pageChange)="pageChangeUser($event)">
+            <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">ФИО</th>
+              <th scope="col">username</th>
+              <th scope="col">email</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (user of userData; track user.id) {
+                <tr>
+                  <td scope="row" [title]="user.id">
+                    {{ user.id?.substring(0, 5) }}...
+                  </td>
+                  <td>
+                    {{ user.name || '-' }}
+                  </td>
+                  <td>
+                    {{ user.username || '-' }}
+                  </td>
+                  <td class="last_td">
+                    {{ user.email || '-' }}
+                  </td>
+                  <div class="actionGroup">
+                    <button title="Просмотреть" [routerLink]="['/user', user.id]">
+                      <svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M2.19521 11.5897C1.3984 10.5545 1 10.0369 1 8.5C1 6.96306 1.3984 6.4455 2.19521 5.41031C3.78621 3.34334 6.45448 1 10.375 1C14.2955 1 16.9637 3.34334 18.5548 5.41031C19.3516 6.4455 19.75 6.96306 19.75 8.5C19.75 10.0369 19.3516 10.5545 18.5548 11.5897C16.9637 13.6566 14.2955 16 10.375 16C6.45448 16 3.78621 13.6566 2.19521 11.5897Z"
+                          stroke="#323231" stroke-width="2"/>
+                        <path
+                          d="M13.1875 8.5C13.1875 10.0533 11.9283 11.3125 10.375 11.3125C8.82166 11.3125 7.5625 10.0533 7.5625 8.5C7.5625 6.94666 8.82166 5.6875 10.375 5.6875C11.9283 5.6875 13.1875 6.94666 13.1875 8.5Z"
+                          stroke="#323231" stroke-width="2"/>
+                      </svg>
+                    </button>
+                    <button title="Удалить" (click)="deleteUser(user.id)">
+                      <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12.6667 3.5L11.9992 13.5108C11.9408 14.3875 11.9116 14.8259 11.7222 15.1583C11.5555 15.451 11.304 15.6863 11.0009 15.8332C10.6567 16 10.2172 16 9.3385 16H5.99481C5.11606 16 4.67668 16 4.33241 15.8332C4.02931 15.6863 3.77782 15.451 3.6111 15.1583C3.42172 14.8259 3.3925 14.3875 3.33405 13.5108L2.66667 3.5M1 3.5H14.3333M11 3.5L10.7745 2.82339C10.5559 2.16771 10.4466 1.83987 10.2439 1.59748C10.0649 1.38344 9.83508 1.21777 9.57542 1.11565C9.28133 1 8.93583 1 8.24467 1H7.08867C6.3975 1 6.052 1 5.75792 1.11565C5.49827 1.21777 5.2684 1.38344 5.08941 1.59748C4.88671 1.83987 4.77743 2.16771 4.55887 2.82339L4.33333 3.5"
+                          stroke="#ED7474" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                </tr>
+              }
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
-  <c-modal #createUserModal size="sm" alignment="center" [id]="'addUser'" class="setTariffModal">
-    <c-modal-header style="display: flex; justify-content: space-between; color: #323231">
-      <h5 cModalTitle>Добавление сотрудника</h5>
-      <button [cModalToggle]="'addUser'" cButtonClose></button>
-    </c-modal-header>
-    <c-modal-body>
-      <form [formGroup]="userField" (ngSubmit)="createUser()" class="addUser-fields">
-        <input cFormControl placeholder="Имя" [formControl]="userField.controls.name"/>
-        <input cFormControl type="email" placeholder="Username (email)" [formControl]="userField.controls.username"/>
-        <input cFormControl type="email" placeholder="Email" [formControl]="userField.controls.email"/>
-        <select name="sex"
-                id="sex"
-                cSelect
-                [formControl]="userField.controls.sex"
-        >
-          <option value="male">Мужчина</option>
-          <option value="female">Женщина</option>
-        </select>
-        <input type="date" [formControl]="userField.controls.birth_date" class="datePicker"
-               placeholder="Дата рождения"/>
-        <input cFormControl type="password" [formControl]="userField.controls.password"
-               placeholder="Придумайте пароль"/>
-        @if (!userField.untouched) {
-          <button class="btn btn-primary" style="margin: 11px auto" [disabled]="!userField.valid">Создать</button>
-        }
-      </form>
-    </c-modal-body>
-  </c-modal>
-  <c-toaster placement="top-end" class="p-3" position="fixed">
-    <c-toast
-      (timer)="onTimerChange($event)"
-      (visibleChange)="onVisibleChange($event)"
-      [visible]="visible()"
-    >
-      <c-toast-body>
-        <p>Превышен лимит на сотрудников</p>
-        <c-progress thin [value]="percentage()"/>
-      </c-toast-body>
-    </c-toast>
-  </c-toaster>
+</div>
+<c-modal #createUserModal size="sm" alignment="center" [id]="'addUser'" class="setTariffModal">
+  <c-modal-header style="display: flex; justify-content: space-between; color: #323231">
+    <h5 cModalTitle>Добавление сотрудника</h5>
+    <button [cModalToggle]="'addUser'" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form [formGroup]="userField" (ngSubmit)="createUser()" class="addUser-fields">
+      <input cFormControl placeholder="Имя" [formControl]="userField.controls.name"/>
+      <input cFormControl type="email" placeholder="Username (email)" [formControl]="userField.controls.username"/>
+      <input cFormControl type="email" placeholder="Email" [formControl]="userField.controls.email"/>
+      <select name="sex"
+              id="sex"
+              cSelect
+              [formControl]="userField.controls.sex"
+      >
+        <option value="male">Мужчина</option>
+        <option value="female">Женщина</option>
+      </select>
+      <input type="date" [formControl]="userField.controls.birth_date" class="datePicker"
+             placeholder="Дата рождения"/>
+      <input cFormControl type="password" [formControl]="userField.controls.password"
+             placeholder="Придумайте пароль"/>
+      @if (!userField.untouched) {
+        <button type="submit" class="btn btn-primary" style="margin: 11px auto" [disabled]="!userField.valid"
+        >Создать
+        </button>
+      }
+    </form>
+  </c-modal-body>
+</c-modal>
+<c-toaster placement="top-end" class="p-3" position="fixed">
+  <c-toast
+    (timer)="onTimerChange($event)"
+    (visibleChange)="onVisibleChange($event)"
+    [visible]="visible()"
+  >
+    <c-toast-body>
+      <p>Превышен лимит на сотрудников</p>
+      <c-progress thin [value]="percentage()"/>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>
 <c-modal #selectTariffModal size="xl" alignment="center" [id]="'selectTariff'" class="setTariffModal">
   <c-modal-header style="display: flex; justify-content: space-between; color: #323231">
     <h5 cModalTitle>Новая заявка</h5>
@@ -212,7 +214,7 @@
             <div>Тип: <span>{{ tariff.kind }}</span></div>
             <div>Сотрудников: <span>{{ tariff.limit }}</span></div>
             <div>Период: <span>{{ tariff.period }}</span></div>
-            <div>Цена: <span>{{tariff.price}}</span></div>
+            <div>Цена: <span>{{ tariff.price }}</span></div>
           </div>
         </div>
       }

@@ -43,7 +43,7 @@ export class OrderCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getTariffs();
+    // this.getTariffs();
   }
 
   step = 1;

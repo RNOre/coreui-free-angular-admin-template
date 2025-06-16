@@ -64,6 +64,9 @@
   justify-content: center;
   border-radius: 50%;
   cursor: pointer;
+  > svg {
+    margin-left: 2px;
+  }
 }
 .addUser-fields {
   display: flex;

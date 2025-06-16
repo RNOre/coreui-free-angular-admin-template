@@ -99,7 +99,7 @@
       <input type="date" [formControl]="userField.controls.birth_date" class="datePicker" placeholder="Дата рождения"/>
       <input cFormControl type="password" [formControl]="userField.controls.password" placeholder="Придумайте пароль"/>
       @if (!userField.untouched) {
-        <button class="btn btn-primary" style="margin: 11px auto" [disabled]="!userField.valid"  [cModalToggle]="'addUser'">Создать</button>
+        <button class="btn btn-primary" style="margin: 11px auto" [disabled]="!userField.valid">Создать</button>
       }
     </form>
   </c-modal-body>

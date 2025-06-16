@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit, signal, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {CompanyInterface, LicenseInterface, TariffInterface, UserInterface} from "../../../interfaces/billing";
@@ -54,6 +54,9 @@ import {env} from "../../../../../env";
 })
 export class CompanyPageComponent implements OnInit {
 
+  @ViewChild('createUserModal') createUserModal!: ModalComponent;
+  @ViewChild('selectTariffModal') selectTariffModal!: ModalComponent;
+
   companyField = new FormGroup({
     name: new FormControl('', [Validators.required]),
     inn: new FormControl('', [Validators.required]),
@@ -84,6 +87,7 @@ export class CompanyPageComponent implements OnInit {
   activeTariff = '';
   visible = signal(false);
   percentage = signal(0);
+  hasAdmin = false;
 
   constructor(
     private $http: HttpClient,
@@ -143,7 +147,6 @@ export class CompanyPageComponent implements OnInit {
         }
       })
   }
-
   getUsers() {
     const filterUser: FilterInterface = {
       filter: {
@@ -163,7 +166,9 @@ export class CompanyPageComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.userData = res.data.items;
+          console.log(this.userData);
           if (this.userData) {
+            this.hasAdmin = !!this.userData.find((el)=>el.is_admin);
             this.userData = this.userData.filter((user) => !user.is_admin);
             this.userMeta.totalCount = this.userData.length;
             this.userMeta.currentCount = this.userData.length;
@@ -177,9 +182,10 @@ export class CompanyPageComponent implements OnInit {
   }
 
   createUser() {
+    this.createUserModal.visible = false;
     let body = {
       ...this.userField.value,
-      is_admin: this.userData?.length === 0,
+      is_admin: !this.hasAdmin,
       company_id: isAdmin() ? this.company_id : undefined
     };
 
@@ -221,6 +227,7 @@ export class CompanyPageComponent implements OnInit {
   }
 
   addLicense() {
+    this.selectTariffModal.visible = false;
     this.$http.get<string>(env.host + 'license/payment/' + this.activeTariff)
       .subscribe((res)=>{
         const a = document.createElement('a');

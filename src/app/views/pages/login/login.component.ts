@@ -19,6 +19,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {env} from "../../../../../env";
+import {isAdmin} from "../../../core/global";
 
 @Component({
   selector: 'app-login',
@@ -63,7 +64,7 @@ export class LoginComponent {
       .subscribe({
         next: (res) => {
           localStorage.setItem('token', res.data.token);
-          this.$router.navigate(['home']).then();
+          this.$router.navigate([isAdmin()?'home': 'main-legal']).then();
         }
       });
   }

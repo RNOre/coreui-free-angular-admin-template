@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {DatePipe} from "@angular/common";
 import {PaginationDirective} from "../../directives/pagination.directive";
 import {
@@ -37,6 +37,9 @@ import {isAdmin} from "../../core/global";
   styleUrl: './user.component.scss'
 })
 export class UserComponent implements OnInit{
+
+  @ViewChild('createUserModal') createUserModal!: ModalComponent;
+
   meta: PaginationMetaInterface = {
     currentPage: 1,
     perPage: 10,
@@ -122,6 +125,7 @@ export class UserComponent implements OnInit{
     this.getUserList();
   }
   createUser() {
+    this.createUserModal.visible = false;
     let body = {
       ...this.userField.value,
       is_admin: false

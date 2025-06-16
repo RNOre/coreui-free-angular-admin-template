@@ -61,6 +61,9 @@
   border-radius: 50%;
   cursor: pointer;
   border: none;
+  > svg {
+    margin-left: 2px;
+  }
 }
 .userCount {
   background-color: white;
