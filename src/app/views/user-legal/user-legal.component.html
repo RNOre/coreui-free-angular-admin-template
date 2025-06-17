@@ -25,6 +25,7 @@
               <th scope="col">Лицензия</th>
               <th scope="col">Дата создания</th>
               <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -34,7 +35,14 @@
                   <td>{{ user.username }}</td>
                   <td>{{ user.email }}</td>
                   <td>{{ user.tariff_name }}</td>
-                  <td class="last_td">{{ user.created_at | date : "dd.MM.YYYY" }}</td>
+                  <td>{{ user.created_at | date : "dd.MM.YYYY" }}</td>
+                  <td class="last_td">
+                    @if(user.is_admin) {
+                    <div class="userIsAdmin">
+                      admin
+                    </div>
+                    }
+                  </td>
                   <div class="actionGroup">
                     <button title="Просмотреть"
                             (click)="navigateToUser(user.id)"

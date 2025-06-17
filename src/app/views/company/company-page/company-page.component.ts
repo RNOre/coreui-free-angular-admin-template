@@ -169,7 +169,7 @@ export class CompanyPageComponent implements OnInit {
           console.log(this.userData);
           if (this.userData) {
             this.hasAdmin = !!this.userData.find((el)=>el.is_admin);
-            this.userData = this.userData.filter((user) => !user.is_admin);
+            // this.userData = this.userData.filter((user) => !user.is_admin);
             this.userMeta.totalCount = this.userData.length;
             this.userMeta.currentCount = this.userData.length;
           }

@@ -112,6 +112,7 @@
               <th scope="col">username</th>
               <th scope="col">email</th>
               <th></th>
+              <th></th>
             </tr>
             </thead>
             <tbody>
@@ -126,8 +127,15 @@
                   <td>
                     {{ user.username || '-' }}
                   </td>
-                  <td class="last_td">
+                  <td>
                     {{ user.email || '-' }}
+                  </td>
+                  <td class="last_td">
+                    @if(user.is_admin){
+                      <div class="license_status success">
+                        admin
+                      </div>
+                    }
                   </td>
                   <div class="actionGroup">
                     <button title="Просмотреть" [routerLink]="['/user', user.id]">
