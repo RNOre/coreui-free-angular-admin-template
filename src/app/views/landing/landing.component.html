@@ -21,7 +21,7 @@
         <li><a (click)="navigateTo('tariff')">Тарифы</a></li>
         <li (click)="navigateTo('order')">Подключить организацию</li>
         <li (click)="navigateTo('login')">Войти в систему</li>
-        <li>Скачать приложение</li>
+        <li (click)="getApp()">Скачать приложение</li>
       </ul>
     </div>
   </div>
@@ -57,7 +57,7 @@
         <p>Быстро. Точно. Надёжно.</p>
       </div>
       <div class="landing__main-btns">
-        <button class="btn btn-primary">Скачать приложение</button>
+        <button class="btn btn-primary" (click)="getApp()">Скачать приложение</button>
         <button class="btn outline" (click)="navigateTo('login')">Подключить организацию</button>
       </div>
       <div class="landing__main-info">

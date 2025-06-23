@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
+import {env} from "../../../../env";
 
 @Component({
   selector: 'app-landing',
@@ -10,7 +12,7 @@ import {Router} from "@angular/router";
 })
 export class LandingComponent {
 
-  constructor(private $router: Router) {
+  constructor(private $router: Router, private $http: HttpClient) {
   }
 
   mobileMenu = false;
@@ -40,6 +42,28 @@ export class LandingComponent {
         break;
       }
     }
+  }
+
+  getApp() {
+    this.$http.get(env.host + 'mobile-sdk',{
+      responseType: 'arraybuffer'
+    })
+      .subscribe((res)=> {
+        const blob = new Blob([res], { type: 'application/octet-stream' });
+        const url = window.URL.createObjectURL(blob);
+
+        // Создаем ссылку для скачивания
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'KOE.apk';
+
+        // Имитируем клик для скачивания
+        link.click();
+
+        // Освобождаем память
+        window.URL.revokeObjectURL(url);
+        link.remove();
+      })
   }
 
   protected readonly window = window;
