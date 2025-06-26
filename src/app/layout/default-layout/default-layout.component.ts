@@ -1,8 +1,5 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, signal, ViewChild} from '@angular/core';
-import {RouterLink, RouterOutlet} from '@angular/router';
-import {NgScrollbar} from 'ngx-scrollbar';
-
-import {IconDirective} from '@coreui/icons-angular';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 import {
   ButtonCloseDirective,
   ContainerComponent,
@@ -13,23 +10,17 @@ import {
   ModalToggleDirective,
   ShadowOnScrollDirective,
   SidebarBrandComponent,
-  SidebarFooterComponent,
-  SidebarHeaderComponent,
-  SidebarNavComponent,
   SidebarService,
-  SidebarToggleDirective,
-  SidebarTogglerDirective,
   ToastBodyComponent,
   ToastComponent,
   ToasterComponent,
   ToastHeaderComponent
 } from '@coreui/angular';
 
-import {DefaultFooterComponent, DefaultHeaderComponent} from './';
+import {DefaultHeaderComponent} from './';
 import {navItems} from './_nav';
 import {SidebarComponent} from "../../widgets/sidebar/sidebar.component";
 import {ToastService} from "../../core/services/toast.service";
-import {JsonPipe} from "@angular/common";
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -45,15 +36,7 @@ function isOverflown(element: HTMLElement) {
   standalone: true,
   imports: [
     SidebarComponent,
-    SidebarHeaderComponent,
     SidebarBrandComponent,
-    RouterLink,
-    IconDirective,
-    NgScrollbar,
-    SidebarNavComponent,
-    SidebarFooterComponent,
-    SidebarToggleDirective,
-    SidebarTogglerDirective,
     ShadowOnScrollDirective,
     ContainerComponent,
     RouterOutlet,
@@ -63,7 +46,6 @@ function isOverflown(element: HTMLElement) {
     ToastComponent,
     ToastHeaderComponent,
     ToastBodyComponent,
-    JsonPipe,
     ButtonCloseDirective,
     ModalBodyComponent,
     ModalComponent,

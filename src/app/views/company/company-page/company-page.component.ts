@@ -166,7 +166,6 @@ export class CompanyPageComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.userData = res.data.items;
-          console.log(this.userData);
           if (this.userData) {
             this.hasAdmin = !!this.userData.find((el)=>el.is_admin);
             // this.userData = this.userData.filter((user) => !user.is_admin);

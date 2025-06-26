@@ -1,19 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {LicenseInterface} from "../../../interfaces/billing";
-import {DatePipe, JsonPipe} from "@angular/common";
+import {DatePipe} from "@angular/common";
 import {TableDirective} from "@coreui/angular";
-import {PaginationComponent} from "../../../widgets/pagination/pagination.component";
 import {PaginationMetaInterface} from "../../../interfaces/global";
 import {PaginationDirective} from "../../../directives/pagination.directive";
 
 @Component({
   selector: 'app-license',
   imports: [
-    JsonPipe,
     TableDirective,
     DatePipe,
-    PaginationComponent,
     PaginationDirective
   ],
   templateUrl: './license.component.html',

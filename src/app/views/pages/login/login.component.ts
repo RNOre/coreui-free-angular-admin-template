@@ -13,7 +13,7 @@ import {
   InputGroupComponent,
   InputGroupTextDirective,
   FormControlDirective,
-  ButtonDirective
+  ButtonDirective, ToastComponent, ToastHeaderComponent, ToastBodyComponent
 } from '@coreui/angular';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
@@ -26,9 +26,11 @@ import {isAdmin} from "../../../core/global";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle, ReactiveFormsModule, FormsModule, JsonPipe]
+  imports: [ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle, ReactiveFormsModule, FormsModule, JsonPipe, ToastComponent, ToastHeaderComponent, ToastBodyComponent]
 })
-export class LoginComponent {
+export class LoginComponent{
+
+  is_visible = false;
 
   authData = new FormGroup(
     {
@@ -37,7 +39,7 @@ export class LoginComponent {
     }
   )
 
-  isSuperAdmin = true;
+  isSuperAdmin = false;
 
   constructor(
     private $http: HttpClient,
@@ -53,8 +55,10 @@ export class LoginComponent {
           next: (res) => {
             localStorage.setItem('isAdmin', 'true');
             localStorage.setItem('token', res.data.token);
-            console.log(localStorage.getItem('token'))
             this.$router.navigate(['home']).then();
+          },
+          error: () => {
+            this.is_visible = true;
           }
         });
       return;
@@ -65,6 +69,9 @@ export class LoginComponent {
         next: (res) => {
           localStorage.setItem('token', res.data.token);
           this.$router.navigate([isAdmin()?'home': 'main-legal']).then();
+        },
+        error: () => {
+          this.is_visible = true;
         }
       });
   }

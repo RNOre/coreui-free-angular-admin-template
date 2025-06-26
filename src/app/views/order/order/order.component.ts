@@ -21,6 +21,7 @@ import {RouterLink} from "@angular/router";
 import {TariffInterface} from "../../../interfaces/billing";
 import {PaginationDirective} from "../../../directives/pagination.directive";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
+import {env} from "../../../../../env";
 
 @Component({
   selector: 'app-order',
@@ -171,13 +172,13 @@ export class OrderComponent implements OnInit {
         offset: (this.tariffMetaCompany.currentPage - 1) * this.tariffMetaCompany.perPage
       }
     };
-    this.$http.post('tariffs/filter', filter)
+    this.$http.post(env.host + 'tariffs/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         // @ts-ignore
         this.tariffsData = res?.data?.items;
         this.tariffMetaCompany.totalCount = res.data.total;
-        this.tariffMetaCompany.currentCount = this.tariffsData.length;
+        this.tariffMetaCompany.currentCount = this.tariffsData?.length || 0;
       })
   }
 

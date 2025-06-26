@@ -66,7 +66,7 @@ export class MainPageComponent implements OnInit {
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         // @ts-ignore
         this.companyData = res.data.items;
-        if (this.companyData.length) {
+        if (this.companyData?.length) {
           this.companyMeta.totalCount = res.data.total;
           this.companyMeta.currentCount = this.companyData.length;
         }
@@ -112,6 +112,10 @@ export class MainPageComponent implements OnInit {
 
   navigateToCompany(id: string) {
     this.$router.navigate(['company', id])
+      .then();
+  }
+  navigateToUser(id: string) {
+    this.$router.navigate(['user', id])
       .then();
   }
 }

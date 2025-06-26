@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {FilterInterface, PaginationMetaInterface} from "../../../interfaces/global";
 import {TariffInterface} from "../../../interfaces/billing";
@@ -16,12 +16,10 @@ import {
   ModalTitleDirective,
   ModalToggleDirective,
   PlaceholderDirective,
-  TableDirective,
-  TextColorDirective
+  TableDirective
 } from "@coreui/angular";
-import {IconDirective} from "@coreui/icons-angular";
 import {cilCheckAlt, cilX} from "@coreui/icons";
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {DatePipe, JsonPipe, NgStyle} from "@angular/common";
 import {getSupportedInputTypes} from "@angular/cdk/platform";
 import {Router} from "@angular/router";
@@ -32,7 +30,6 @@ import {env} from "../../../../../env";
   selector: 'app-tariff',
   imports: [
     ButtonDirective,
-    IconDirective,
     TableDirective,
     ModalToggleDirective,
     ModalComponent,
@@ -157,7 +154,7 @@ export class TariffComponent implements OnInit {
         offset: (this.tariffMetaCompany.currentPage - 1) * this.tariffMetaCompany.perPage
       }
     };
-    this.$http.post('tariffs/filter', filter)
+    this.$http.post(env.host + 'tariffs/filter', filter)
       // @ts-ignore
       .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
         this.baseTariff = res.data.items?.find((el) => el.id === '0bc810cf-707a-437f-bf72-9f3b8ea9cf72');

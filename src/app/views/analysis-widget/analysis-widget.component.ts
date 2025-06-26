@@ -1,17 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {OrderInterface} from "../../interfaces/order";
 import {AnalysisInterface, PredictedClassesInterface} from "../../interfaces/analysis";
 import {HttpClient} from "@angular/common/http";
-import {DatePipe, KeyValuePipe, NgStyle} from "@angular/common";
+import {DatePipe, NgStyle} from "@angular/common";
 import {env} from "../../../../env";
 
 @Component({
   selector: 'app-analysis-widget',
   imports: [
     DatePipe,
-    NgStyle,
-    KeyValuePipe
+    NgStyle
   ],
   templateUrl: './analysis-widget.component.html',
   standalone: true,

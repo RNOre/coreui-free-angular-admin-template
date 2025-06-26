@@ -1,44 +1,18 @@
-import {JsonPipe, NgTemplateOutlet} from '@angular/common';
 import {Component, computed, EventEmitter, inject, input, Output} from '@angular/core';
-import {RouterLink, RouterLinkActive} from '@angular/router';
-
 import {
-  AvatarComponent,
-  BadgeComponent,
-  BreadcrumbRouterComponent,
-  ButtonCloseDirective,
-  ButtonDirective,
   ColorModeService,
   ContainerComponent,
-  DropdownComponent,
-  DropdownDividerDirective,
-  DropdownHeaderDirective,
-  DropdownItemDirective,
-  DropdownMenuDirective,
-  DropdownToggleDirective,
-  FormControlDirective,
   FormSelectDirective,
   HeaderComponent,
   HeaderNavComponent,
-  HeaderTogglerDirective,
-  ModalBodyComponent,
-  ModalComponent,
-  ModalHeaderComponent,
-  ModalTitleDirective,
-  ModalToggleDirective,
-  NavItemComponent,
-  NavLinkDirective,
-  SidebarToggleDirective
+  NavLinkDirective
 } from '@coreui/angular';
 
-import {IconDirective} from '@coreui/icons-angular';
-import {FormsModule} from "@angular/forms";
-
 @Component({
-    selector: 'app-default-header',
-    templateUrl: './default-header.component.html',
-    standalone: true,
-  imports: [ContainerComponent, HeaderTogglerDirective, SidebarToggleDirective, IconDirective, HeaderNavComponent, NavItemComponent, NavLinkDirective, RouterLink, RouterLinkActive, NgTemplateOutlet, BreadcrumbRouterComponent, DropdownComponent, DropdownToggleDirective, AvatarComponent, DropdownMenuDirective, DropdownHeaderDirective, DropdownItemDirective, BadgeComponent, DropdownDividerDirective, JsonPipe, ModalComponent, ModalHeaderComponent, ModalBodyComponent, ButtonCloseDirective, ButtonDirective, FormControlDirective, FormSelectDirective, FormsModule, ModalTitleDirective, ModalToggleDirective]
+  selector: 'app-default-header',
+  templateUrl: './default-header.component.html',
+  standalone: true,
+  imports: [ContainerComponent, HeaderNavComponent, NavLinkDirective, FormSelectDirective]
 })
 export class DefaultHeaderComponent extends HeaderComponent {
   @Output() openModal = new EventEmitter();

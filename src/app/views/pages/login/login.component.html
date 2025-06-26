@@ -5,9 +5,14 @@
         <c-card-group>
           <c-card class="p-4">
             <c-card-body>
-              <form cForm [formGroup]="authData" (ngSubmit)="login()">
+              <form cForm [formGroup]="authData" (ngSubmit)="login()" (change)="is_visible = false">
                 <h1>Войти</h1>
                 <p class="text-body-secondary">Войти в админ панель</p>
+                @if(is_visible) {
+                  <div class="errorBlock">
+                    <p>Неверный логин или пароль</p>
+                  </div>
+                }
                 <c-input-group class="mb-3">
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
