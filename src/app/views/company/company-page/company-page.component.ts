@@ -262,4 +262,6 @@ export class CompanyPageComponent implements OnInit {
         this.tariffList = res.data.items;
       })
   }
+
+  protected readonly isAdmin = isAdmin;
 }

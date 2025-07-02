@@ -9,6 +9,7 @@ import {cilCheckAlt, cilX} from "@coreui/icons";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {PaginationDirective} from "../../directives/pagination.directive";
+import {ToastService} from "../../core/services/toast.service";
 
 @Component({
   selector: 'app-main-page',
@@ -40,12 +41,13 @@ export class MainPageComponent implements OnInit {
   icons = {cilCheckAlt, cilX}
   tab = 'company';
 
-  constructor(private $http: HttpClient, private $router: Router) {
+  constructor(private $http: HttpClient, private $router: Router, private $toast: ToastService) {
   }
 
   ngOnInit() {
     this.getCompanyList();
     this.getUserList();
+    // this.$toast.setToast({show: true})
   }
 
   getCompanyList() {

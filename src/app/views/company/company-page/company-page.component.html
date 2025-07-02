@@ -18,12 +18,14 @@
       <div class="companyPage-users__header">
         <div>Лицензии</div>
         <div class="companyPage-users__header-right">
-          <button class="addBtn" cModalToggle="selectTariff">
-            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 8.07104H15.1421M8.07107 15.1421V0.999977" stroke="#323231" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
+          @if(!isAdmin()) {
+            <button class="addBtn" cModalToggle="selectTariff">
+              <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 8.07104H15.1421M8.07107 15.1421V0.999977" stroke="#323231" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          }
         </div>
       </div>
       <div class="content">
