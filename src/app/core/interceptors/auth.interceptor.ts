@@ -36,7 +36,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         $message.setToast({
           title: 'Ошибка',
           text: error.error,
-          duration: 1000,
           show: true,
           class: 'error'
         })
