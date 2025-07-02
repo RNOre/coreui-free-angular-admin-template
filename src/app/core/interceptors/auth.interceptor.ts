@@ -17,28 +17,29 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     })
     : req;
 
+  const $message = inject(ToastService);
   if (req.url.startsWith('http') || req.url.startsWith('./') || req.url.startsWith('/')) {
-    return next(authReq);
+//
+  }else {
+    authReq = authReq.clone({
+      url: `${env.host_admin}${req.url}` // Added /api/ prefix
+    });
   }
-
-  authReq = authReq.clone({
-    url: `${env.host_admin}${req.url}` // Added /api/ prefix
-  });
-
 
   return next(authReq).pipe(
     catchError((error) => {
+      console.log(error);
       if (error.status === 401) {
         localStorage.removeItem('token');
         router.navigate(['/login']).then();
       }else {
-        // const $message = inject(ToastService);
-        // $message.setToast({
-        //   title: 'Ошибка',
-        //   text: error.message,
-        //   duration: 1000,
-        //   show: true
-        // })
+        $message.setToast({
+          title: 'Ошибка',
+          text: error.error,
+          duration: 1000,
+          show: true,
+          class: 'error'
+        })
       }
       return throwError(() => error);
     })
