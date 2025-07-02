@@ -33,7 +33,6 @@ export class OrderItemComponent implements OnInit {
     phone: new FormControl(''),
   });
   originalValues: any;
-  tariffList!: TariffInterface[] | undefined;
   filter: FilterInterface = {
     filter: {
       search: ''
@@ -67,28 +66,9 @@ export class OrderItemComponent implements OnInit {
         // this.orderData.controls.tariff_id.setValue(this.$order.tariff_id);
         // @ts-ignore
         this.originalValues = {...this.orderData.value};
-
-        this.getTariffList();
       });
   }
 
-  getTariffList() {
-    this.$http.post('tariffs/filter', this.filter)
-      // @ts-ignore
-      .subscribe((res: { data: { items: TariffInterface[], total: number } }) => {
-        // @ts-ignore
-        this.tariffList = res?.data?.items;
-      })
-  }
-
-  selectTariff() {
-    const body = {
-      tariff_id: this.orderData.controls.tariff_id.value
-    }
-
-    this.$http.patch('order/' + this.$order.id, body)
-      .subscribe();
-  }
 
   updateOrder() {
     this.$http

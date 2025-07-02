@@ -7,6 +7,7 @@ import {AvatarComponent, FormControlDirective, FormSelectDirective, TableDirecti
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {DatePipe} from "@angular/common";
 import {env} from "../../../../../env";
+import {isAdmin} from "../../../core/global";
 
 @Component({
   selector: 'app-user-page',
@@ -54,7 +55,8 @@ export class UserPageComponent implements OnInit {
 
     this.getUserInfo();
 
-    this.getLicenses();
+    if (isAdmin())
+      this.getLicenses();
   }
 
   getUserInfo() {
@@ -101,15 +103,12 @@ export class UserPageComponent implements OnInit {
       )
   }
 
-  pageChange(page: number) {
-    this.meta.currentPage = page;
-    this.getLicenses();
-  }
-
   updateUserData() {
     this.$http
       .patch(this.isAdmin ? 'user-update' : env.host + 'user-update', {
-        ...this.userField.value, id: this.userData?.id, password: this.userField.controls.password.value ?? undefined
+        ...this.userField.value,
+        [isAdmin() ? 'id' : 'user_id']: this.userData?.id,
+        password: this.userField.controls.password.value ?? undefined
       })
       .subscribe(() => this.getUserInfo());
   }

@@ -105,8 +105,13 @@ export class CompanyPageComponent implements OnInit {
   }
 
   updateCompanyData() {
-    this.$http.patch(env.host + 'company-update', this.companyField.value)
-      .subscribe((res) => this.getCompany());
+    if (isAdmin()) {
+      this.$http.patch('company-update', {...this.companyField.value, id: this.company_id})
+        .subscribe((res) => this.getCompany());
+    }else {
+      this.$http.patch(env.host + 'company-update', this.companyField.value)
+        .subscribe((res) => this.getCompany());
+    }
   }
 
   getLicenses() {
@@ -147,6 +152,7 @@ export class CompanyPageComponent implements OnInit {
         }
       })
   }
+
   getUsers() {
     const filterUser: FilterInterface = {
       filter: {
@@ -167,7 +173,7 @@ export class CompanyPageComponent implements OnInit {
         next: (res) => {
           this.userData = res.data.items;
           if (this.userData) {
-            this.hasAdmin = !!this.userData.find((el)=>el.is_admin);
+            this.hasAdmin = !!this.userData.find((el) => el.is_admin);
             // this.userData = this.userData.filter((user) => !user.is_admin);
             this.userMeta.totalCount = this.userData.length;
             this.userMeta.currentCount = this.userData.length;
@@ -228,7 +234,7 @@ export class CompanyPageComponent implements OnInit {
   addLicense() {
     this.selectTariffModal.visible = false;
     this.$http.get<string>(env.host + 'license/payment/' + this.activeTariff)
-      .subscribe((res)=>{
+      .subscribe((res) => {
         const a = document.createElement('a');
         a.href = res;
         a.click();
