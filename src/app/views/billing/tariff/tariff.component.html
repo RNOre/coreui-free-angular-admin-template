@@ -7,8 +7,8 @@
     @if (baseTariff && tab === 'user') {
       <div class="baseTariff">
         <div class="baseTariff-header">
-          <div>
-            <button class="baseTariff-header__icon"
+          <div style="display: flex; align-items: center; gap: 8px">
+            <div class="baseTariff-header__icon"
                     [ngStyle]="{
                      'background-color': '#d7ed74'
                      }"
@@ -21,7 +21,7 @@
                   d="M2.72984 12.4124C0.423387 13.8844 0.423387 16.2832 2.72984 17.7461C5.35081 19.418 9.64919 19.418 12.2702 17.7461C14.5766 16.2741 14.5766 13.8753 12.2702 12.4124C9.65872 10.7496 5.36034 10.7496 2.72984 12.4124Z"
                   stroke="#323231" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-            </button>
+            </div>
             <span>Базовая</span>
           </div>
           <button class="edit_tariff-btn" (click)="getTariffItem(baseTariff.id)"

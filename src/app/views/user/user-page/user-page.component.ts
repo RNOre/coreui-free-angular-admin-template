@@ -8,6 +8,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {DatePipe} from "@angular/common";
 import {env} from "../../../../../env";
 import {isAdmin} from "../../../core/global";
+import {ToastService} from "../../../core/services/toast.service";
 
 @Component({
   selector: 'app-user-page',
@@ -46,7 +47,11 @@ export class UserPageComponent implements OnInit {
     password: new FormControl('')
   })
 
-  constructor(private $http: HttpClient, private route: ActivatedRoute) {
+  constructor(
+    private $http: HttpClient,
+    private route: ActivatedRoute,
+    private $toast: ToastService
+    ) {
   }
 
 
@@ -110,7 +115,14 @@ export class UserPageComponent implements OnInit {
         [isAdmin() ? 'id' : 'user_id']: this.userData?.id,
         password: this.userField.controls.password.value ?? undefined
       })
-      .subscribe(() => this.getUserInfo());
+      .subscribe(() => {
+        this.getUserInfo();
+        this.$toast.setToast({
+          show: true,
+          title: 'Успешно',
+          text: 'Данные обновлены'
+        })
+      });
   }
 
   loadImage(file: any) {
@@ -123,7 +135,14 @@ export class UserPageComponent implements OnInit {
 
       this.$http
         .post(this.isAdmin ? 'user/photo' : env.host + 'user/photo', formData)
-        .subscribe(() => this.getUserInfo());
+        .subscribe(() => {
+          this.getUserInfo();
+          this.$toast.setToast({
+            show: true,
+            title: 'Успешно',
+            text: 'Фото обновлено'
+          })
+        });
     }
   }
 }

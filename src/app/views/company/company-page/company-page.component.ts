@@ -22,6 +22,7 @@ import {DatePipe, JsonPipe} from "@angular/common";
 import {isAdmin} from "../../../core/global";
 import {PaginationDirective} from "../../../directives/pagination.directive";
 import {env} from "../../../../../env";
+import {ToastService} from "../../../core/services/toast.service";
 
 @Component({
   selector: 'app-company-page',
@@ -91,7 +92,8 @@ export class CompanyPageComponent implements OnInit {
 
   constructor(
     private $http: HttpClient,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private $toast: ToastService
   ) {
   }
 
@@ -107,10 +109,24 @@ export class CompanyPageComponent implements OnInit {
   updateCompanyData() {
     if (isAdmin()) {
       this.$http.patch('company-update', {...this.companyField.value, id: this.company_id})
-        .subscribe((res) => this.getCompany());
-    }else {
+        .subscribe((res) => {
+          this.getCompany();
+          this.$toast.setToast({
+            show: true,
+            title: 'Успешно',
+            text: 'Данные обновлены',
+          })
+        });
+    } else {
       this.$http.patch(env.host + 'company-update', this.companyField.value)
-        .subscribe((res) => this.getCompany());
+        .subscribe((res) => {
+          this.getCompany();
+          this.$toast.setToast({
+            show: true,
+            title: 'Успешно',
+            text: 'Данные обновлены',
+          })
+        });
     }
   }
 
@@ -197,7 +213,14 @@ export class CompanyPageComponent implements OnInit {
     this.$http
       .post(isAdmin() ? 'user-create' : env.host + 'user-create', body)
       .subscribe({
-        next: () => this.getUsers(),
+        next: () => {
+          this.getUsers();
+          this.$toast.setToast({
+            show: true,
+            title: 'Успешно',
+            text: 'Сотрудник добавлен'
+          })
+        },
         error: () => this.toggleToast()
       });
   }

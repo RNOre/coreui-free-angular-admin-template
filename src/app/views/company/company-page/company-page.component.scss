@@ -173,6 +173,8 @@
     background-color: #74ed8a;
   }
 }
-.userIsAdmin {
-
+.addUserModal {
+  ::ng-deep .modal-dialog {
+    width: 500px;
+  }
 }

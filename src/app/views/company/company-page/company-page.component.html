@@ -167,7 +167,7 @@
     </div>
   </div>
 </div>
-<c-modal #createUserModal size="sm" alignment="center" [id]="'addUser'" class="setTariffModal">
+<c-modal #createUserModal size="lg" alignment="center" [id]="'addUser'" class="addUserModal">
   <c-modal-header style="display: flex; justify-content: space-between; color: #323231">
     <h5 cModalTitle>Добавление сотрудника</h5>
     <button [cModalToggle]="'addUser'" cButtonClose></button>
@@ -233,7 +233,7 @@
   @if (activeTariff) {
     <c-modal-footer>
       <button style="margin: auto" class="btn btn-primary"
-              (click)="addLicense()">Принято
+              (click)="addLicense()">Принять
       </button>
     </c-modal-footer>
   }

@@ -64,9 +64,6 @@
   justify-content: center;
   border-radius: 50%;
   cursor: pointer;
-  > svg {
-    margin-left: 2px;
-  }
 }
 .addUser-fields {
   display: flex;
@@ -83,5 +80,10 @@
   &:focus-visible{
     box-shadow: 0 0 0 0.25rem rgba(88, 86, 214, 0.25);
     outline: 0;
+  }
+}
+.addUserModal {
+  ::ng-deep .modal-dialog {
+    width: 500px;
   }
 }

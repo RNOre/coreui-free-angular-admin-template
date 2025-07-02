@@ -15,6 +15,7 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {isAdmin} from "../../core/global";
+import {ToastService} from "../../core/services/toast.service";
 
 @Component({
   selector: 'app-user',
@@ -62,7 +63,11 @@ export class UserComponent implements OnInit{
   tariffList: TariffInterface[] | undefined;
   filter = new FormControl('all');
 
-  constructor(private $http: HttpClient, private $router: Router) {
+  constructor(
+    private $http: HttpClient,
+    private $router: Router,
+    private $toast: ToastService
+    ) {
   }
 
   ngOnInit() {
@@ -133,6 +138,13 @@ export class UserComponent implements OnInit{
 
     this.$http
       .post( 'user-create', body)
-      .subscribe(() => this.getUserList());
+      .subscribe(() => {
+        this.getUserList();
+        this.$toast.setToast({
+          show: true,
+          title: 'Успешно',
+          text: 'Пользователь добавлен'
+        })
+      });
   }
 }

@@ -16,10 +16,12 @@ export class ToastService {
 
   $toast: WritableSignal<ToastInterface> = signal({show: false})
   private toastSubject = new BehaviorSubject<{message: string, type: 'success' | 'danger' | 'warning' | 'info'} | null>(null);
-  toast$ = this.toastSubject.asObservable();
+
   setToast(data: ToastInterface) {
-    console.log('show');
     this.$toast.set(data);
+    setTimeout(()=> {
+      this.$toast.set({...data, show: false})
+    }, (this.$toast().duration || 3) * 1000)
   }
 
   showToast() {
