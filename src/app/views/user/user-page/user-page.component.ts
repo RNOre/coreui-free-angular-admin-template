@@ -39,11 +39,11 @@ export class UserPageComponent implements OnInit {
 
   userField = new FormGroup({
     avatar: new FormControl(''),
-    birth_date: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    name: new FormControl('', [Validators.required]),
-    sex: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required]),
+    birth_date: new FormControl(''),
+    email: new FormControl('', [Validators.email]),
+    name: new FormControl(''),
+    sex: new FormControl(''),
+    username: new FormControl(''),
     password: new FormControl('')
   })
 
@@ -51,7 +51,7 @@ export class UserPageComponent implements OnInit {
     private $http: HttpClient,
     private route: ActivatedRoute,
     private $toast: ToastService
-    ) {
+  ) {
   }
 
 
@@ -113,7 +113,8 @@ export class UserPageComponent implements OnInit {
       .patch(this.isAdmin ? 'user-update' : env.host + 'user-update', {
         ...this.userField.value,
         [isAdmin() ? 'id' : 'user_id']: this.userData?.id,
-        password: this.userField.controls.password.value ?? undefined
+        password: this.userField.controls.password.value ?? undefined,
+        birth_date: this.userField.controls.birth_date.value == "" ? undefined : this.userField.controls.birth_date.value
       })
       .subscribe(() => {
         this.getUserInfo();

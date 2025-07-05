@@ -67,6 +67,16 @@
   --cui-border-radius: 35px;
 }
 
+.form-control.ng-touched.ng-invalid{
+    border: 1px #ed7474 solid !important
+}
+.form-select.ng-touched.ng-invalid{
+  border: 1px #ed7474 solid !important
+}
+.datePicker.ng-touched.ng-invalid{
+  border: 1px #ed7474 solid !important
+}
+
 .table {
   &-wrapper {
     padding: 15px;
