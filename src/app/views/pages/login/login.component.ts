@@ -67,6 +67,7 @@ export class LoginComponent{
       .post<{data:{token: string}}>(env.host + 'auth', this.authData.value)
       .subscribe({
         next: (res) => {
+          localStorage.removeItem('isAdmin');
           localStorage.setItem('token', res.data.token);
           this.$router.navigate([isAdmin()?'home': 'main-legal']).then();
         },

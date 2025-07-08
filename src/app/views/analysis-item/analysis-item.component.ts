@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AnalysisInterface, PredictedClassesInterface} from "../../interfaces/analysis";
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {env} from "../../../../env";
+import {ToastService} from "../../core/services/toast.service";
 
 @Component({
   selector: 'app-analysis-item',
@@ -18,7 +19,12 @@ export class AnalysisItemComponent implements OnInit {
   analysis_id!: number;
 
 
-  constructor(private $http: HttpClient, private route: ActivatedRoute) {
+  constructor(
+    private $http: HttpClient,
+    private route: ActivatedRoute,
+    private $router: Router,
+    private $toast: ToastService
+  ) {
   }
 
   ngOnInit() {
@@ -58,7 +64,7 @@ export class AnalysisItemComponent implements OnInit {
       }
     }
 
-    this.$http.post(env.host + 'company-studies/pdf', filter,{
+    this.$http.post(env.host + 'company-studies/pdf', filter, {
       responseType: 'arraybuffer' // Explicitly tell HttpClient to expect binary data
     })
       .subscribe((res: ArrayBuffer) => {
@@ -73,6 +79,27 @@ export class AnalysisItemComponent implements OnInit {
 
         URL.revokeObjectURL(url);
       });
+  }
+
+  deleteAnalyse() {
+    const body = {
+      studies_id: [
+        this.analysis_id
+      ]
+    }
+    this.$http
+      .delete(env.host + 'study/delete', {
+        body
+      }).subscribe(() => {
+      this.$router.navigate(['analysis'])
+        .then(() => this.$toast.setToast(
+          {
+            show: true,
+            title: 'Успешно',
+            text: 'Анализ удален'
+          }
+        ))
+    });
   }
 
 }

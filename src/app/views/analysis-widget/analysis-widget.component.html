@@ -15,7 +15,8 @@
       </button>
     }
   </div>
-  <div class="widgetContainer">
+  <div class="widgetContainer" pagination [paginationMeta]="analysisMeta"
+       (pageChange)="pageChange($event)">
     @if (analysisData?.length) {
       @for (analysis of analysisData; track analysis.id) {
         <div class="analysisItem">
@@ -41,7 +42,7 @@
             <div>Колоний обнаружено: <span>{{ analysis.colonies_number }}</span></div>
             <div>Подозрительных колоний: <span>{{ analysis.suspicious_colonies_number }}</span></div>
             <div>Распределение по типам:
-              <span>{{getPredictedClasses(analysis.predicted_classes)}}</span>
+              <span>{{ getPredictedClasses(analysis.predicted_classes) }}</span>
             </div>
           </div>
         </div>
