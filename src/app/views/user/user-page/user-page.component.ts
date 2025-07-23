@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
-import {LicenseInterface, TariffInterface, UserInterface} from "../../../interfaces/billing";
-import {FilterInterface, PaginationMetaInterface} from "../../../interfaces/global";
+import {LicenseInterface, UserInterface} from "../../../interfaces/billing";
+import {PaginationMetaInterface} from "../../../interfaces/global";
 import {AvatarComponent, FormControlDirective, FormSelectDirective, TableDirective} from "@coreui/angular";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {DatePipe} from "@angular/common";
@@ -43,6 +43,7 @@ export class UserPageComponent implements OnInit {
     email: new FormControl('', [Validators.email]),
     name: new FormControl(''),
     sex: new FormControl(''),
+    post: new FormControl(''),
     username: new FormControl(''),
     password: new FormControl('')
   })
@@ -73,11 +74,7 @@ export class UserPageComponent implements OnInit {
         // @ts-ignore
         this.userData = res.data;
         if (this.userData) {
-          this.userField.controls.name.setValue(this.userData.name)
-          this.userField.controls.username.setValue(this.userData.username)
-          this.userField.controls.birth_date.setValue(this.userData.birth_date)
-          this.userField.controls.sex.setValue(this.userData.sex)
-          this.userField.controls.email.setValue(this.userData.email)
+          this.userField.patchValue(this.userData)
         }
       })
   }

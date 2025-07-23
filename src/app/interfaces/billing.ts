@@ -45,6 +45,7 @@ export interface UserInterface {
   username: string;
   tariff_name: string;
   photo_link: string;
+  post: string | null;
 }
 
 export interface LicenseInterface {

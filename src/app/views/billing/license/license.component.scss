@@ -38,14 +38,12 @@ h1 {
   }
 }
 .status {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 500;
   font-size: 12px;
   height: 60px;
   background-color: transparent;
   color: white;
+  text-align: center;
   &-deleted {
     padding: 6px 12px;
     border-radius: 22px;
@@ -56,4 +54,14 @@ h1 {
     border-radius: 22px;
     background-color: #74ed8a;
   }
+}
+.deleteLicense {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  width: 43px;
+  height: 43px;
+  border: none;
 }

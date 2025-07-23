@@ -37,6 +37,14 @@
         <option value="male">Мужчина</option>
         <option value="female">Женщина</option>
       </select>
+      <select name="post"
+              id="post"
+              cSelect
+              [formControl]="userField.controls.post"
+      >
+        <option value="Сотрудник">Сотрудник</option>
+        <option value="Руководитель отдела">Руководитель отдела</option>
+      </select>
       <input type="date" [formControl]="userField.controls.birth_date" class="datePicker" placeholder="Дата рождения"/>
       <input cFormControl placeholder="******" [formControl]="userField.controls.password" type="password"/>
       @if (!userField.untouched) {

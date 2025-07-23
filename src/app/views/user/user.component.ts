@@ -5,16 +5,20 @@ import {
   ButtonCloseDirective,
   FormControlDirective,
   FormSelectDirective,
-  ModalBodyComponent, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ModalToggleDirective,
+  ModalBodyComponent,
+  ModalComponent,
+  ModalHeaderComponent,
+  ModalTitleDirective,
+  ModalToggleDirective,
+  PlaceholderDirective,
   TableDirective
 } from "@coreui/angular";
 import {FilterInterface, PaginationMetaInterface} from "../../interfaces/global";
-import {CompanyInterface, TariffInterface, UserInterface} from "../../interfaces/billing";
+import {TariffInterface, UserInterface} from "../../interfaces/billing";
 import {cilCheckAlt, cilX} from "@coreui/icons";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {isAdmin} from "../../core/global";
 import {ToastService} from "../../core/services/toast.service";
 
 @Component({
@@ -31,7 +35,8 @@ import {ToastService} from "../../core/services/toast.service";
     ModalHeaderComponent,
     ModalTitleDirective,
     ReactiveFormsModule,
-    ModalToggleDirective
+    ModalToggleDirective,
+    PlaceholderDirective
   ],
   templateUrl: './user.component.html',
   standalone: true,
@@ -56,6 +61,7 @@ export class UserComponent implements OnInit{
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
     sex: new FormControl('', [Validators.required]),
+    post: new FormControl('', [Validators.required]),
     username: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   })

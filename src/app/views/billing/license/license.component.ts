@@ -5,6 +5,7 @@ import {DatePipe} from "@angular/common";
 import {TableDirective} from "@coreui/angular";
 import {PaginationMetaInterface} from "../../../interfaces/global";
 import {PaginationDirective} from "../../../directives/pagination.directive";
+import {ToastService} from "../../../core/services/toast.service";
 
 @Component({
   selector: 'app-license',
@@ -33,7 +34,7 @@ export class LicenseComponent implements OnInit {
   };
   tab = 'company';
 
-  constructor(private $http: HttpClient) {
+  constructor(private $http: HttpClient, private $toast: ToastService) {
   }
 
   ngOnInit() {
@@ -68,6 +69,7 @@ export class LicenseComponent implements OnInit {
         }
       )
   }
+
   getLicensesUser() {
     const filter = {
       "filter": {
@@ -100,8 +102,29 @@ export class LicenseComponent implements OnInit {
     this.licenseMetaCompany.currentPage = page;
     this.getLicensesCompany();
   }
+
   pageChangeUser(page: number) {
     this.licenseMetaUser.currentPage = page;
     this.getLicensesUser();
+  }
+
+  deleteLicense(id: string) {
+    this.$http.delete('company-license', {
+      body: {
+        company_id: id
+      }
+    })
+      .subscribe(() => {
+        const index = this.licenseDataCompany
+          ?.findIndex((el) => el.owner_id === id);
+        if (index && this.licenseDataCompany) {
+          this.licenseDataCompany[index].is_deleted = true;
+        }
+        this.$toast.setToast({
+          show: true,
+          title: 'Успешно',
+          text: 'Лицензия удалена'
+        })
+      });
   }
 }

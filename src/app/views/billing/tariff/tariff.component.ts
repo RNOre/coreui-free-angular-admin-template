@@ -110,6 +110,7 @@ export class TariffComponent implements OnInit {
     this.$http.post('tariff-create', this.newTariff.value)
       .subscribe(() => {
         this.getTariffsCompany();
+        this.getTariffsUser();
       });
   }
 
