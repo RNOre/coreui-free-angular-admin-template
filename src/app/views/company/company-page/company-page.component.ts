@@ -285,6 +285,12 @@ export class CompanyPageComponent implements OnInit {
         this.tariffList = res.data.items;
       })
   }
+  checkExp(exp: string) {
+    if (exp) {
+      return new Date(exp).getTime() <= new Date().getTime();
+    }
+    return false;
+  }
 
   protected readonly isAdmin = isAdmin;
 }

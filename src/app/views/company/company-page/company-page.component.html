@@ -67,17 +67,15 @@
                   <td class="last_td">
                     {{ license.expires_at | date : "dd.MM.YYYY" }}
                   </td>
-                  <div style="background-color: transparent">
-                    @if (license.is_deleted) {
-                      <div class="license_status deleted">
-                        Закончилась
-                      </div>
+                  <td style="background-color: transparent">
+                    @if (license.deleted_at) {
+                      <div class="license_status deleted">Удалена</div>
+                    } @else if(checkExp(license.expires_at)){
+                      <div class="license_status deleted">Просрочена</div>
                     } @else {
-                      <div class="license_status success">
-                        Действует
-                      </div>
+                      <div class="license_status success">Активна</div>
                     }
-                  </div>
+                  </td>
                 </tr>
               }
             </tbody>

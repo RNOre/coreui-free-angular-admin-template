@@ -127,4 +127,13 @@ export class LicenseComponent implements OnInit {
         })
       });
   }
+
+  checkExp(exp: string) {
+    if (exp) {
+      return new Date(exp).getTime() <= new Date().getTime();
+    }
+    return false;
+  }
+
+  protected readonly Date = Date;
 }
