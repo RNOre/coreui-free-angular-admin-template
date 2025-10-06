@@ -41,7 +41,6 @@ export class MainPageLegalComponent implements OnInit {
           "search": ""
         },
         "order": {
-          "birth_date": "asc",
           "createdAt": "asc",
           "created_at": "asc",
           "deleted_at": "asc",

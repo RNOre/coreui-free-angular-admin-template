@@ -115,19 +115,8 @@
                  [formControl]="newUser.controls.password"
           />
         </div>
-        <label>Дата рождения</label>
         <br/>
-        <input type="date" [formControl]="newUser.controls.birth_date" class="datePicker"/>
         <br/>
-        <label>Пол</label>
-        <select name="sex"
-                id="sex"
-                cSelect
-                [formControl]="newUser.controls.sex"
-        >
-          <option value="male">Мужчина</option>
-          <option value="female">Женщина</option>
-        </select>
         <button cButton color="primary" [cModalToggle]="createTariffModal.id" (click)="addUser()" [disabled]="!newUser.valid">
           Создать</button>
     </c-modal-body>

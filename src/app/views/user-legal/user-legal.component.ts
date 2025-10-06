@@ -57,10 +57,8 @@ export class UserLegalComponent implements OnInit{
   newUser = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    birth_date: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     // post: new FormControl('', Validators.required),
-    sex: new FormControl('', Validators.required),
     username: new FormControl('', Validators.required),
   })
 
@@ -78,7 +76,6 @@ export class UserLegalComponent implements OnInit{
           "search": ""
         },
         "order": {
-          "birth_date": "asc",
           "createdAt": "asc",
           "created_at": "asc",
           "deleted_at": "asc",

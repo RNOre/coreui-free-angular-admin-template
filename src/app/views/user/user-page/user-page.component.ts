@@ -39,10 +39,8 @@ export class UserPageComponent implements OnInit {
 
   userField = new FormGroup({
     avatar: new FormControl(''),
-    birth_date: new FormControl(''),
     email: new FormControl('', [Validators.email]),
     name: new FormControl(''),
-    sex: new FormControl(''),
     post: new FormControl(''),
     username: new FormControl(''),
     password: new FormControl('')
@@ -111,7 +109,6 @@ export class UserPageComponent implements OnInit {
         ...this.userField.value,
         [isAdmin() ? 'id' : 'user_id']: this.userData?.id,
         password: this.userField.controls.password.value ?? undefined,
-        birth_date: this.userField.controls.birth_date.value == "" ? undefined : this.userField.controls.birth_date.value
       })
       .subscribe(() => {
         this.getUserInfo();

@@ -28,7 +28,6 @@ export interface CompanyInterface {
 
 export interface UserInterface {
   background_photo_id: string | null;
-  birth_date: string | null;
   company_id: string | null;
   created_at: string;
   deleted_at: string | null;
@@ -41,7 +40,6 @@ export interface UserInterface {
   modified_at: string | null;
   name: string;
   photo_id: string | null;
-  sex: string;
   username: string;
   tariff_name: string;
   photo_link: string;

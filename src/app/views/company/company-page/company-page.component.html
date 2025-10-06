@@ -175,16 +175,6 @@
       <input cFormControl placeholder="Имя" [formControl]="userField.controls.name"/>
       <input cFormControl type="email" placeholder="Username (email)" [formControl]="userField.controls.username"/>
       <input cFormControl type="email" placeholder="Email" [formControl]="userField.controls.email"/>
-      <select name="sex"
-              id="sex"
-              cSelect
-              [formControl]="userField.controls.sex"
-      >
-        <option value="male">Мужчина</option>
-        <option value="female">Женщина</option>
-      </select>
-      <input type="date" [formControl]="userField.controls.birth_date" class="datePicker"
-             placeholder="Дата рождения"/>
       <input cFormControl type="password" [formControl]="userField.controls.password"
              placeholder="Придумайте пароль"/>
       @if (!userField.untouched) {

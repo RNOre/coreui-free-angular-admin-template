@@ -66,10 +66,8 @@ export class CompanyPageComponent implements OnInit {
 
   userField = new FormGroup({
     avatar: new FormControl(''),
-    birth_date: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
-    sex: new FormControl('', [Validators.required]),
     username: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
     disable: new FormControl(false)
