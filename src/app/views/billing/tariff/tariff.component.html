@@ -58,7 +58,7 @@
         </div>
       </div>
     }
-    <button style="margin-bottom: 20px;" cButton color="primary" [cModalToggle]="createTariffModal.id">Создать тариф
+    <button style="margin: -10px 0 20px;" cButton color="primary" [cModalToggle]="createTariffModal.id">Создать тариф
     </button>
   </div>
   <div class="wrapper-container">
@@ -94,7 +94,6 @@
                (pageChange)="pageChangeCompany($event)">
           <thead>
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Дата создания</th>
             <th scope="col">Название тарифа</th>
             <th scope="col">Тип тарифа</th>
@@ -108,7 +107,6 @@
           <tbody>
             @for (tariff of tariffsDataCompany; track tariff.id) {
               <tr>
-                <td scope="row" [title]="tariff.id">{{ tariff.id.substring(0, 3) }}...</td>
                 <td>{{ getDate(tariff.created_at) }}</td>
                 <td>{{ tariff.name }}</td>
                 <td>{{ tariff.kind }}</td>
@@ -150,7 +148,6 @@
         <table cTable borderless pagination [paginationMeta]="tariffMetaUser" (pageChange)="pageChangeUser($event)">
           <thead>
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Дата создания</th>
             <th scope="col">Название тарифа</th>
             <th scope="col">Тип тарифа</th>
@@ -164,7 +161,6 @@
           <tbody>
             @for (tariff of tariffsDataUser; track tariff.id) {
               <tr>
-                <td scope="row" [title]="tariff.id">{{ tariff.id.substring(0, 3) }}...</td>
                 <td>{{ getDate(tariff.created_at) }}</td>
                 <td>{{ tariff.name }}</td>
                 <td>{{ tariff.kind }}</td>

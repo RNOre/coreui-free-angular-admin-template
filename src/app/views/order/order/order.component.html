@@ -31,7 +31,6 @@
                  (pageChange)="pageChangeCompany($event)">
             <thead>
             <tr>
-              <th scope="col">ID</th>
               <th scope="col">Дата создания</th>
               <th scope="col">Название компании</th>
               <th scope="col">Тариф</th>
@@ -43,7 +42,6 @@
             <tbody>
               @for (order of orderDataCompany; track order.id) {
                 <tr>
-                  <td scope="row" [title]="order.id">{{ order.id.substring(0, 3) }}...</td>
                   <td>{{ getDate(order.created_at) }}</td>
                   <td>{{ order.company_name }}</td>
                   <td>{{ order.tariff_name }}</td>

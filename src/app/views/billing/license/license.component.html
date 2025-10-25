@@ -36,7 +36,6 @@
                (pageChange)="pageChangeCompany($event)">
           <thead>
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Название тарифа</th>
             <th scope="col">Дата создания</th>
             <th scope="col">Период</th>
@@ -50,9 +49,6 @@
           <tbody>
             @for (license of licenseDataCompany; track license.id) {
               <tr>
-                <td [title]="license.id">
-                  {{ license.id.substring(0, 5) }}...
-                </td>
                 <td>{{ license.tariff_name }}</td>
                 <td>{{ license.created_at | date:"dd.MM.YYYY" }}</td>
                 <td>{{ license.tariff_period }}</td>
@@ -83,7 +79,6 @@
         <table cTable borderless pagination [paginationMeta]="licenseMetaUser" (pageChange)="pageChangeUser($event)">
           <thead>
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Название тарифа</th>
             <th scope="col">Дата создания</th>
             <th scope="col">Период</th>
@@ -96,9 +91,6 @@
           <tbody>
             @for (license of licenseDataUser; track license.id) {
               <tr>
-                <td [title]="license.id">
-                  {{ license.id.substring(0, 5) }}...
-                </td>
                 <td>{{ license.tariff_name }}</td>
                 <td>{{ license.created_at | date:"dd.MM.YYYY" }}</td>
                 <td>{{ license.tariff_period }}</td>
