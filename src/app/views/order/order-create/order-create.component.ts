@@ -18,6 +18,7 @@ import {TariffInterface} from "../../../interfaces/billing";
 import {NgStyle} from "@angular/common";
 import {PaginationDirective} from "../../../directives/pagination.directive";
 import {PhoneNumberDirective} from "../../../directives/phone-number.directive";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-order-create',
@@ -31,7 +32,8 @@ import {PhoneNumberDirective} from "../../../directives/phone-number.directive";
     IconDirective,
     NgStyle,
     PaginationDirective,
-    PhoneNumberDirective
+    PhoneNumberDirective,
+    RouterLink
   ],
   templateUrl: './order-create.component.html',
   standalone: true,

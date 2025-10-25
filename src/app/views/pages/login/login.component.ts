@@ -13,13 +13,14 @@ import {
   InputGroupComponent,
   InputGroupTextDirective,
   FormControlDirective,
-  ButtonDirective, ToastComponent, ToastHeaderComponent, ToastBodyComponent
+  ButtonDirective, ToastComponent, ToastHeaderComponent, ToastBodyComponent, ToasterComponent
 } from '@coreui/angular';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {env} from "../../../../../env";
 import {isAdmin} from "../../../core/global";
+import {ToastService} from "../../../core/services/toast.service";
 
 @Component({
   selector: 'app-login',
@@ -40,8 +41,12 @@ import {isAdmin} from "../../../core/global";
     FormControlDirective,
     ButtonDirective,
     ReactiveFormsModule,
-    FormsModule
-    ]
+    FormsModule,
+    ToastBodyComponent,
+    ToastComponent,
+    ToastHeaderComponent,
+    ToasterComponent
+  ]
 })
 export class LoginComponent {
 
@@ -55,7 +60,7 @@ export class LoginComponent {
   )
 
   email = new FormControl('', [Validators.required, Validators.email]);
-  otp = new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(4)]);
+  otp = new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(6)]);
 
   isSuperAdmin = false;
   forgetPass = false;
@@ -66,7 +71,8 @@ export class LoginComponent {
 
   constructor(
     private $http: HttpClient,
-    private $router: Router
+    private $router: Router,
+    private $toast: ToastService,
   ) {
   }
 
@@ -101,14 +107,59 @@ export class LoginComponent {
   }
 
   sendCode() {
-    this.step = 2;
+    this.$http.post(env.host + 'password-forgot-confirm-code', {
+      email: this.email.value,
+      new_password: this.otp.value,
+    }).subscribe({
+      next: (res) => {
+        this.step = 1;
+      },
+      error: () => {
+        this.$toast.setToast({
+          show: true,
+          title: 'Ошибка',
+          text: 'Неверный код'
+        })
+      }
+    })
   }
 
   getCode() {
-    this.step = 1;
+    this.$http.post(env.host + 'password-forgot', {
+      email: this.email.value,
+    }).subscribe({
+      next: (res) => {
+        this.step = 1;
+      },
+      error: () => {
+        this.$toast.setToast({
+          show: true,
+          title: 'Ошибка',
+          text: 'Ошибка при отправке кода или неверный email'
+        })
+      }
+    })
   }
 
   updatePassword() {
-    //
+    this.$http.post(env.host + 'password-forgot-change', {
+      email: this.email.value,
+      new_password: this.newPassword.value
+    }).subscribe({
+      next: (res) => {
+        this.step = 1;
+      },
+      error: () => {
+        this.$toast.setToast({
+          show: true,
+          title: 'Ошибка',
+          text: 'Ошибка при сохранении пароля'
+        })
+      }
+    })
+  }
+
+  getToast() {
+    return this.$toast.$toast();
   }
 }

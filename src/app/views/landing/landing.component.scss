@@ -95,11 +95,12 @@
     }
 
     &-info {
-      margin-top: 110px;
+      margin: 110px auto 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 120px;
+      max-width: 1440px;
       @media screen and (max-width: 1240px) {
         padding: 0 20px;
       }
@@ -184,6 +185,9 @@
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
+      max-width: 1440px;
+      margin: auto;
+
       @media screen and (max-width: 768px) {
         flex-direction: column;
         text-align: center;

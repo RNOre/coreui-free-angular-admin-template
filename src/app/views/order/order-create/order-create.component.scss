@@ -43,8 +43,12 @@
   height: 100vh;
   &-header {
     padding: 35px;
-    &>span {
-      margin-left: 10px;
+    &>a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #444;
     }
   }
 }

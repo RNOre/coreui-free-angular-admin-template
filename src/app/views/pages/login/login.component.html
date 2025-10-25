@@ -1,4 +1,21 @@
 <div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
+  @if (getToast().show) {
+    <c-toaster [placement]="'top-end'" class="p-3" position="fixed">
+      <c-toast
+        (timer)="getToast().duration"
+        [visible]="true"
+      >
+        @if (getToast().title) {
+          <c-toast-header>
+            {{ getToast().title }}
+          </c-toast-header>
+        }
+        <c-toast-body>
+          <p>{{ getToast().text }}</p>
+        </c-toast-body>
+      </c-toast>
+    </c-toaster>
+  }
   <c-container breakpoint="md">
     <c-row class="justify-content-center">
       <c-col lg="10" xl="8">
@@ -37,18 +54,14 @@
                     <input type="checkbox" id="admin" [checked]="isSuperAdmin" (change)="isSuperAdmin = !isSuperAdmin"/>
                     <label style="margin-left: 10px" for="admin"> Администратор сервиса</label>
                   </div>
-                  <c-row>
-                    <c-col xs="2">
-                      <button cButton class="px-4" color="primary" type="submit" [disabled]="!authData.valid">
-                        Войти
-                      </button>
-                    </c-col>
-                    <c-col xs="3">
-                      <button cButton class="px-4" color="light" type="button" (click)="forgetPass = true">
-                        Забыли пароль?
-                      </button>
-                    </c-col>
-                  </c-row>
+                  <div>
+                    <button cButton class="px-4" color="primary" type="submit" [disabled]="!authData.valid">
+                      Войти
+                    </button>
+                    <button cButton class="px-4" color="light" type="button" (click)="forgetPass = true" style="margin-left: 20px">
+                      Забыли пароль?
+                    </button>
+                  </div>
                 </form>
               } @else if (step !== 2) {
                 <form cForm>
@@ -64,26 +77,22 @@
                       <span cInputGroupText>
                         <svg cIcon name="cilEnvelopeClosed"></svg>
                       </span>
-                      <input cFormControl placeholder="* * * *" min="4" max="4"
+                      <input cFormControl placeholder="* * * * * *" min="6" max="6"
                              [formControl]="otp"/>
                     </c-input-group>
                   }
-                  <c-row>
-                    <c-col xs="3">
-                      <button cButton class="px-4" color="primary" type="submit"
-                              [disabled]=" step === 0 ? email.invalid : otp.invalid"
-                              (click)="step === 0 ? getCode() : sendCode()"
-                      >
-                        {{ step === 0 ? "Получить код" : "Отправить код" }}
-                      </button>
-                    </c-col>
-                    <c-col xs="3">
-                      <button cButton class="px-4" color="light" type="button"
-                              (click)="forgetPass = false; step = 0">
-                        Вернуться
-                      </button>
-                    </c-col>
-                  </c-row>
+                  <div>
+                    <button cButton class="px-4" color="primary" type="submit"
+                            [disabled]=" step === 0 ? email.invalid : otp.invalid"
+                            (click)="step === 0 ? getCode() : sendCode()"
+                    >
+                      {{ step === 0 ? "Получить код" : "Отправить код" }}
+                    </button>
+                    <button cButton class="px-4" color="light" type="button"
+                            (click)="forgetPass = false; step = 0" style="margin-left: 20px">
+                      Вернуться
+                    </button>
+                  </div>
                 </form>
               } @else {
                 <form cForm (ngSubmit)="updatePassword()">
