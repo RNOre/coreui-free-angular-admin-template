@@ -10,7 +10,6 @@ import {
   ModalToggleDirective,
   ShadowOnScrollDirective,
   SidebarBrandComponent,
-  SidebarService,
   ToastBodyComponent,
   ToastComponent,
   ToasterComponent,
@@ -21,6 +20,8 @@ import {DefaultHeaderComponent} from './';
 import {navItems} from './_nav';
 import {SidebarComponent} from "../../widgets/sidebar/sidebar.component";
 import {ToastService} from "../../core/services/toast.service";
+import {SidebarService} from "../../widgets/sidebar/sidebar.service";
+import {AsyncPipe} from "@angular/common";
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -51,7 +52,8 @@ function isOverflown(element: HTMLElement) {
     ModalComponent,
     ModalHeaderComponent,
     ModalTitleDirective,
-    ModalToggleDirective
+    ModalToggleDirective,
+    AsyncPipe
   ]
 })
 export class DefaultLayoutComponent implements OnDestroy, OnInit {
@@ -60,7 +62,7 @@ export class DefaultLayoutComponent implements OnDestroy, OnInit {
 
   visible = false;
 
-  constructor(private $sidebar: SidebarService, private $toast: ToastService) {
+  constructor(public sidebarService: SidebarService, private $toast: ToastService) {
   }
   ngOnInit(): void {
     //@ts-ignore

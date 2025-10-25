@@ -109,10 +109,11 @@ export class LoginComponent {
   sendCode() {
     this.$http.post(env.host + 'password-forgot-confirm-code', {
       email: this.email.value,
-      new_password: this.otp.value,
+      code: this.otp.value,
     }).subscribe({
       next: (res) => {
-        this.step = 1;
+        this.step = 2;
+        this.email.reset();
       },
       error: () => {
         this.$toast.setToast({
@@ -147,7 +148,9 @@ export class LoginComponent {
       new_password: this.newPassword.value
     }).subscribe({
       next: (res) => {
-        this.step = 1;
+        this.step = 0;
+        this.otp.reset();
+        this.email.reset();
       },
       error: () => {
         this.$toast.setToast({

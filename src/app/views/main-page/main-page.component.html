@@ -32,11 +32,10 @@
       @case ('company') {
         @if (companyData?.length) {
           <div class="content">
-            <div class="table-wrapper">
+            <div class="table-wrapper mainPage__table">
               <table cTable borderless pagination [paginationMeta]="companyMeta" (pageChange)="pageChangeCompany($event)">
                 <thead>
                 <tr>
-                  <th scope="col">ID</th>
                   <th scope="col">Название</th>
                   <th scope="col">Дата создания</th>
                   <th scope="col">Лицензия</th>
@@ -47,7 +46,6 @@
                 <tbody>
                   @for (company of companyData; track company.id) {
                     <tr>
-                      <td scope="row" [title]="company.id">{{ company.id.substring(0, 3) }}...</td>
                       <td>{{ company.name }}</td>
                       <td>{{ company.created_at | date : "dd.MM.YYYY" }}</td>
                       <td>{{ company.tariff_name }}</td>
@@ -75,11 +73,10 @@
       @case ('user') {
         @if (userData?.length) {
           <div class="content">
-            <div class="table-wrapper">
+            <div class="table-wrapper mainPage__table">
               <table cTable borderless pagination [paginationMeta]="userMeta" (pageChange)="pageChangeUser($event)">
                 <thead>
                 <tr>
-                  <th scope="col">ID</th>
                   <th scope="col">Пользователь</th>
                   <th scope="col">Email</th>
                   <th scope="col">Лицензия</th>
@@ -89,7 +86,6 @@
                 <tbody>
                   @for (user of userData; track user.id) {
                     <tr>
-                      <td scope="row" [title]="user.id">{{ user.id.substring(0, 3) }}...</td>
                       <td>{{ user.username }}</td>
                       <td>{{ user.email }}</td>
                       <td class="last_td">{{ user.tariff_name }}</td>

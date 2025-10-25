@@ -1,21 +1,26 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, computed, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {navItem} from "../../interfaces/global";
 import {isAdmin} from "../../core/global";
+import {AsyncPipe, JsonPipe, NgStyle} from "@angular/common";
+import {SidebarService} from "./sidebar.service";
 
 @Component({
   selector: 'app-sidebar',
-  imports: [],
+  imports: [
+    NgStyle,
+    AsyncPipe,
+    JsonPipe
+  ],
   templateUrl: './sidebar.component.html',
   standalone: true,
-  styleUrl: './sidebar.component.scss'
+  styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit {
-  isOpen = false;
   isAdmin = false;
   selectedNav: navItem = 'company';
 
-  constructor(private $router: Router, private route: ActivatedRoute) {
+  constructor(private $router: Router, private route: ActivatedRoute, public sidebarService: SidebarService) {
   }
 
   ngOnInit() {
@@ -53,7 +58,7 @@ export class SidebarComponent implements OnInit {
 
   navigateTo(path: navItem) {
     this.selectedNav = path;
-    this.isOpen = false;
+    this.sidebarService.setIsOpen(false);
 
     switch (path) {
       case "home":
@@ -88,15 +93,15 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  setIsOpen(value: boolean) {
-    if (value) {
-      this.isOpen = true
-      document.body.classList.add('no-scroll');
-    } else {
-      this.isOpen = false;
-      document.body.classList.remove('no-scroll')
-    }
-  }
+  // setIsOpen(value: boolean) {
+  //   if (value) {
+  //     this.isOpen = true
+  //     document.body.classList.add('no-scroll');
+  //   } else {
+  //     this.isOpen = false;
+  //     document.body.classList.remove('no-scroll')
+  //   }
+  // }
 
   logout() {
     localStorage.removeItem('token');
@@ -104,5 +109,11 @@ export class SidebarComponent implements OnInit {
     this.$router.navigate(['login']).then();
   }
 
-  protected readonly open = open;
+  setIsOpen(state: boolean): void {
+    this.sidebarService.setIsOpen(state);
+  }
+
+  get isOpen() {
+    return this.sidebarService.isOpen();
+  }
 }

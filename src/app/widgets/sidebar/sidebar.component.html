@@ -1,4 +1,8 @@
-<div class="custom-sidebar" [class.opened]="isOpen">
+<div class="custom-sidebar" [class.opened]="isOpen" [ngStyle]="{
+position: isOpen? 'absolute': 'relative',
+'border-top-right-radius': isOpen? '35px':0,
+'border-bottom-right-radius': isOpen? '35px':0,
+}">
   <div class="custom-sidebar__header">
     @if (isOpen) {
       <img
@@ -298,6 +302,6 @@
     </div>
   </div>
 </div>
-@if (isOpen) {
-  <div class="overall" (click)="setIsOpen(false)"></div>
+@if (true) {
+  <div class="overall active" (click)="setIsOpen(false)"></div>
 }

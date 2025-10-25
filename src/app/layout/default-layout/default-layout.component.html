@@ -1,4 +1,4 @@
-<div class="default-layout">
+<div class="default-layout" [class.sidebar-opened]="sidebarService.isOpen()">
   <app-sidebar class="default-layout__sidebar"></app-sidebar>
   <!--main-->
   <div class="wrapper d-flex flex-column min-vh-100 main-container">
@@ -47,3 +47,6 @@
     <a href="assets/politic.pdf" download="politic">Политика в отношении персональных данных</a>
   </c-modal-body>
 </c-modal>
+@if (sidebarService.isOpen()) {
+  <div class="overall active"></div>
+}
