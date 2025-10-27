@@ -70,6 +70,7 @@ export class CompanyPageComponent implements OnInit {
     name: new FormControl('', [Validators.required]),
     username: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
+    post: new FormControl('', [Validators.required]),
     disable: new FormControl(false)
   })
 

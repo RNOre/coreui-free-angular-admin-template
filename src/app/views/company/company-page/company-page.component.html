@@ -164,6 +164,30 @@
       </div>
     </div>
   </div>
+  <div class="job-widget__wrapper">
+    <div class="job-widget__wrapper__header">
+      Должности
+    </div>
+    <div class="content">
+      <div class="table-wrapper">
+        <table cTable borderless>
+          <thead>
+          <tr>
+            <th scope="col">Название</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td scope="row" class="last_td">Сотрудник</td>
+          </tr>
+          <tr>
+            <td scope="row" class="last_td">Руководитель отдела исследований</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 <c-modal #createUserModal size="lg" alignment="center" [id]="'addUser'" class="addUserModal">
   <c-modal-header style="display: flex; justify-content: space-between; color: #323231">
@@ -175,6 +199,11 @@
       <input cFormControl placeholder="Имя" [formControl]="userField.controls.name"/>
       <input cFormControl type="email" placeholder="Username (email)" [formControl]="userField.controls.username"/>
       <input cFormControl type="email" placeholder="Email" [formControl]="userField.controls.email"/>
+      <label style="margin: 0 0 -10px 10px">Должность</label>
+      <select name="post" cSelect [formControl]="userField.controls.post">
+        <option value="Сотрудник">Сотрудник</option>
+        <option value="Руководитель отдела исследований">Руководитель отдела исследований</option>
+      </select>
       <input cFormControl type="password" [formControl]="userField.controls.password"
              placeholder="Придумайте пароль"/>
       @if (!userField.untouched) {
