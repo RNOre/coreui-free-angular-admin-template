@@ -107,46 +107,62 @@ export class LoginComponent {
   }
 
   sendCode() {
-    this.$http.post(env.host + 'password-forgot-confirm-code', {
-      email: this.email.value,
+    let body: { code: string | null, email?: string | null, username?: string | null } = {
       code: this.otp.value,
-    }).subscribe({
-      next: (res) => {
-        this.step = 2;
-        this.email.reset();
-      },
-      error: () => {
-        this.$toast.setToast({
-          show: true,
-          title: 'Ошибка',
-          text: 'Неверный код'
-        })
-      }
-    })
+    };
+    if (this.isSuperAdmin) {
+      body.username = this.email.value;
+    } else body.email = this.email.value;
+    this.$http.post(this.isSuperAdmin ? 'password-forgot-confirm-code'
+      : (env.host + 'password-forgot-confirm-code'), body)
+      .subscribe({
+        next: (res) => {
+          this.step = 2;
+          this.email.reset();
+        },
+        error: () => {
+          this.$toast.setToast({
+            show: true,
+            title: 'Ошибка',
+            text: 'Неверный код'
+          })
+        }
+      })
   }
 
   getCode() {
-    this.$http.post(env.host + 'password-forgot', {
-      email: this.email.value,
-    }).subscribe({
-      next: (res) => {
-        this.step = 1;
-      },
-      error: () => {
-        this.$toast.setToast({
-          show: true,
-          title: 'Ошибка',
-          text: 'Ошибка при отправке кода или неверный email'
-        })
+    let body;
+    if (this.isSuperAdmin) {
+      body = {
+        username: this.email.value,
       }
-    })
+    } else body = {
+      email: this.email.value,
+    }
+    this.$http.post(this.isSuperAdmin ? 'password-forgot' : (env.host + 'password-forgot'), body)
+      .subscribe({
+        next: (res) => {
+          this.step = 1;
+        },
+        error: () => {
+          this.$toast.setToast({
+            show: true,
+            title: 'Ошибка',
+            text: 'Ошибка при отправке кода или неверный email'
+          })
+        }
+      })
   }
 
   updatePassword() {
-    this.$http.post(env.host + 'password-forgot-change', {
-      email: this.email.value,
-      new_password: this.newPassword.value
-    }).subscribe({
+    let body: { new_password: string | null, email?: string | null, username?: string | null } = {
+      new_password: this.newPassword.value,
+    };
+    if (this.isSuperAdmin) {
+      body.username = this.email.value;
+    } else body.email = this.email.value;
+    this.$http.post(this.isSuperAdmin ? 'password-forgot-change' : (env.host + 'password-forgot-change'), body)
+      .subscribe({
       next: (res) => {
         this.step = 0;
         this.otp.reset();
