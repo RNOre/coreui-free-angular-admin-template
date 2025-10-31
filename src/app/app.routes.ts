@@ -17,6 +17,7 @@ import {AnalysisPageComponent} from "./views/analysis-page/analysis-page.compone
 import {UserLegalComponent} from "./views/user-legal/user-legal.component";
 import {AnalysisItemComponent} from "./views/analysis-item/analysis-item.component";
 import {LandingComponent} from "./views/landing/landing.component";
+import {SettingsComponent} from "./views/settings/settings.component";
 
 export const routes: Routes = [
   {
@@ -83,6 +84,10 @@ export const routes: Routes = [
       {
         path: 'analysis/:id',
         component: AnalysisItemComponent
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent
       }
     ]
   },

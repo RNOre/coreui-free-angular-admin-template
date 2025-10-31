@@ -22,6 +22,7 @@ import {SidebarComponent} from "../../widgets/sidebar/sidebar.component";
 import {ToastService} from "../../core/services/toast.service";
 import {SidebarService} from "../../widgets/sidebar/sidebar.service";
 import {AsyncPipe} from "@angular/common";
+import {UserService} from "../../core/services/user.service";
 
 function isOverflown(element: HTMLElement) {
   return (
@@ -62,19 +63,13 @@ export class DefaultLayoutComponent implements OnDestroy, OnInit {
 
   visible = false;
 
-  constructor(public sidebarService: SidebarService, private $toast: ToastService) {
+  constructor(public sidebarService: SidebarService,
+              private $toast: ToastService,
+              private $userService: UserService,
+  ) {
   }
   ngOnInit(): void {
-    //@ts-ignore
-    // this.$sidebar.sidebarState$.subscribe((res) => {
-    //   console.log(res);
-    // });
-    // this.$toast.setToast({
-    //   title: 'title',
-    //   text: 'text',
-    //   duration: 1000,
-    //   show: true
-    // })
+    this.$userService.getUserData();
   }
 
   ngOnDestroy(): void {

@@ -66,10 +66,10 @@
               } @else if (step !== 2) {
                 <form cForm>
                   <h1>Восстановление пароля</h1>
-                  <p class="text-body-secondary">Введите email аккаунта, на него придет код подтверждения</p>
+                  <p class="text-body-secondary">Введите username аккаунта, на привязанную почту придет код подтверждения</p>
                   <c-input-group class="mb-3">
                     <span cInputGroupText id="basic-addon1">&#64;</span>
-                    <input autoComplete="email" cFormControl placeholder="Email"
+                    <input autoComplete="email" cFormControl placeholder="Username"
                            [formControl]="email"/>
                   </c-input-group>
                   @if (step === 1) {

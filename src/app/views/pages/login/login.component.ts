@@ -59,7 +59,7 @@ export class LoginComponent {
     }
   )
 
-  email = new FormControl('', [Validators.required, Validators.email]);
+  email = new FormControl('', [Validators.required]);
   otp = new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(6)]);
 
   isSuperAdmin = false;
