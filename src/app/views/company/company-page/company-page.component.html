@@ -1,17 +1,43 @@
 <div class="companyPage">
-  <div class="companyPage-info">
-    <div class="header">
-      Организация
+  <div>
+    <div class="companyPage-info">
+      <div class="header">
+        Организация
+      </div>
+      <form [formGroup]="companyField" (ngSubmit)="updateCompanyData()" class="companyPage-data">
+        <input cFormControl placeholder="Название организации" [formControl]="companyField.controls.name"
+               style="margin-bottom: 11px;"/>
+        <input cFormControl placeholder="ИНН" [formControl]="companyField.controls.inn" style="margin-bottom: 11px;"/>
+        <input cFormControl placeholder="Email" [formControl]="companyField.controls.email"/>
+        @if (!companyField.untouched) {
+          <button class="btn btn-primary" style="margin: 11px auto">Обновить</button>
+        }
+      </form>
     </div>
-    <form [formGroup]="companyField" (ngSubmit)="updateCompanyData()" class="companyPage-data">
-      <input cFormControl placeholder="Название организации" [formControl]="companyField.controls.name"
-             style="margin-bottom: 11px;"/>
-      <input cFormControl placeholder="ИНН" [formControl]="companyField.controls.inn" style="margin-bottom: 11px;"/>
-      <input cFormControl placeholder="Email" [formControl]="companyField.controls.email"/>
-      @if (!companyField.untouched) {
-        <button class="btn btn-primary" style="margin: 11px auto">Обновить</button>
-      }
-    </form>
+    <div class="job-widget__wrapper">
+      <div class="job-widget__wrapper__header">
+        Должности
+      </div>
+      <div class="content">
+        <div class="table-wrapper">
+          <table cTable borderless>
+            <thead>
+            <tr>
+              <th scope="col">Название</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td scope="row" class="last_td">Сотрудник</td>
+            </tr>
+            <tr>
+              <td scope="row" class="last_td">Руководитель отдела исследований</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="companyPage-rightSide">
     <div class="companyPage-users">
@@ -161,30 +187,6 @@
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="job-widget__wrapper">
-    <div class="job-widget__wrapper__header">
-      Должности
-    </div>
-    <div class="content">
-      <div class="table-wrapper">
-        <table cTable borderless>
-          <thead>
-          <tr>
-            <th scope="col">Название</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td scope="row" class="last_td">Сотрудник</td>
-          </tr>
-          <tr>
-            <td scope="row" class="last_td">Руководитель отдела исследований</td>
-          </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
