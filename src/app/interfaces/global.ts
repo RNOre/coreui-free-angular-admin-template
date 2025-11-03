@@ -26,7 +26,9 @@ export interface UserData {
   post?: null,
   photo_link: string,
   background_photo_link: string,
-  email: string
+  email: string,
+  username: string,
+  photo_id?: string,
 }
 
 export type navItem ='order' | 'company' | 'tariff' | 'license' | 'home' | 'user' | 'analysis' | 'main-legal' | 'user-legal';

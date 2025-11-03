@@ -7,12 +7,14 @@ import {ToastService} from "../../core/services/toast.service";
 import {UserData} from "../../interfaces/global";
 import {UserService} from "../../core/services/user.service";
 import {isAdmin} from "../../core/global";
+import {JsonPipe} from "@angular/common";
 
 @Component({
   selector: 'app-settings',
   imports: [
     FormControlDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    JsonPipe
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
@@ -57,14 +59,14 @@ export class SettingsComponent implements OnInit {
         body = {name: this.name.value};
         break;
       case 'username':
-        body = {name: this.username.value};
+        body = {username: this.username.value};
         break;
       case 'password':
         body = {password: this.password.value};
         break;
     }
 
-    this.$http.patch<{ data: UserData }>(env.host + 'user/me', body)
+    this.$http.patch<{ data: UserData }>(isAdmin() ? 'me' : env.host + 'user/me', body)
       .subscribe({
         next: (res) => {
           this.userService.updateUser(res.data);
@@ -97,9 +99,13 @@ export class SettingsComponent implements OnInit {
       formData.append('type', 'avatar');
 
       this.$http
-        .post<{data: UserData}>(isAdmin() ? 'user/photo' : env.host + 'user/photo', formData)
+        .post<{ data: UserData }>(isAdmin() ? 'photo' : env.host + 'user/photo', formData)
         .subscribe((res) => {
-          this.userService.updateUser(res.data);
+          let userData = res.data;
+          if(isAdmin()){
+            userData = {...userData, photo_link: userData.photo_id || ''}
+          }
+          this.userService.updateUser(userData);
           this.$toast.setToast({
             show: true,
             title: 'Успешно',
@@ -112,7 +118,8 @@ export class SettingsComponent implements OnInit {
   setData() {
     if (this.user() !== null) this.storageData = this.user()!;
 
-    this.email.setValue(this.storageData.email);
-    this.name.setValue(this.storageData.name);
+    this.email.setValue(this.storageData.email || '');
+    this.name.setValue(this.storageData.name || '');
+    this.username.setValue(this.storageData.username || '');
   }
 }
