@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {env} from "../../../../env";
+import {AdvSectionComponent} from "./adv-section/adv-section.component";
 
 @Component({
   selector: 'app-landing',
-  imports: [],
+  imports: [
+    AdvSectionComponent
+  ],
   templateUrl: './landing.component.html',
   standalone: true,
   styleUrl: './landing.component.scss'

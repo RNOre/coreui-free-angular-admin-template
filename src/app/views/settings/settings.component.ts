@@ -1,5 +1,5 @@
 import {Component, effect, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FormControlDirective} from "@coreui/angular";
 import {HttpClient} from "@angular/common/http";
 import {env} from "../../../../env";
@@ -7,26 +7,26 @@ import {ToastService} from "../../core/services/toast.service";
 import {UserData} from "../../interfaces/global";
 import {UserService} from "../../core/services/user.service";
 import {isAdmin} from "../../core/global";
-import {JsonPipe} from "@angular/common";
+import {NgTemplateOutlet} from "@angular/common";
 
 @Component({
   selector: 'app-settings',
   imports: [
     FormControlDirective,
     ReactiveFormsModule,
-    JsonPipe
+    NgTemplateOutlet
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent implements OnInit {
 
-  email = new FormControl('', [Validators.email]);
-  name = new FormControl('');
-  username = new FormControl('');
+  email = new FormControl('', [Validators.email, Validators.required, Validators.minLength(3)]);
+  name = new FormControl('', [Validators.required, Validators.minLength(3)]);
+  username = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
-  password = new FormControl('');
-  password_confirmation = new FormControl('');
+  password = new FormControl('', [Validators.required, Validators.minLength(3)]);
+  password_confirmation = new FormControl('', [Validators.required, Validators.minLength(3), this.passwordMatchValidator.bind(this)]);
 
   storageData!: UserData;
 
@@ -102,7 +102,7 @@ export class SettingsComponent implements OnInit {
         .post<{ data: UserData }>(isAdmin() ? 'photo' : env.host + 'user/photo', formData)
         .subscribe((res) => {
           let userData = res.data;
-          if(isAdmin()){
+          if (isAdmin()) {
             userData = {...userData, photo_link: userData.photo_id || ''}
           }
           this.userService.updateUser(userData);
@@ -118,8 +118,33 @@ export class SettingsComponent implements OnInit {
   setData() {
     if (this.user() !== null) this.storageData = this.user()!;
 
-    this.email.setValue(this.storageData.email || '');
-    this.name.setValue(this.storageData.name || '');
-    this.username.setValue(this.storageData.username || '');
+    this.email.setValue(this.storageData?.email || '');
+    this.name.setValue(this.storageData?.name || '');
+    this.username.setValue(this.storageData?.username || '');
+  }
+
+  getErrorMessage(errors: {[key: string]: any | null}) {
+    if(!errors)
+      return '';
+    if (errors['required']) {
+      return 'Обязательно для заполнения';
+    } else if (errors['email']) {
+      return 'Некорректный email адрес';
+    } else if (errors['minlength']) {
+      return `Минимальная длина: ${errors['minlength'].requiredLength} символов`;
+    } else if (errors['passwordMismatch']) {
+      return 'Пароли не совпадают'
+    }
+    return '';
+  }
+
+  passwordMatchValidator(): {[key: string]: any} | null {
+    const password = this.password?.value;
+    const confirmPassword = this.password_confirmation?.value;
+
+    if (password && confirmPassword && password !== confirmPassword) {
+      return { 'passwordMismatch': true };
+    }
+    return null;
   }
 }

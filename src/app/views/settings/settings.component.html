@@ -69,6 +69,9 @@
           type="text"
           [formControl]="username"
         />
+        @if(username.errors) {
+          <ng-container *ngTemplateOutlet="errorMessage; context: { message: getErrorMessage(username.errors)}"></ng-container>
+        }
       </div>
       <div>
         <div class="inputLabel">
@@ -105,7 +108,10 @@
           type="email"
           [formControl]="email"
         />
-      </div>
+        @if(email.errors) {
+          <ng-container *ngTemplateOutlet="errorMessage; context: { message: getErrorMessage(email.errors)}"></ng-container>
+        }
+       </div>
       <div>
         <div class="inputLabel">
           <div>ФИО</div>
@@ -141,6 +147,9 @@
           type="text"
           [formControl]="name"
         />
+        @if(name.errors) {
+          <ng-container *ngTemplateOutlet="errorMessage; context: { message: getErrorMessage(name.errors)}"></ng-container>
+        }
       </div>
     </div>
     <div class="settings-flex" style="justify-content: start; gap: 15px;">
@@ -181,6 +190,9 @@
           type="password"
           [formControl]="password"
         />
+        @if(password.errors) {
+          <ng-container *ngTemplateOutlet="errorMessage; context: { message: getErrorMessage(password.errors)}"></ng-container>
+        }
       </div>
       @if (!password.disabled) {
         <div>
@@ -193,8 +205,14 @@
             type="password"
             [formControl]="password_confirmation"
           />
+          @if(password_confirmation.errors) {
+            <ng-container *ngTemplateOutlet="errorMessage; context: { message: getErrorMessage(password_confirmation.errors)}"></ng-container>
+          }
         </div>
       }
     </div>
   </div>
 </div>
+<ng-template #errorMessage let-message="message">
+  <div class="validation-message">{{message}}</div>
+</ng-template>

@@ -26,7 +26,7 @@
       border-radius: 50%;
       position: relative;
 
-      &>button {
+      & > button {
         background-color: transparent;
         border: none;
         position: absolute;
@@ -34,11 +34,12 @@
         right: -10px;
       }
     }
+
     &-inner {
       overflow: hidden;
       border-radius: 50%;
 
-      &> img {
+      & > img {
         width: 48px;
         height: 48px;
         object-fit: contain;
@@ -48,11 +49,12 @@
 
   &-flex {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
     margin-top: 30px;
   }
 }
+
 .inputLabel {
   display: flex;
   gap: 7px;
@@ -68,4 +70,13 @@
     border: none;
     padding: 0;
   }
+}
+
+.validation-message {
+  color: #ed7474;
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  margin-top: 8px;
 }
