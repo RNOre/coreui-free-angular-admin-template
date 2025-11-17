@@ -26,7 +26,7 @@ export class LandingComponent implements OnInit {
     this.$http
       .get<{ data: { items: AdvInterface[] } }>(env.host + 'advertisement')
       .subscribe(res => {
-        this.advList = res.data.items?.filter(el => el.show_in_landing);
+        this.advList = res.data.items?.filter(el => el.show_in_landing && el.is_active);
         if (window.innerWidth < 768) {
           this.advList = this.advList.filter(el => el.show_in_mobile);
         }

@@ -21,7 +21,7 @@ export class OfferPageComponent implements OnInit {
   ngOnInit() {
     this.$http.get<{ data: { items: AdvInterface[] } }>(env.host + 'advertisement')
       .subscribe(res => {
-        this.advList = res.data.items?.filter(el => el.show_in_admins_page);
+        this.advList = res.data.items?.filter(el => el.show_in_admins_page && el.is_active);
       })
   }
 }

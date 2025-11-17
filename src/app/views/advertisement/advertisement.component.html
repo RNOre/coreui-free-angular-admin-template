@@ -8,9 +8,29 @@
       <div>
         Рекламные кампании
       </div>
-      <button class="btn btn-primary" [cModalToggle]="createAdvModal.id" (click)="advItemType=true; advItem.reset()">Добавить</button>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="filter">
+          <select name="kind"
+                  id="kind"
+                  aria-label="Default select example" cSelect
+                  [formControl]="filter"
+                  class="input-item"
+                  (change)="getData()"
+          >
+            <option value="all">Все</option>
+            <option value="landing">Только компании на главном экране</option>
+            <option value="offer">Только компании в списке предложений</option>
+            <option value="mobile">Отображаются на мобильных устройствах</option>
+
+          </select>
+        </div>
+        <button class="btn btn-primary" [cModalToggle]="createAdvModal.id" (click)="advItemType=true; advItem.reset()">
+          Добавить
+        </button>
+      </div>
     </div>
-    <div class="table-wrapper">
+    <div class="table-wrapper" pagination [paginationMeta]="advMeta"
+         (pageChange)="pageChange($event)" style="margin-bottom: 10px">
       @for (adv of advList; track adv.id) {
         <div class="adv-company">
           <c-form-check class="check">
@@ -93,7 +113,6 @@
         <div class="upload-file-section__file-wrapper">
           <button (click)="desktopFile.click()">
             <input style="display: none" type="file" #desktopFile
-                   formControlName="desktop_image_url"
                    (change)="uploadFile($event, true)"
                    accept="image/png, image/gif, image/jpeg"
             />
@@ -115,7 +134,6 @@
           <div class="upload-file-section__file-wrapper">
             <button (click)="mobileFile.click()">
               <input style="display: none" type="file" #mobileFile
-                     formControlName="mobile_image_url"
                      (change)="uploadFile($event, false)"
                      accept="image/png, image/gif, image/jpeg"
               />
@@ -134,6 +152,7 @@
       }
 
       <button cButton color="primary" (click)="createAdv()"
+              [disabled]="advItem.invalid || (!advItem.controls.show_in_landing.value && !advItem.controls.show_in_admins_page.value)"
               [cModalToggle]="createAdvModal.id">{{ advItemType ? 'Создать' : 'Изменить' }}
       </button>
     </form>

@@ -9,10 +9,11 @@ import {
   ModalHeaderComponent, ModalTitleDirective, ModalToggleDirective,
   TableDirective
 } from "@coreui/angular";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {AdvInterface} from "../../interfaces/billing";
 import {env} from "../../../../env";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {PaginationMetaInterface} from "../../interfaces/global";
 
 @Component({
   selector: 'app-advertisement',
@@ -41,18 +42,26 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 })
 export class AdvertisementComponent implements OnInit {
   advList: AdvInterface[] = [];
+  advMeta: PaginationMetaInterface = {
+    currentPage: 1,
+    perPage: 10,
+    currentCount: 0
+  };
+  desktopFile!: File;
+  mobileFile!: File;
 
   advItem = new FormGroup({
     name: new FormControl('', Validators.required),
     id: new FormControl(''),
     description: new FormControl(''),
     is_active: new FormControl(true),
-    desktop_image_url: new FormControl<File | string>('', Validators.required),
-    mobile_image_url: new FormControl<File | string>(''),
+    desktop_image_url: new FormControl<string>('', Validators.required),
+    mobile_image_url: new FormControl<string>(''),
     show_in_admins_page: new FormControl(false),
     show_in_landing: new FormControl(false),
     show_in_mobile: new FormControl(false),
   })
+  filter = new FormControl('all');
 
   // true - создание, false - редактирование
   advItemType = true;
@@ -65,10 +74,28 @@ export class AdvertisementComponent implements OnInit {
   }
 
   getData() {
+    let params = new HttpParams();
+
+    switch (this.filter.value) {
+      case 'landing':
+        params = params.set('show_in_landing', 'true');
+        break;
+      case 'offer':
+        params = params.set('show_in_admins_page', 'true');
+        break;
+      case 'mobile':
+        params = params.set('show_in_mobile', 'true');
+        break;
+    }
+
     this.$http
-      .get<{ data: { items: AdvInterface[], total: number } }>(env.host + 'advertisement')
+      .get<{ data: { items: AdvInterface[], total: number } }>(env.host + 'advertisement', {
+        params
+      })
       .subscribe((res) => {
         this.advList = res.data.items;
+        this.advMeta.totalCount = res.data.total;
+        this.advMeta.currentCount = this.advList?.length || 0;
       })
   }
 
@@ -92,12 +119,12 @@ export class AdvertisementComponent implements OnInit {
     body.append('show_in_landing', this.advItem.controls.show_in_landing.value);
     // @ts-ignore
     body.append('show_in_mobile', this.advItem.controls.show_in_mobile.value);
-    if (this.advItem.controls.desktop_image_url.value) {
-      body.append('desktop_image_url', this.advItem.controls.desktop_image_url.value);
-    }
-    if (this.advItem.controls.mobile_image_url.value) {
-      body.append('mobile_image_url', this.advItem.controls.mobile_image_url.value);
-    }
+    // if (this.advItem.controls.desktop_image_url.value) {
+    body.append('desktop_image', this.desktopFile);
+    // }
+    // if (this.advItem.controls.mobile_image_url.value) {
+    body.append('mobile_image', this.mobileFile);
+    // }
 
     if (this.advItemType)
       this.$http
@@ -116,12 +143,15 @@ export class AdvertisementComponent implements OnInit {
   // type: true - desktop, false - mobile
   uploadFile(event: any, type: boolean) {
     const file: File = event?.target.files[0];
+    // const fileName = file.name;
 
     if (file) {
       if (type) {
-        this.advItem.controls.desktop_image_url.setValue(file);
+        this.advItem.controls.desktop_image_url.setValue(file.name);
+        this.desktopFile = file;
       } else {
-        this.advItem.controls.mobile_image_url.setValue(file);
+        this.advItem.controls.mobile_image_url.setValue(file.name);
+        this.mobileFile = file;
       }
     }
   }
@@ -160,5 +190,10 @@ export class AdvertisementComponent implements OnInit {
     this.advItemType = false;
     const currentAdv = this.advList.find(el => el.id === id);
     this.advItem.patchValue({...currentAdv});
+  }
+
+  pageChange(page: number) {
+    this.advMeta.currentPage = page;
+    this.getData();
   }
 }

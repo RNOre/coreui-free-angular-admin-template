@@ -93,7 +93,7 @@
       align-items: center;
 
       button {
-        width: 200px;
+        min-width: 200px;
         height: 100%;
         border-radius: 35px;
         background-color: #323231;
@@ -103,6 +103,7 @@
         justify-content: center;
         border: none;
         gap: 14px;
+        white-space: nowrap;
       }
     }
     &-info {
@@ -111,6 +112,9 @@
       font-size: 14px;
       display: flex;
       align-items: center;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }
