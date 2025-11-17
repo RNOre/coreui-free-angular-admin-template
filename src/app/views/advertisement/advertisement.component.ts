@@ -80,10 +80,10 @@ export class AdvertisementComponent implements OnInit {
     const body = new FormData();
 
     if (this.advItem.controls.name.value) {
-      body.append('name', this.advItem.controls.name.value.toString());
+      body.append('name', `"${this.advItem.controls.name.value.toString()}"`);
     }
     if (this.advItem.controls.description.value) {
-      body.append('description', this.advItem.controls.description.value.toString());
+      body.append('description', `"${this.advItem.controls.description.value.toString()}"`);
     }
     // @ts-ignore
     body.append('show_in_admins_page', this.advItem.controls.show_in_admins_page.value);
