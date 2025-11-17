@@ -18,6 +18,8 @@ import {UserLegalComponent} from "./views/user-legal/user-legal.component";
 import {AnalysisItemComponent} from "./views/analysis-item/analysis-item.component";
 import {LandingComponent} from "./views/landing/landing.component";
 import {SettingsComponent} from "./views/settings/settings.component";
+import {AdvertisementComponent} from "./views/advertisement/advertisement.component";
+import {OfferPageComponent} from "./views/offer-page/offer-page.component";
 
 export const routes: Routes = [
   {
@@ -88,6 +90,14 @@ export const routes: Routes = [
       {
         path: 'settings',
         component: SettingsComponent
+      },
+      {
+        path: 'advertisement',
+        component: AdvertisementComponent
+      },
+      {
+        path: 'offer',
+        component: OfferPageComponent
       }
     ]
   },

@@ -60,7 +60,6 @@
         <button class="btn btn-primary" (click)="getApp()">Скачать приложение</button>
         <button class="btn outline" (click)="navigateTo('login')">Подключить организацию</button>
       </div>
-<!--      <app-adv-section></app-adv-section>-->
       <div class="landing__main-info">
         <div class="landing__main-info-left">
           <b>Как это работает?</b>
@@ -256,6 +255,9 @@
           </div>
         </div>
       </div>
+      @if(advList?.length) {
+        <app-adv-section [data]="advList"></app-adv-section>
+      }
     </div>
     <div class="landing__footer">
       <div class="landing__footer-top">

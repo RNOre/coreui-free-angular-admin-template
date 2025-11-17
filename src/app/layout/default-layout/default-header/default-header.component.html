@@ -1,18 +1,13 @@
 <!--<c-header class="mb-4 d-print-none" position="sticky">-->
 <ng-container>
-  <c-container [fluid]="true" class="border-bottom px-4">
-    <!--      <button-->
-    <!--        [cSidebarToggle]="sidebarId()"-->
-    <!--        cHeaderToggler-->
-    <!--        class="btn"-->
-    <!--        toggle="visible"-->
-    <!--        style="margin-inline-start: -14px;"-->
-    <!--        aria-label="Toggle sidebar navigation"-->
-    <!--      >-->
-    <!--        <svg cIcon name="cilMenu" size="lg"></svg>-->
-    <!--      </button>-->
-
-    <c-header-nav class="d-none d-md-flex ms-auto" (click)="openModal.emit()"
+  <c-container [fluid]="true">
+    <c-header-nav class="d-none d-md-flex ms-auto"
+                  style="cursor: pointer; background-color: white; border-radius: 25px; margin-right: 17px">
+      <a cNavLink [routerLink]="['offer']" style="display: flex;align-items: center;justify-content: center; color: #321321; padding: 9px 11px">
+        Наши предложения
+      </a>
+    </c-header-nav>
+    <c-header-nav (click)="openModal.emit()"
                   style="cursor: pointer; background-color: white; border-radius: 100%; width: 40px; height: 40px;display: flex;align-items: center;justify-content: center">
       <a cNavLink style="display: flex;align-items: center;justify-content: center">
         <svg style="margin-right: 2px" width="11" height="19" viewBox="0 0 11 19" fill="none"
@@ -42,7 +37,7 @@
       [title]="user? (user?.name || user?.email): ''"
       style="overflow: hidden; background-color: white; border-radius: 100%; width: 40px; height: 40px;display: flex;
       align-items: center;justify-content: center;">
-      @if(user && user.photo_link) {
+      @if (user && user.photo_link) {
         <img
           [src]="user.photo_link"
           alt=""
@@ -51,8 +46,12 @@
       } @else {
         <div style="display: flex;align-items: center;justify-content: center">
           <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16.0901 2.03411H13.3162L11.4851 0.297997C11.284 0.107299 11.0115 0 10.7267 0H6.43605C6.15125 0 5.87879 0.107299 5.67767 0.297997L3.84661 2.03411H1.07267C0.479754 2.03411 0 2.48899 0 3.05116V14.2388C0 14.8009 0.479754 15.2558 1.07267 15.2558H16.0901C16.683 15.2558 17.1628 14.8009 17.1628 14.2388V3.05116C17.1628 2.48899 16.683 2.03411 16.0901 2.03411ZM8.5814 12.2047C6.21186 12.2047 4.2907 10.3831 4.2907 8.13643C4.2907 5.88976 6.21186 4.06822 8.5814 4.06822C10.9509 4.06822 12.8721 5.88976 12.8721 8.13643C12.8721 10.3831 10.9509 12.2047 8.5814 12.2047Z" fill="#CFD0D7"/>
-            <path d="M8.5814 10.1705C9.76624 10.1705 10.7267 9.25984 10.7267 8.13643C10.7267 7.01303 9.76624 6.10233 8.5814 6.10233C7.39655 6.10233 6.43605 7.01303 6.43605 8.13643C6.43605 9.25984 7.39655 10.1705 8.5814 10.1705Z" fill="#CFD0D7"/>
+            <path
+              d="M16.0901 2.03411H13.3162L11.4851 0.297997C11.284 0.107299 11.0115 0 10.7267 0H6.43605C6.15125 0 5.87879 0.107299 5.67767 0.297997L3.84661 2.03411H1.07267C0.479754 2.03411 0 2.48899 0 3.05116V14.2388C0 14.8009 0.479754 15.2558 1.07267 15.2558H16.0901C16.683 15.2558 17.1628 14.8009 17.1628 14.2388V3.05116C17.1628 2.48899 16.683 2.03411 16.0901 2.03411ZM8.5814 12.2047C6.21186 12.2047 4.2907 10.3831 4.2907 8.13643C4.2907 5.88976 6.21186 4.06822 8.5814 4.06822C10.9509 4.06822 12.8721 5.88976 12.8721 8.13643C12.8721 10.3831 10.9509 12.2047 8.5814 12.2047Z"
+              fill="#CFD0D7"/>
+            <path
+              d="M8.5814 10.1705C9.76624 10.1705 10.7267 9.25984 10.7267 8.13643C10.7267 7.01303 9.76624 6.10233 8.5814 6.10233C7.39655 6.10233 6.43605 7.01303 6.43605 8.13643C6.43605 9.25984 7.39655 10.1705 8.5814 10.1705Z"
+              fill="#CFD0D7"/>
           </svg>
         </div>
       }

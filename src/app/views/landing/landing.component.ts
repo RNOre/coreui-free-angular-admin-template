@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {env} from "../../../../env";
 import {AdvSectionComponent} from "./adv-section/adv-section.component";
+import {AdvInterface} from "../../interfaces/billing";
 
 @Component({
   selector: 'app-landing',
@@ -13,12 +14,25 @@ import {AdvSectionComponent} from "./adv-section/adv-section.component";
   standalone: true,
   styleUrl: './landing.component.scss'
 })
-export class LandingComponent {
+export class LandingComponent implements OnInit {
+
+  mobileMenu = false;
+  advList: AdvInterface[] = [];
 
   constructor(private $router: Router, private $http: HttpClient) {
   }
 
-  mobileMenu = false;
+  ngOnInit() {
+    this.$http
+      .get<{ data: { items: AdvInterface[] } }>(env.host + 'advertisement')
+      .subscribe(res => {
+        this.advList = res.data.items?.filter(el => el.show_in_landing);
+        if (window.innerWidth < 768) {
+          this.advList = this.advList.filter(el => el.show_in_mobile);
+        }
+      })
+  }
+
 
   navigateTo(url: string) {
     switch (url) {
@@ -33,14 +47,14 @@ export class LandingComponent {
       case 'tariff': {
         this.mobileMenu = false;
         const a = document.createElement('a');
-        a.href='#tariff';
+        a.href = '#tariff';
         a.click();
         break;
       }
       case 'info': {
         this.mobileMenu = false;
         const a = document.createElement('a');
-        a.href='#info';
+        a.href = '#info';
         a.click();
         break;
       }
@@ -48,11 +62,11 @@ export class LandingComponent {
   }
 
   getApp() {
-    this.$http.get(env.host + 'mobile-sdk',{
+    this.$http.get(env.host + 'mobile-sdk', {
       responseType: 'arraybuffer'
     })
-      .subscribe((res)=> {
-        const blob = new Blob([res], { type: 'application/octet-stream' });
+      .subscribe((res) => {
+        const blob = new Blob([res], {type: 'application/octet-stream'});
         const url = window.URL.createObjectURL(blob);
 
         // Создаем ссылку для скачивания

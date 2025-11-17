@@ -62,3 +62,15 @@ export interface LicenseInterface {
   tariff_period: string;
   tariff_price: number;
 }
+
+export interface AdvInterface {
+  id: string;
+  name: string;
+  is_active: boolean;
+  description: string;
+  desktop_image_url: string;
+  mobile_image_url: string;
+  show_in_admins_page: boolean;
+  show_in_landing: boolean;
+  show_in_mobile: boolean;
+}

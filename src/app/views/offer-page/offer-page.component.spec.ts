@@ -1,20 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DocsLinkComponent } from './docs-link.component';
+import { OfferPageComponent } from './offer-page.component';
 
-describe('DocsLinkComponent', () => {
-  let component: DocsLinkComponent;
-  let fixture: ComponentFixture<DocsLinkComponent>;
+describe('OfferPageComponent', () => {
+  let component: OfferPageComponent;
+  let fixture: ComponentFixture<OfferPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [DocsLinkComponent]
-})
+      imports: [OfferPageComponent]
+    })
     .compileComponents();
-  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DocsLinkComponent);
+    fixture = TestBed.createComponent(OfferPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

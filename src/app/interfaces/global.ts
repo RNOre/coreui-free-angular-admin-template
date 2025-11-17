@@ -1,6 +1,6 @@
 export interface FilterInterface {
   filter: any;
-  order:{
+  order: {
     activatedAt?: string;
     createdAt?: string;
   },
@@ -31,4 +31,14 @@ export interface UserData {
   photo_id?: string,
 }
 
-export type navItem ='order' | 'company' | 'tariff' | 'license' | 'home' | 'user' | 'analysis' | 'main-legal' | 'user-legal';
+export type navItem =
+  'order'
+  | 'company'
+  | 'tariff'
+  | 'license'
+  | 'home'
+  | 'user'
+  | 'analysis'
+  | 'main-legal'
+  | 'user-legal'
+  | 'advertisement';

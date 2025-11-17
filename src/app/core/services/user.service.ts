@@ -27,7 +27,6 @@ export class UserService {
       )
       .subscribe((res) => {
         this.user.set(res)
-        console.log(this.user())
       })
   }
 

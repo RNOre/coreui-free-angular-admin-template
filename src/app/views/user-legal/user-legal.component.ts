@@ -60,6 +60,7 @@ export class UserLegalComponent implements OnInit{
     password: new FormControl('', Validators.required),
     // post: new FormControl('', Validators.required),
     username: new FormControl('', Validators.required),
+    mobile_image_url: new FormControl(null),
   })
 
   constructor(private $http: HttpClient, private $router: Router) {

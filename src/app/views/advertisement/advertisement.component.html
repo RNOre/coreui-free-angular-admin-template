@@ -1,0 +1,141 @@
+<div class="page-header">
+  <h1>Рекламные баннеры</h1>
+  <div>В данном разделе можно редактировать рекламные баннеры</div>
+</div>
+<div>
+  <div class="wrapper-container">
+    <div class="table-header table-header-adv">
+      <div>
+        Рекламные кампании
+      </div>
+      <button class="btn btn-primary" [cModalToggle]="createAdvModal.id" (click)="advItemType=true; advItem.reset()">Добавить</button>
+    </div>
+    <div class="table-wrapper">
+      @for (adv of advList; track adv.id) {
+        <div class="adv-company">
+          <c-form-check class="check">
+            <input cFormCheckInput id="checkOne" type="checkbox" [(ngModel)]="adv.is_active"
+                   (ngModelChange)="toggleActive(adv.id)"/>
+          </c-form-check>
+          <div class="name">{{ adv.name }}</div>
+          <button class="action" (click)="editAdv(adv.id)" [cModalToggle]="createAdvModal.id">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M0.75 6.69688V8.75H2.80315L8.38185 3.17134L8.38231 3.17091C8.58532 2.96793 8.68685 2.86641 8.72488 2.7493C8.75835 2.6462 8.7584 2.53516 8.72488 2.43207C8.68679 2.31488 8.58511 2.21319 8.38185 2.00993L7.48884 1.11692C7.28645 0.914524 7.18502 0.813121 7.06809 0.775122C6.96498 0.741626 6.85395 0.741626 6.75083 0.775122C6.6338 0.813146 6.53228 0.914668 6.32963 1.11735L6.32871 1.11822L0.75 6.69688Z"
+                stroke="#323231" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="action" (click)="deleteAdv(adv.id)">
+            <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.6001 2.10059V7.20059C7.6001 8.04069 7.6001 8.46069 7.4366 8.78159C7.2928 9.06384 7.06335 9.29329 6.7811 9.43709C6.4602 9.60059 6.0402 9.60059 5.2001 9.60059H4.0001C3.16002 9.60059 2.73998 9.60059 2.41911 9.43709C2.13687 9.29329 1.9074 9.06384 1.76359 8.78159C1.6001 8.46069 1.6001 8.04069 1.6001 7.20059V2.10059M0.600098 2.10059H8.6001M6.6001 2.10059L6.4648 1.69462C6.33365 1.30121 6.26805 1.10451 6.14645 0.959076C6.03905 0.830651 5.90115 0.731246 5.74535 0.669976C5.5689 0.600586 5.3616 0.600586 4.9469 0.600586H4.2533C3.8386 0.600586 3.6313 0.600586 3.45485 0.669976C3.29906 0.731246 3.16114 0.830651 3.05374 0.959076C2.93212 1.10451 2.86656 1.30121 2.73542 1.69462L2.6001 2.10059"
+                stroke="#323231" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="status" [ngStyle]="{
+          'background-color': adv.is_active ? '#74ED8A' : '#ED7474'
+          }">
+            @if (adv.is_active) {
+              <div>Активна</div>
+            } @else {
+              <div>Неактивна</div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+<c-modal #createAdvModal alignment="center" id="verticallyCenteredModal">
+  <c-modal-header>
+    <h5 cModalTitle>{{ advItemType ? 'Добавить компанию' : 'Редактирование компании' }} </h5>
+    <button [cModalToggle]="createAdvModal.id" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form [formGroup]="advItem">
+      <label>Название компании</label>
+      <input cFormControl
+             name="name"
+             id="name"
+             type="text"
+             formControlName="name"
+             class="input-item"
+             placeholder="Компания"
+      />
+      <label>Адрес ссылки</label>
+      <input cFormControl
+             name="description"
+             id="description"
+             type="text"
+             formControlName="description"
+             class="input-item"
+             placeholder="Ссылка"
+      />
+      <c-form-check class="adv-check" style="margin-top: 17px;">
+        <input cFormCheckInput id="show_in_landing" type="checkbox" formControlName="show_in_landing"/>
+        <div>Показывать компанию на главном экране</div>
+      </c-form-check>
+      <br/>
+      <c-form-check class="adv-check">
+        <input cFormCheckInput id="show_in_admins_page" type="checkbox" formControlName="show_in_admins_page"/>
+        <div>Показывать компанию в списке изображений</div>
+      </c-form-check>
+      @if (!advItem.controls.show_in_landing.value && !advItem.controls.show_in_admins_page.value) {
+        <div class="displayError">Выберите хотя бы один из пунктов</div>
+      }
+      <br/>
+      <c-form-check class="adv-check">
+        <input cFormCheckInput id="show_in_mobile" type="checkbox" formControlName="show_in_mobile"/>
+        <div>Показывать на мобильных устройствах</div>
+      </c-form-check>
+      <div class="upload-file-section">
+        <label>1039 x 350</label>
+        <div class="upload-file-section__file-wrapper">
+          <button (click)="desktopFile.click()">
+            <input style="display: none" type="file" #desktopFile
+                   formControlName="desktop_image_url"
+                   (change)="uploadFile($event, true)"
+                   accept="image/png, image/gif, image/jpeg"
+            />
+            <svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12.75 5.75V13.0833C12.75 14.0168 12.75 14.4835 12.5631 14.84C12.3988 15.1536 12.1365 15.4086 11.814 15.5683C11.4473 15.75 10.9672 15.75 10.0071 15.75H3.49286C2.53276 15.75 2.05272 15.75 1.68602 15.5683C1.36345 15.4086 1.1012 15.1536 0.936849 14.84C0.75 14.4835 0.75 14.0168 0.75 13.0833V3.41667C0.75 2.48324 0.75 2.01653 0.936849 1.66002C1.1012 1.34641 1.36345 1.09144 1.68602 0.931658C2.05272 0.75 2.53277 0.75 3.49286 0.75H7.60714M12.75 5.75L7.60714 0.75M12.75 5.75H8.46429C7.99089 5.75 7.60714 5.3769 7.60714 4.91667V0.75"
+                stroke="#E7E7E7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Загрузить файл</span>
+          </button>
+          <div class="upload-file-section__file-info">
+            {{ getFileName(true) }}
+          </div>
+        </div>
+      </div>
+      @if (advItem.controls.show_in_mobile.value) {
+        <div class="upload-file-section">
+          <label>368 x 250</label>
+          <div class="upload-file-section__file-wrapper">
+            <button (click)="mobileFile.click()">
+              <input style="display: none" type="file" #mobileFile
+                     formControlName="mobile_image_url"
+                     (change)="uploadFile($event, false)"
+                     accept="image/png, image/gif, image/jpeg"
+              />
+              <svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12.75 5.75V13.0833C12.75 14.0168 12.75 14.4835 12.5631 14.84C12.3988 15.1536 12.1365 15.4086 11.814 15.5683C11.4473 15.75 10.9672 15.75 10.0071 15.75H3.49286C2.53276 15.75 2.05272 15.75 1.68602 15.5683C1.36345 15.4086 1.1012 15.1536 0.936849 14.84C0.75 14.4835 0.75 14.0168 0.75 13.0833V3.41667C0.75 2.48324 0.75 2.01653 0.936849 1.66002C1.1012 1.34641 1.36345 1.09144 1.68602 0.931658C2.05272 0.75 2.53277 0.75 3.49286 0.75H7.60714M12.75 5.75L7.60714 0.75M12.75 5.75H8.46429C7.99089 5.75 7.60714 5.3769 7.60714 4.91667V0.75"
+                  stroke="#E7E7E7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Загрузить файл</span>
+            </button>
+            <div class="upload-file-section__file-info">
+              {{ getFileName(false) }}
+            </div>
+          </div>
+        </div>
+      }
+
+      <button cButton color="primary" (click)="createAdv()"
+              [cModalToggle]="createAdvModal.id">{{ advItemType ? 'Создать' : 'Изменить' }}
+      </button>
+    </form>
+  </c-modal-body>
+</c-modal>

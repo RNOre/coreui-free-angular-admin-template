@@ -1,7 +1,18 @@
-<a class="adv" [href]="data.link">
-  <img
-    class="adv-img"
-    [src]="data.image"
-    alt
-  />
-</a>
+<c-carousel>
+  <c-carousel-indicators/>
+  <c-carousel-inner>
+    @for(adv of data; track adv.id) {
+      <c-carousel-item>
+        <a [href]="adv.description" target="_blank">
+          <img
+            [src]="window.innerWidth > 768 ? adv.desktop_image_url : adv.mobile_image_url"
+            alt=""
+            class="d-block w-100"
+            loading="lazy" />
+        </a>
+      </c-carousel-item>
+    }
+  </c-carousel-inner>
+  <c-carousel-control [routerLink] caption="Previous" direction="prev" />
+  <c-carousel-control [routerLink] caption="Next" direction="next" />
+</c-carousel>

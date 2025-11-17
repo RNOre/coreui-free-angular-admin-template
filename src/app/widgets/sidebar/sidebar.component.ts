@@ -53,6 +53,9 @@ export class SidebarComponent implements OnInit {
       case "/user-legal":
         this.selectedNav = 'user-legal';
         break;
+      case "/advertisement":
+        this.selectedNav = 'advertisement';
+        break;
     }
   }
 
@@ -89,6 +92,9 @@ export class SidebarComponent implements OnInit {
         break;
       case "user-legal":
         this.$router.navigate(['/user-legal']).then();
+        break;
+      case "advertisement":
+        this.$router.navigate(['/advertisement']).then();
         break;
     }
   }
