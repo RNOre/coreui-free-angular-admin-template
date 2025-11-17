@@ -44,6 +44,7 @@ export class AdvertisementComponent implements OnInit {
 
   advItem = new FormGroup({
     name: new FormControl('', Validators.required),
+    id: new FormControl(''),
     description: new FormControl(''),
     is_active: new FormControl(true),
     desktop_image_url: new FormControl<File | string>('', Validators.required),
@@ -102,10 +103,14 @@ export class AdvertisementComponent implements OnInit {
       this.$http
         .post('advertisement', body)
         .subscribe(() => this.getData());
-    else
+    else {
+      if (this.advItem.controls.id.value) {
+        body.append('id', `"${this.advItem.controls.id.value.toString()}"`);
+      }
       this.$http
         .patch('advertisement', body)
         .subscribe(() => this.getData());
+    }
   }
 
   // type: true - desktop, false - mobile
@@ -133,10 +138,14 @@ export class AdvertisementComponent implements OnInit {
 
   toggleActive(id: string) {
     const value = this.advList.find(el => el.id === id)?.is_active;
+    const body = new FormData();
+
+    body.append('id', `"${id}"`);
+    // @ts-ignore
+    body.append('is_active', value);
+
     this.$http
-      .patch<AdvInterface>('advertisement/' + id, {
-        is_active: value
-      })
+      .patch<AdvInterface>('advertisement', body)
       .subscribe((res) => {
         this.advList.map((el) => {
           if (el.id === id) {
