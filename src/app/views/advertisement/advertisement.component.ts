@@ -88,6 +88,9 @@ export class AdvertisementComponent implements OnInit {
         break;
     }
 
+    params = params.set('limit', this.advMeta.perPage.toString());
+    params = params.set('offset', ((this.advMeta.currentPage - 1) * this.advMeta.perPage).toString());
+
     this.$http
       .get<{ data: { items: AdvInterface[], total: number } }>(env.host + 'advertisement', {
         params
