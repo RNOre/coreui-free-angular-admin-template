@@ -22,6 +22,11 @@ export class OfferPageComponent implements OnInit {
     this.$http.get<{ data: { items: AdvInterface[] } }>(env.host + 'advertisement')
       .subscribe(res => {
         this.advList = res.data.items?.filter(el => el.show_in_admins_page && el.is_active);
+        if (window.innerWidth < 768) {
+          this.advList = this.advList.filter(el => el.show_in_mobile && el.mobile_image_url);
+        } else {
+          this.advList = this.advList.filter(el => el.desktop_image_url)
+        }
       })
   }
 }

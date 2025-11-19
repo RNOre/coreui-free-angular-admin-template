@@ -29,8 +29,7 @@
         </button>
       </div>
     </div>
-    <div class="table-wrapper" pagination [paginationMeta]="advMeta"
-         (pageChange)="pageChange($event)" style="margin-bottom: 10px">
+    <div class="table-wrapper" style="margin-bottom: 10px">
       @for (adv of advList; track adv.id) {
         <div class="adv-company">
           <c-form-check class="check">
@@ -98,7 +97,7 @@
       <br/>
       <c-form-check class="adv-check">
         <input cFormCheckInput id="show_in_admins_page" type="checkbox" formControlName="show_in_admins_page"/>
-        <div>Показывать компанию в списке изображений</div>
+        <div>Показывать компанию в списке предложений</div>
       </c-form-check>
       @if (!advItem.controls.show_in_landing.value && !advItem.controls.show_in_admins_page.value) {
         <div class="displayError">Выберите хотя бы один из пунктов</div>

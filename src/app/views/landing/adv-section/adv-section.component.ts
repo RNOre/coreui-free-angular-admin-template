@@ -13,7 +13,6 @@ import {AdvInterface} from "../../../interfaces/billing";
 @Component({
   selector: 'app-adv-section',
   imports: [
-    JsonPipe,
     CarouselComponent,
     CarouselIndicatorsComponent,
     CarouselItemComponent,

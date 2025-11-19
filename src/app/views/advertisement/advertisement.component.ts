@@ -1,29 +1,23 @@
 import {Component, OnInit} from '@angular/core';
-import {DatePipe, NgStyle} from "@angular/common";
+import {NgStyle} from "@angular/common";
 import {PaginationDirective} from "../../directives/pagination.directive";
 import {
   ButtonCloseDirective, ButtonDirective,
   FormCheckComponent,
   FormCheckInputDirective,
-  FormCheckLabelDirective, FormControlDirective, FormSelectDirective, ModalBodyComponent, ModalComponent,
+  FormControlDirective, FormSelectDirective, ModalBodyComponent, ModalComponent,
   ModalHeaderComponent, ModalTitleDirective, ModalToggleDirective,
-  TableDirective
 } from "@coreui/angular";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {AdvInterface} from "../../interfaces/billing";
 import {env} from "../../../../env";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {PaginationMetaInterface} from "../../interfaces/global";
 
 @Component({
   selector: 'app-advertisement',
   imports: [
-    DatePipe,
-    PaginationDirective,
-    TableDirective,
     FormCheckComponent,
     FormCheckInputDirective,
-    FormCheckLabelDirective,
     FormsModule,
     NgStyle,
     ButtonCloseDirective,
@@ -42,11 +36,6 @@ import {PaginationMetaInterface} from "../../interfaces/global";
 })
 export class AdvertisementComponent implements OnInit {
   advList: AdvInterface[] = [];
-  advMeta: PaginationMetaInterface = {
-    currentPage: 1,
-    perPage: 10,
-    currentCount: 0
-  };
   desktopFile!: File;
   mobileFile!: File;
 
@@ -87,18 +76,12 @@ export class AdvertisementComponent implements OnInit {
         params = params.set('show_in_mobile', 'true');
         break;
     }
-
-    params = params.set('limit', this.advMeta.perPage.toString());
-    params = params.set('offset', ((this.advMeta.currentPage - 1) * this.advMeta.perPage).toString());
-
     this.$http
       .get<{ data: { items: AdvInterface[], total: number } }>(env.host + 'advertisement', {
         params
       })
       .subscribe((res) => {
         this.advList = res.data.items;
-        this.advMeta.totalCount = res.data.total;
-        this.advMeta.currentCount = this.advList?.length || 0;
       })
   }
 
@@ -193,10 +176,5 @@ export class AdvertisementComponent implements OnInit {
     this.advItemType = false;
     const currentAdv = this.advList.find(el => el.id === id);
     this.advItem.patchValue({...currentAdv});
-  }
-
-  pageChange(page: number) {
-    this.advMeta.currentPage = page;
-    this.getData();
   }
 }
