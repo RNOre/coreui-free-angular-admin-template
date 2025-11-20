@@ -1,5 +1,5 @@
 <div class="companyPage">
-  <div>
+  <div class="companyPage-leftSide">
     <div class="companyPage-info">
       <div class="header">
         Организация
@@ -27,12 +27,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td scope="row" class="last_td">Сотрудник</td>
-            </tr>
-            <tr>
-              <td scope="row" class="last_td">Руководитель отдела исследований</td>
-            </tr>
+            @for(role of Roles; track role) {
+              <tr>
+                <td  scope="row" class="last_td">
+                  {{role}}
+                </td>
+              </tr>
+            }
             </tbody>
           </table>
         </div>
@@ -203,8 +204,9 @@
       <input cFormControl type="email" placeholder="Email" [formControl]="userField.controls.email"/>
       <label style="margin: 0 0 -10px 10px">Должность</label>
       <select name="post" cSelect [formControl]="userField.controls.post">
-        <option value="Сотрудник">Сотрудник</option>
-        <option value="Руководитель отдела исследований">Руководитель отдела исследований</option>
+        @for(role of Roles; track role) {
+          <option [value]="role">{{role}}</option>
+        }
       </select>
       <input cFormControl type="password" [formControl]="userField.controls.password"
              placeholder="Придумайте пароль"/>

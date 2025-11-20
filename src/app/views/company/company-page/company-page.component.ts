@@ -2,7 +2,7 @@ import {Component, OnInit, signal, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {CompanyInterface, LicenseInterface, TariffInterface, UserInterface} from "../../../interfaces/billing";
-import {FilterInterface, PaginationInterface, PaginationMetaInterface} from "../../../interfaces/global";
+import {FilterInterface, PaginationInterface, PaginationMetaInterface, Roles} from "../../../interfaces/global";
 import {filter} from "rxjs";
 import {
   AvatarComponent,
@@ -292,4 +292,5 @@ export class CompanyPageComponent implements OnInit {
   }
 
   protected readonly isAdmin = isAdmin;
+  protected readonly Roles = Roles;
 }

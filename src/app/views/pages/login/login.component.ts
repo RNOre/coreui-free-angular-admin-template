@@ -118,7 +118,6 @@ export class LoginComponent {
       .subscribe({
         next: (res) => {
           this.step = 2;
-          this.email.reset();
         },
         error: () => {
           this.$toast.setToast({
@@ -164,9 +163,7 @@ export class LoginComponent {
     this.$http.post(this.isSuperAdmin ? 'password-forgot-change' : (env.host + 'password-forgot-change'), body)
       .subscribe({
       next: (res) => {
-        this.step = 0;
-        this.otp.reset();
-        this.email.reset();
+        this.resetFields();
       },
       error: () => {
         this.$toast.setToast({
@@ -180,5 +177,14 @@ export class LoginComponent {
 
   getToast() {
     return this.$toast.$toast();
+  }
+
+  resetFields() {
+    this.step = 0;
+    this.otp.reset();
+    this.email.reset();
+    this.newPassword.reset();
+    this.newPasswordRepeat.reset();
+    this.forgetPass = false;
   }
 }

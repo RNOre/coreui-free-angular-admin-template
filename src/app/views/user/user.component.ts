@@ -13,7 +13,7 @@ import {
   PlaceholderDirective,
   TableDirective
 } from "@coreui/angular";
-import {FilterInterface, PaginationMetaInterface} from "../../interfaces/global";
+import {FilterInterface, PaginationMetaInterface, Roles} from "../../interfaces/global";
 import {TariffInterface, UserInterface} from "../../interfaces/billing";
 import {cilCheckAlt, cilX} from "@coreui/icons";
 import {HttpClient} from "@angular/common/http";
@@ -150,4 +150,6 @@ export class UserComponent implements OnInit{
         })
       });
   }
+
+  protected readonly Roles = Roles;
 }

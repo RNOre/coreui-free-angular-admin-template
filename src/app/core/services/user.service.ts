@@ -19,7 +19,7 @@ export class UserService {
     this.$http.get<{ data: UserData }>(isAdmin() ? 'me' : (env.host + 'user/me'))
       .pipe(
         map(res => {
-          if(isAdmin()){
+          if (isAdmin()) {
             return {...res.data, photo_link: res.data.photo_id || ''}
           }
           return res.data;
@@ -31,6 +31,9 @@ export class UserService {
   }
 
   updateUser(user: UserData) {
-    this.user.set(user);
+    if (isAdmin()) {
+      this.user.set({...user, photo_link: user.photo_id || ''})
+    } else
+      this.user.set(user);
   }
 }

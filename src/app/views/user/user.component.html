@@ -92,8 +92,11 @@
               cSelect
               [formControl]="userField.controls.post"
       >
-        <option value="Сотрудник">Сотрудник</option>
-        <option value="Руководитель отдела">Руководитель отдела</option>
+        <select name="post" cSelect [formControl]="userField.controls.post">
+          @for(role of Roles; track role) {
+            <option [value]="role">{{role}}</option>
+          }
+        </select>
       </select>
       <input cFormControl type="password" [formControl]="userField.controls.password" placeholder="Придумайте пароль"/>
       @if (!userField.untouched) {

@@ -7,14 +7,15 @@ import {ToastService} from "../../core/services/toast.service";
 import {UserData} from "../../interfaces/global";
 import {UserService} from "../../core/services/user.service";
 import {isAdmin} from "../../core/global";
-import {NgTemplateOutlet} from "@angular/common";
+import {JsonPipe, NgTemplateOutlet} from "@angular/common";
 
 @Component({
   selector: 'app-settings',
   imports: [
     FormControlDirective,
     ReactiveFormsModule,
-    NgTemplateOutlet
+    NgTemplateOutlet,
+    JsonPipe
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'

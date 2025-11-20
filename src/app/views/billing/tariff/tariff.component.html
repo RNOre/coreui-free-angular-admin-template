@@ -227,7 +227,11 @@
       </select>
       <div style="display: flex; align-items: center; gap: 8px">
         <div>
-          <label>Количество исследований</label>
+          @if(newTariff.controls.kind.value === 'company') {
+            <label>Количество сотрудников</label>
+          } @else {
+            <label>Количество исследований</label>
+          }
           <input cFormControl
                  name="limit"
                  id="limit"
@@ -285,7 +289,11 @@
         <!--        </select>-->
         <div style="display: flex; align-items: center; gap: 8px">
           <div>
-            <label>Количество исследований</label>
+            @if(editTariff.controls.kind.value === 'company') {
+              <label>Количество сотрудников</label>
+            } @else {
+              <label>Количество исследований</label>
+            }
             <input cFormControl
                    name="limitEdit"
                    id="limitEdit"

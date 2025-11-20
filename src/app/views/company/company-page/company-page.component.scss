@@ -29,6 +29,18 @@
 
     &-rightSide {
       flex: 3;
+      @media screen and (max-width: 1400px){
+        width: 100%;
+      }
+    }
+
+    &-leftSide {
+      @media screen and (max-width: 1400px){
+        width: 100%;
+        display: flex;
+        align-items: start;
+        gap: 20px;
+      }
     }
 
     &-users {
@@ -48,6 +60,9 @@
           gap: 17px;
         }
       }
+    }
+    @media screen and (max-width: 1400px) {
+      flex-direction: column;
     }
   }
 }

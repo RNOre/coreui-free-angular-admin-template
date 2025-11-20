@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {LicenseInterface, UserInterface} from "../../../interfaces/billing";
-import {PaginationMetaInterface} from "../../../interfaces/global";
+import {PaginationMetaInterface, Roles} from "../../../interfaces/global";
 import {AvatarComponent, FormControlDirective, FormSelectDirective, TableDirective} from "@coreui/angular";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {DatePipe} from "@angular/common";
@@ -43,7 +43,8 @@ export class UserPageComponent implements OnInit {
     name: new FormControl(''),
     post: new FormControl(''),
     username: new FormControl(''),
-    password: new FormControl('')
+    password: new FormControl(''),
+    companyName: new FormControl(''),
   })
 
   constructor(
@@ -140,4 +141,6 @@ export class UserPageComponent implements OnInit {
         });
     }
   }
+
+  protected readonly Roles = Roles;
 }
