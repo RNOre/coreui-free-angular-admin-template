@@ -37,10 +37,10 @@
                   <td>{{ user.tariff_name }}</td>
                   <td>{{ user.created_at | date : "dd.MM.YYYY" }}</td>
                   <td class="last_td">
-                    @if(user.is_admin) {
-                    <div class="userIsAdmin">
-                      admin
-                    </div>
+                    @if (user.is_admin) {
+                      <div class="userIsAdmin">
+                        admin
+                      </div>
                     }
                   </td>
                   <div class="actionGroup">
@@ -60,7 +60,9 @@
                             (click)="deleteUser(user.id)"
                     >
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.60487 2.51176L9.13923 9.49601C9.09847 10.1077 9.07807 10.4136 8.94597 10.6455C8.82964 10.8497 8.65417 11.0138 8.44272 11.1163C8.20254 11.2327 7.89597 11.2327 7.28289 11.2327H4.95008C4.337 11.2327 4.03046 11.2327 3.79027 11.1163C3.5788 11.0138 3.40335 10.8497 3.28703 10.6455C3.15491 10.4136 3.13452 10.1077 3.09374 9.49601L2.62812 2.51176M1.46533 2.51176H10.7677M8.44208 2.51176L8.28475 2.03971C8.13225 1.58226 8.05597 1.35353 7.91458 1.18443C7.78969 1.0351 7.62934 0.919508 7.44818 0.848264C7.24301 0.767578 7.00196 0.767578 6.51975 0.767578H5.71324C5.23103 0.767578 4.98998 0.767578 4.78482 0.848264C4.60366 0.919508 4.44329 1.0351 4.31841 1.18443C4.17699 1.35353 4.10075 1.58226 3.94826 2.03971L3.79091 2.51176" stroke="#ED7474" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path
+                          d="M9.60487 2.51176L9.13923 9.49601C9.09847 10.1077 9.07807 10.4136 8.94597 10.6455C8.82964 10.8497 8.65417 11.0138 8.44272 11.1163C8.20254 11.2327 7.89597 11.2327 7.28289 11.2327H4.95008C4.337 11.2327 4.03046 11.2327 3.79027 11.1163C3.5788 11.0138 3.40335 10.8497 3.28703 10.6455C3.15491 10.4136 3.13452 10.1077 3.09374 9.49601L2.62812 2.51176M1.46533 2.51176H10.7677M8.44208 2.51176L8.28475 2.03971C8.13225 1.58226 8.05597 1.35353 7.91458 1.18443C7.78969 1.0351 7.62934 0.919508 7.44818 0.848264C7.24301 0.767578 7.00196 0.767578 6.51975 0.767578H5.71324C5.23103 0.767578 4.98998 0.767578 4.78482 0.848264C4.60366 0.919508 4.44329 1.0351 4.31841 1.18443C4.17699 1.35353 4.10075 1.58226 3.94826 2.03971L3.79091 2.51176"
+                          stroke="#ED7474" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
                     </button>
                   </div>
@@ -80,45 +82,63 @@
       <button [cModalToggle]="createTariffModal.id" cButtonClose></button>
     </c-modal-header>
     <c-modal-body>
-        <label>Имя</label>
+      <label>Имя</label>
+      <input cFormControl
+             name="name"
+             id="name"
+             type="text"
+             [formControl]="newUser.controls.name"
+             class="input-item"
+      />
+      <label>Username</label>
+      <input name="username"
+             cFormControl
+             id="username"
+             aria-label="Default select example" cSelect
+             [formControl]="newUser.controls.username"
+             class="input-item"
+      />
+      <div>
+        <label>Email</label>
         <input cFormControl
-               name="name"
-               id="name"
-               type="text"
-               [formControl]="newUser.controls.name"
+               name="email"
+               id="email"
+               [formControl]="newUser.controls.email"
                class="input-item"
         />
-        <label>Username</label>
-        <input name="username"
-               cFormControl
-               id="username"
-               aria-label="Default select example" cSelect
-               [formControl]="newUser.controls.username"
+      </div>
+      <div>
+        <label>Должность</label>
+        <select name="post" cSelect [formControl]="newUser.controls.post">
+          @for (role of Roles; track role) {
+            <option [value]="role">{{ role }}</option>
+          }
+          <option [value]="'other'">Другое</option>
+        </select>
+      </div>
+      @if (otherRole) {
+        <div>
+          <label></label>
+          <input cFormControl type="text" [formControl]="otherRoleValue" name="otherRole"
+                 placeholder="Введите должность"/>
+        </div>
+      }
+      <div>
+        <label>Пароль</label>
+        <input cFormControl
+               name="password"
+               id="password"
+               type="password"
                class="input-item"
+               [formControl]="newUser.controls.password"
         />
-        <div>
-          <label>Email</label>
-          <input cFormControl
-                 name="email"
-                 id="email"
-                 [formControl]="newUser.controls.email"
-                 class="input-item"
-          />
-        </div>
-        <div>
-          <label>Пароль</label>
-          <input cFormControl
-                 name="password"
-                 id="password"
-                 type="password"
-                 class="input-item"
-                 [formControl]="newUser.controls.password"
-          />
-        </div>
-        <br/>
-        <br/>
-        <button cButton color="primary" [cModalToggle]="createTariffModal.id" (click)="addUser()" [disabled]="!newUser.valid">
-          Создать</button>
+      </div>
+      <br/>
+      <br/>
+      <button cButton color="primary" [cModalToggle]="createTariffModal.id" (click)="addUser()"
+              [disabled]="!newUser.valid">
+        Создать
+      </button>
     </c-modal-body>
   </c-modal>
 </div>

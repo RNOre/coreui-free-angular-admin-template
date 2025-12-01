@@ -13,7 +13,7 @@ import {
   ModalToggleDirective,
   TableDirective
 } from "@coreui/angular";
-import {FilterInterface, PaginationMetaInterface} from "../../interfaces/global";
+import {FilterInterface, PaginationMetaInterface, Roles} from "../../interfaces/global";
 import {TariffInterface, UserInterface} from "../../interfaces/billing";
 import {cilCheckAlt, cilX} from "@coreui/icons";
 import {HttpClient} from "@angular/common/http";
@@ -52,13 +52,16 @@ export class UserLegalComponent implements OnInit{
   };
 
   userData!: UserInterface[];
-  icons = {cilCheckAlt, cilX}
+  icons = {cilCheckAlt, cilX};
+
+  otherRole = false;
+  otherRoleValue = new FormControl('');
 
   newUser = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
-    // post: new FormControl('', Validators.required),
+    post: new FormControl('', Validators.required),
     username: new FormControl('', Validators.required),
     mobile_image_url: new FormControl(null),
   })
@@ -68,6 +71,11 @@ export class UserLegalComponent implements OnInit{
 
   ngOnInit() {
     this.getUserList();
+    this.newUser.controls.post.valueChanges.subscribe(
+      (res) => {
+        this.otherRole = res === 'other';
+      }
+    )
   }
 
   getUserList() {
@@ -110,6 +118,10 @@ export class UserLegalComponent implements OnInit{
   }
 
   addUser() {
+    const body = {
+      ...this.newUser.value,
+      post: this.otherRole ? this.otherRoleValue.value : this.newUser.controls.post.value,
+    }
     this.$http
       .post(env.host + 'user-create', this.newUser.value)
       .subscribe(()=>{
@@ -124,4 +136,6 @@ export class UserLegalComponent implements OnInit{
         next: () => this.getUserList()
       });
   }
+
+  protected readonly Roles = Roles;
 }

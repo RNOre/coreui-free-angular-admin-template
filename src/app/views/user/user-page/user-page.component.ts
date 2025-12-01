@@ -3,7 +3,13 @@ import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {LicenseInterface, UserInterface} from "../../../interfaces/billing";
 import {PaginationMetaInterface, Roles} from "../../../interfaces/global";
-import {AvatarComponent, FormControlDirective, FormSelectDirective, TableDirective} from "@coreui/angular";
+import {
+  AvatarComponent,
+  FormControlDirective,
+  FormSelectDirective,
+  PlaceholderDirective,
+  TableDirective
+} from "@coreui/angular";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {DatePipe} from "@angular/common";
 import {env} from "../../../../../env";
@@ -18,7 +24,8 @@ import {ToastService} from "../../../core/services/toast.service";
     DatePipe,
     FormControlDirective,
     FormSelectDirective,
-    AvatarComponent
+    AvatarComponent,
+    PlaceholderDirective
   ],
   templateUrl: './user-page.component.html',
   standalone: true,
@@ -45,7 +52,10 @@ export class UserPageComponent implements OnInit {
     username: new FormControl(''),
     password: new FormControl(''),
     companyName: new FormControl(''),
-  })
+  });
+
+  otherRole = false;
+  otherRoleValue = new FormControl('');
 
   constructor(
     private $http: HttpClient,
@@ -62,6 +72,11 @@ export class UserPageComponent implements OnInit {
 
     if (isAdmin())
       this.getLicenses();
+    this.userField.controls.post.valueChanges.subscribe(
+      (res) => {
+        this.otherRole = res === 'other';
+      }
+    )
   }
 
   getUserInfo() {
@@ -73,7 +88,12 @@ export class UserPageComponent implements OnInit {
         // @ts-ignore
         this.userData = res.data;
         if (this.userData) {
-          this.userField.patchValue(this.userData)
+          this.userField.patchValue(this.userData);
+          if(this.userData.post && !Roles.includes(this.userData.post)) {
+            this.otherRole = true;
+            this.userField.controls.post.setValue('other');
+            this.otherRoleValue.setValue(this.userData.post)
+          }
         }
       })
   }
@@ -110,6 +130,7 @@ export class UserPageComponent implements OnInit {
         ...this.userField.value,
         [isAdmin() ? 'id' : 'user_id']: this.userData?.id,
         password: this.userField.controls.password.value ?? undefined,
+        post: this.otherRole ? this.otherRoleValue.value : this.userField.controls.post.value,
       })
       .subscribe(() => {
         this.getUserInfo();

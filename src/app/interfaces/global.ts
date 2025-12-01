@@ -43,4 +43,4 @@ export type navItem =
   | 'user-legal'
   | 'advertisement';
 
-export const Roles = ['Руководитель отдела', 'Сотрудник',  'Студент', 'Менеджер']
+export const Roles = ['Руководитель отдела', 'Сотрудник',  'Студент', 'Менеджер', 'Руководитель']

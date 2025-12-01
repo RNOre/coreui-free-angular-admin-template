@@ -2,8 +2,7 @@ import {Component, OnInit, signal, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {CompanyInterface, LicenseInterface, TariffInterface, UserInterface} from "../../../interfaces/billing";
-import {FilterInterface, PaginationInterface, PaginationMetaInterface, Roles} from "../../../interfaces/global";
-import {filter} from "rxjs";
+import {FilterInterface, PaginationMetaInterface, Roles} from "../../../interfaces/global";
 import {
   AvatarComponent,
   ButtonCloseDirective,
@@ -16,8 +15,7 @@ import {
   ModalToggleDirective, ProgressComponent,
   TableDirective, ToastBodyComponent, ToastComponent, ToasterComponent, ToastHeaderComponent
 } from "@coreui/angular";
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {OrderInterface} from "../../../interfaces/order";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {DatePipe, JsonPipe} from "@angular/common";
 import {isAdmin} from "../../../core/global";
 import {PaginationDirective} from "../../../directives/pagination.directive";
@@ -47,7 +45,8 @@ import {ToastService} from "../../../core/services/toast.service";
     ToastHeaderComponent,
     ProgressComponent,
     ToastBodyComponent,
-    ModalFooterComponent
+    ModalFooterComponent,
+    FormsModule
   ],
   templateUrl: './company-page.component.html',
   standalone: true,
@@ -89,6 +88,9 @@ export class CompanyPageComponent implements OnInit {
   percentage = signal(0);
   hasAdmin = false;
 
+  otherRole = false;
+  otherRoleValue = new FormControl('');
+
   constructor(
     private $http: HttpClient,
     private route: ActivatedRoute,
@@ -103,6 +105,11 @@ export class CompanyPageComponent implements OnInit {
     this.getUsers();
     this.getLicenses();
     this.getTariffList();
+    this.userField.controls.post.valueChanges.subscribe(
+      (res) => {
+        this.otherRole = res === 'other';
+      }
+    )
   }
 
   updateCompanyData() {
@@ -202,11 +209,13 @@ export class CompanyPageComponent implements OnInit {
   }
 
   createUser() {
+
     this.createUserModal.visible = false;
     let body = {
       ...this.userField.value,
       is_admin: !this.hasAdmin,
-      company_id: isAdmin() ? this.company_id : undefined
+      company_id: isAdmin() ? this.company_id : undefined,
+      post: this.otherRole ? this.otherRoleValue.value : this.userField.controls.post.value,
     };
 
     this.$http
@@ -284,6 +293,7 @@ export class CompanyPageComponent implements OnInit {
         this.tariffList = res.data.items;
       })
   }
+
   checkExp(exp: string) {
     if (exp) {
       return new Date(exp).getTime() <= new Date().getTime();
