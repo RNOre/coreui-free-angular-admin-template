@@ -4,7 +4,7 @@
 </div>
 <div>
   <div class="wrapper-container">
-    <div class="table-header table-header-adv">
+    <div class="table-header table-header-bi">
       <div>
         Рекламные кампании
       </div>
@@ -31,7 +31,7 @@
     </div>
     <div class="table-wrapper" style="margin-bottom: 10px">
       @for (adv of advList; track adv.id) {
-        <div class="adv-company">
+        <div class="bi-company">
           <c-form-check class="check">
             <input cFormCheckInput id="checkOne" type="checkbox" [(ngModel)]="adv.is_active"
                    (ngModelChange)="toggleActive(adv.id)"/>
@@ -90,12 +90,12 @@
              class="input-item"
              placeholder="Ссылка"
       />
-      <c-form-check class="adv-check" style="margin-top: 17px;">
+      <c-form-check class="bi-check" style="margin-top: 17px;">
         <input cFormCheckInput id="show_in_landing" type="checkbox" formControlName="show_in_landing"/>
         <div>Показывать компанию на главном экране</div>
       </c-form-check>
       <br/>
-      <c-form-check class="adv-check">
+      <c-form-check class="bi-check">
         <input cFormCheckInput id="show_in_admins_page" type="checkbox" formControlName="show_in_admins_page"/>
         <div>Показывать компанию в списке предложений</div>
       </c-form-check>
@@ -103,7 +103,7 @@
         <div class="displayError">Выберите хотя бы один из пунктов</div>
       }
       <br/>
-      <c-form-check class="adv-check">
+      <c-form-check class="bi-check">
         <input cFormCheckInput id="show_in_mobile" type="checkbox" formControlName="show_in_mobile"/>
         <div>Показывать на мобильных устройствах</div>
       </c-form-check>

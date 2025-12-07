@@ -14,7 +14,7 @@ import {env} from "../../../../env";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'app-advertisement',
+  selector: 'app-banner-info',
   imports: [
     FormCheckComponent,
     FormCheckInputDirective,
@@ -31,10 +31,10 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
     ModalToggleDirective,
     ReactiveFormsModule
   ],
-  templateUrl: './advertisement.component.html',
-  styleUrl: './advertisement.component.scss'
+  templateUrl: './bannerInfo.component.html',
+  styleUrl: './bannerInfo.component.scss'
 })
-export class AdvertisementComponent implements OnInit {
+export class BannerInfoComponent implements OnInit {
   advList: AdvInterface[] = [];
   desktopFile!: File;
   mobileFile!: File;

@@ -1,16 +1,14 @@
-import {Component, computed, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {navItem} from "../../interfaces/global";
 import {isAdmin} from "../../core/global";
-import {AsyncPipe, JsonPipe, NgStyle} from "@angular/common";
+import {NgStyle} from "@angular/common";
 import {SidebarService} from "./sidebar.service";
 
 @Component({
   selector: 'app-sidebar',
   imports: [
     NgStyle,
-    AsyncPipe,
-    JsonPipe
   ],
   templateUrl: './sidebar.component.html',
   standalone: true,
@@ -53,8 +51,8 @@ export class SidebarComponent implements OnInit {
       case "/user-legal":
         this.selectedNav = 'user-legal';
         break;
-      case "/advertisement":
-        this.selectedNav = 'advertisement';
+      case "/banner-info":
+        this.selectedNav = 'banner-info';
         break;
     }
   }
@@ -93,8 +91,8 @@ export class SidebarComponent implements OnInit {
       case "user-legal":
         this.$router.navigate(['/user-legal']).then();
         break;
-      case "advertisement":
-        this.$router.navigate(['/advertisement']).then();
+      case "banner-info":
+        this.$router.navigate(['/banner-info']).then();
         break;
     }
   }
